@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
+using System;
+using System.Collections.Generic;
+
 namespace api
 {
     public class Startup
@@ -51,6 +54,29 @@ namespace api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "api", Version = "v1" });
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Name = "oauthClient",// client id
+                    In = ParameterLocation.Cookie, // where the token will go
+                    Flows = new OpenApiOAuthFlows()
+                    {
+                        ClientCredentials = new OpenApiOAuthFlow()
+                        {
+                            Scopes = new Dictionary<string, string> {
+                                { "api1.read", "Read Access to API #1" } ,
+                                { "api1.write", "Write Access to API #1" } },// the roles you want to get
+                            TokenUrl = new Uri("https://localhost:5001/connect/token"),
+                        }
+                    }
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme() { Reference = new OpenApiReference() { Type= ReferenceType.SecurityScheme, Id="oauth2" } },
+                        new [] { "api1" }//api resource name
+                    }
+                });
             });
         }
 
