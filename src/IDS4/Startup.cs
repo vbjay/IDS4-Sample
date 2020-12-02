@@ -35,6 +35,7 @@ namespace ids4
             }
 
             app.UseRouting();
+            app.UseIdentityServer();
 
             app
                 .UseEndpoints(endpoints =>
