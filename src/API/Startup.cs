@@ -34,6 +34,19 @@ namespace api
                     options.Authority = "https://localhost:5001";// pay attention to the correct port the ids project runs under when you debug. will adjust to use config later on
                 });
 
+            services.AddAuthorization(c =>
+            {
+                c.AddPolicy("api1.read", p =>
+                {
+                    p.RequireClaim("scope", "api1.read");
+                });
+
+                c.AddPolicy("api1.write", p =>
+                {
+                    p.RequireClaim("scope", "api1.write");
+                });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
