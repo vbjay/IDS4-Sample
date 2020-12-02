@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using System;
+
 namespace mvc
 {
     public class Startup
@@ -24,7 +26,10 @@ namespace mvc
                 options.DefaultScheme = "cookie";
                 options.DefaultChallengeScheme = "oidc";
             })
-                .AddCookie("cookie")
+                .AddCookie("cookie", c =>
+                {
+                    c.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                })
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = "https://localhost:5001";//ids4 url
