@@ -25,6 +25,7 @@ namespace api.Controllers
             _logger = logger;
         }
 
+        [Authorize(Policy = "api1.read")]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -39,6 +40,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "api1.write")]
         public WeatherForecast Create([FromBody] WeatherForecast forecast)
         {
             //you would create a new forecast in db or whatever here
