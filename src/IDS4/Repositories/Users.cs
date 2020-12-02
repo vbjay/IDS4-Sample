@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Security.Claims;
+
 using IdentityModel;
+
 using IdentityServer4.Test;
 
 internal class Users
