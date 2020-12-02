@@ -18,6 +18,19 @@ namespace ids4
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(config =>
+            {
+                //for now we are making cors WIDE OPEN.  You would not do this in a production system.  
+                //The client configuration can be used instead to say client x has x cors endpoints and let ids handle the cors policy
+                config.AddDefaultPolicy(pb =>
+                {
+                    pb.AllowAnyOrigin();
+                    pb.AllowAnyMethod();
+                    pb.AllowAnyHeader();
+                    pb.SetIsOriginAllowedToAllowWildcardSubdomains();
+                });
+            });
             services
                 .AddIdentityServer()
                 .AddInMemoryClients(Clients.Get())
@@ -36,6 +49,7 @@ namespace ids4
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors();
             app.UseRouting();
             app.UseIdentityServer();
 
