@@ -20,11 +20,11 @@ namespace ids4
         {
             services
                 .AddIdentityServer()
-                .AddInMemoryClients(new List<Client>())
-                .AddInMemoryIdentityResources(new List<IdentityResource>())
-                .AddInMemoryApiResources(new List<ApiResource>())
-                .AddInMemoryApiScopes(new List<ApiScope>())
-                .AddTestUsers(new List<TestUser>())
+                .AddInMemoryClients(Clients.Get())
+                .AddInMemoryIdentityResources(Resources.GetIdentityResources())
+                .AddInMemoryApiResources(Resources.GetApiResources())
+                .AddInMemoryApiScopes(Resources.GetApiScopes())
+                .AddTestUsers(Users.Get())
                 .AddDeveloperSigningCredential();
         }
 
