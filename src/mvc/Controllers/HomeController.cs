@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 
 using mvc.Models;
 
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace mvc.Controllers
@@ -27,6 +28,14 @@ namespace mvc.Controllers
         {
             return View();
         }
+
+        [Authorize]
+        public IActionResult Weather()
+        {
+            var results = new List<WeatherForecast> { new WeatherForecast() };
+            return View(results);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
