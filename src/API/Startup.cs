@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,12 @@ namespace api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication("Bearer", options =>
+                {
+                    options.ApiName = "api1";
+                    options.Authority = "https://localhost:5001";// pay attention to the correct port the ids project runs under when you debug. will adjust to use config later on
+                });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -48,12 +55,10 @@ namespace api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
         }
     }
 }
