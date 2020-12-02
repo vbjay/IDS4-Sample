@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Swashbuckle.Filters;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 using System;
@@ -96,14 +89,16 @@ namespace api
                     c.OAuthClientSecret("SuperSecretPassword");
                 });
 
-            app.UseHttpsRedirection();
 
-            app.UseRouting();
+                app.UseHttpsRedirection();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+                app.UseRouting();
 
-            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+                app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+            }
         }
     }
 }
