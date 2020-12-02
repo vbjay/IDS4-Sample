@@ -34,6 +34,8 @@ namespace ids4
                 .AddInMemoryApiScopes(Resources.GetApiScopes())
                 .AddTestUsers(Users.Get())
                 .AddDeveloperSigningCredential();
+
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,19 +47,14 @@ namespace ids4
             }
 
             app.UseCors();
+            app.UseStaticFiles();
             app.UseRouting();
-            app.UseIdentityServer();
 
-            app
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints
-                        .MapGet("/",
-                        async context =>
-                        {
-                            await context.Response.WriteAsync("Hello World!");
-                        });
-                });
+            app.UseIdentityServer();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+
         }
     }
 }
