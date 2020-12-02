@@ -37,5 +37,12 @@ namespace api.Controllers
             })
             .ToArray();
         }
+
+        [HttpPost]
+        public WeatherForecast Create([FromBody] WeatherForecast forecast)
+        {
+            //you would create a new forecast in db or whatever here
+            return forecast;
+        }
     }
 }
