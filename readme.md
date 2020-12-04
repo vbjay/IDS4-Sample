@@ -36,3 +36,5 @@ See [Repositories folder](src/IDS4/Repositories)
     1. Try unchecking some of the requested scopes and see what it does to the functionality.  You will hav eto logout and then log back in to get the consent again
     ![consent](/assets/consent.png)
     1. Click privacy link to see claims
+
+**Make sure you look at [this commit](https://github.com/vbjay/IDS4-Sample/commit/1bca168cb44c9d2680abbefe1bdac9fa123a956f).  I set that up so that changing the items in the repositories folder (Clients, Users, Resources) would update the database.**
