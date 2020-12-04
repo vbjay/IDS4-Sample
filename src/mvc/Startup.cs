@@ -45,6 +45,7 @@ namespace mvc
                     // options.Scope.Add("oidc"); // default scope
                     // options.Scope.Add("profile"); // default scope
                     options.Scope.Add("api1.read");
+                    options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
                     options.SignInScheme = "cookie";
                     options.SignedOutRedirectUri = "/home/LoggedOut";

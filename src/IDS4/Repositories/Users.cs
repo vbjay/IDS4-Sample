@@ -14,7 +14,8 @@ internal class Users
                 Password = "Password123!",
                 Claims = new List<Claim> {
                     new Claim(JwtClaimTypes.Email, "scott@scottbrady91.com"),
-                    new Claim(JwtClaimTypes.Role, "admin")
+                    new Claim(JwtClaimTypes.Role, "admin"),
+                    new Claim(JwtClaimTypes.Name, "Scott Brady")
                 }
             }
         };
