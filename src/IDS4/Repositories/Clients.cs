@@ -22,6 +22,7 @@ internal class Clients
                 ClientSecrets = new List<Secret> {new Secret("SuperSecretPassword".Sha256())}, // change me!
                 AllowedGrantTypes = GrantTypes.Code,
                 RedirectUris = new List<string> {"https://localhost:44386/signin-oidc"},
+                PostLogoutRedirectUris=new List<string>{"https://localhost:44386/signout-callback-oidc"},
                 AllowedScopes = new List<string>
                 {
                     IdentityServerConstants.StandardScopes.OpenId,

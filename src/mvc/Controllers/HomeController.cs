@@ -28,6 +28,11 @@ namespace mvc.Controllers
             return View();
         }
 
+        public IActionResult LoggedOut()
+        {
+            return View();
+        }
+
         [Authorize]
         public IActionResult Privacy()
         {
@@ -38,7 +43,7 @@ namespace mvc.Controllers
         public async Task<IActionResult> WeatherAsync()
         {
 
-            var token =  await HttpContext.GetTokenAsync("access_token");
+            var token = await HttpContext.GetTokenAsync("access_token");
             var client = new RestClient("https://localhost:44385");
             client.Authenticator = new JwtAuthenticator(token);
             var req = new RestRequest("/WeatherForecast", Method.GET);
@@ -46,6 +51,13 @@ namespace mvc.Controllers
 
 
             return View(res.Data);
+        }
+
+
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync("cookie");
+            await HttpContext.SignOutAsync("oidc");
         }
 
 

@@ -29,6 +29,7 @@ namespace mvc
                 .AddCookie("cookie", c =>
                 {
                     c.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                    c.Cookie.Name = "af3dfb27-78d6-4cc5-859d-06bf5075c0e5";
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {
@@ -43,6 +44,8 @@ namespace mvc
                     // options.Scope.Add("profile"); // default scope
                     options.Scope.Add("api1.read");
                     options.SaveTokens = true;
+                    options.SignInScheme = "cookie";
+                    options.SignedOutRedirectUri = "/home/LoggedOut";
                 });
 
             services.AddControllersWithViews();
@@ -69,7 +72,13 @@ namespace mvc
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
+
+
+            });
         }
     }
 }
