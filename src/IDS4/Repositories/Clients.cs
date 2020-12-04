@@ -32,7 +32,8 @@ internal class Clients
                     "api1.read"
                 },
                 RequirePkce = true,
-                AllowPlainTextPkce = false
+                AllowPlainTextPkce = false,
+                RequireConsent = true
             }
         };
 }
