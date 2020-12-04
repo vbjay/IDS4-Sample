@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using mvc.Models;
 
+using RestSharp;
+using RestSharp.Authenticators;
+
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace mvc.Controllers
 {
@@ -30,10 +35,17 @@ namespace mvc.Controllers
         }
 
         [Authorize]
-        public IActionResult Weather()
+        public async Task<IActionResult> WeatherAsync()
         {
-            var results = new List<WeatherForecast> { new WeatherForecast() };
-            return View(results);
+
+            var token =  await HttpContext.GetTokenAsync("access_token");
+            var client = new RestClient("https://localhost:44385");
+            client.Authenticator = new JwtAuthenticator(token);
+            var req = new RestRequest("/WeatherForecast", Method.GET);
+            var res = await client.ExecuteAsync<List<WeatherForecast>>(req);
+
+
+            return View(res.Data);
         }
 
 
