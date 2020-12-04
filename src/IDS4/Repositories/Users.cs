@@ -11,7 +11,7 @@ internal class Users
             new TestUser {
                 SubjectId = "5BE86359-073C-434B-AD2D-A3932222DABE",
                 Username = "scott",
-                Password = "password",
+                Password = "Password123!",
                 Claims = new List<Claim> {
                     new Claim(JwtClaimTypes.Email, "scott@scottbrady91.com"),
                     new Claim(JwtClaimTypes.Role, "admin")
