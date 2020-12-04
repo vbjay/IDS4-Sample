@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using System;
+using System.Threading.Tasks;
 
 namespace mvc
 {
@@ -46,9 +48,21 @@ namespace mvc
                     options.SaveTokens = true;
                     options.SignInScheme = "cookie";
                     options.SignedOutRedirectUri = "/home/LoggedOut";
+                    options.Events = new OpenIdConnectEvents
+                    {
+                        OnRemoteFailure = context =>
+                        {
+                            context.Response.Redirect("/");
+                            context.HandleResponse();
+                            return Task.FromResult(0);
+                        }
+                    };
+
+
                 });
 
             services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
