@@ -89,8 +89,29 @@ namespace ids4
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
                 serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
                 serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
-
+                
+                //START clear all data to allow start fresh each debug-- remove for production.
+                //Allows for updates from repositories folder to be applied in db.  
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+
+                context.Clients.RemoveRange(context.Clients);
+                //context.SaveChanges();
+                context.IdentityResources.RemoveRange(context.IdentityResources);
+                //context.SaveChanges();
+                context.ApiScopes.RemoveRange(context.ApiScopes);
+                //context.SaveChanges();
+                context.ApiResources.RemoveRange(context.ApiResources);
+                context.SaveChanges();
+                
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+                if (userManager.Users.Any())
+                {
+                    foreach (var usr in userManager.Users.ToList()) {
+                        userManager.DeleteAsync(usr).Wait();
+                    }
+                }
+                //END clear all data to allow start fresh each debug
 
                 if (!context.Clients.Any())
                 {
@@ -128,7 +149,7 @@ namespace ids4
                     context.SaveChanges();
                 }
 
-                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+              
                 if (!userManager.Users.Any())
                 {
                     foreach (var testUser in Users.Get())
