@@ -1,4 +1,6 @@
 
+using IdentityModel;
+
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,9 +44,12 @@ namespace mvc
                     options.UsePkce = true;
                     options.ResponseMode = "query";
                     // options.CallbackPath = "/signin-oidc"; // default redirect URI
+
                     // options.Scope.Add("oidc"); // default scope
                     // options.Scope.Add("profile"); // default scope
                     options.Scope.Add("api1.read");
+                    options.Scope.Add(JwtClaimTypes.Email);
+
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
                     options.SignInScheme = "cookie";
