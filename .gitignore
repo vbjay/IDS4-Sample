@@ -32,3 +32,6 @@ _ReSharper*/
 packages/
 /.vscode/
 /src/IDS4/tempkey.jwk
+/src/AdminUI/src/AdminUI.Admin.Api/Log/
+/src/AdminUI/src/AdminUI.Admin/Log/
+/src/AdminUI/src/AdminUI.STS.Identity/Log/
