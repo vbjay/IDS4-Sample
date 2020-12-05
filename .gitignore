@@ -35,3 +35,4 @@ packages/
 /src/AdminUI/src/AdminUI.Admin.Api/Log/
 /src/AdminUI/src/AdminUI.Admin/Log/
 /src/AdminUI/src/AdminUI.STS.Identity/Log/
+node_modules/
