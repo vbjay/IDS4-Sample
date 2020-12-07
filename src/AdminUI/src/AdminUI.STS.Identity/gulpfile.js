@@ -77,7 +77,7 @@ function processTheme() {
         .pipe(gulp.dest(cssThemeFolder));
 }
 
-var buildStyles = gulp.series(processStyles, processTheme, processSass, processSassMin);
+var buildStyles = gulp.series(processFonts, processStyles, processTheme, processSass, processSassMin);
 var build = gulp.parallel(buildStyles, processScripts);
 
 gulp.task('clean', processClean);
@@ -87,3 +87,4 @@ gulp.task('sass:min', processSassMin);
 gulp.task('fonts', processFonts);
 gulp.task('scripts', processScripts);
 gulp.task('build', build);
+gulp.task('default', build);
