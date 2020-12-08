@@ -18,6 +18,12 @@ See [skoruba/IdentityServer4.Admin](https://github.com/skoruba/IdentityServer4.A
 
 1. Set the admin ui projects to start
     ![multi debug admin ui](/assets/multi%20debug%20admin%20ui.png)
+1. SSL
+    1. ```cd "c:\Program Files (x86)\IIS Express"```
+    1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44310/ -UseSelfSigned```
+    1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44302/ -UseSelfSigned```
+    1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44303/ -UseSelfSigned```
+    1. Debug and trust all certificate trust prompts
 
 1. Switch directory
 
