@@ -33,7 +33,7 @@
   max-width: 700px; }
 
 .logo, .logo:hover {
-  color: black;
+  /*color: black;*/
   text-decoration: none; }
 
 .col-m-5 {
@@ -505,3 +505,12 @@ label.radio-img > h3, label > h4 {
 .audit-log-container .modal-body {
   max-height: calc(100vh - 200px);
   overflow-y: auto; }
+
+.audit-log-container tr.row-error-detail {
+  background-color: white; }
+
+.audit-log-container .audit-modal-value {
+  background-color: white; }
+
+.error-log-container tr.row-error-detail {
+  background-color: white; }

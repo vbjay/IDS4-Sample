@@ -8,4 +8,12 @@
         max-height: calc(100vh - 200px);
         overflow-y: auto;
     }
+
+    tr.row-error-detail {
+        background-color: white;
+    }
+
+    .audit-modal-value{
+        background-color:white;
+    }
 }
