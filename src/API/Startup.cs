@@ -27,20 +27,20 @@ namespace api
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication("Bearer", options =>
                 {
-                    options.ApiName = "api1";
-                    options.Authority = "https://localhost:5001";// pay attention to the correct port the ids project runs under when you debug. will adjust to use config later on
+                    options.ApiName = "weather";
+                    options.Authority = "https://localhost:44310";// pay attention to the correct port the ids project runs under when you debug. will adjust to use config later on
                 });
 
             services.AddAuthorization(c =>
             {
-                c.AddPolicy("api1.read", p =>
+                c.AddPolicy("weather.read", p =>
                 {
-                    p.RequireClaim("scope", "api1.read");
+                    p.RequireClaim("scope", "weather.read");
                 });
 
-                c.AddPolicy("api1.write", p =>
+                c.AddPolicy("weather.write", p =>
                 {
-                    p.RequireClaim("scope", "api1.write");
+                    p.RequireClaim("scope", "weather.write");
                 });
             });
 
@@ -52,16 +52,16 @@ namespace api
                 c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,
-                    Name = "oauthClient",// client id
+                    Name = "weather-swagger",// client id
                     In = ParameterLocation.Cookie, // where the token will go
                     Flows = new OpenApiOAuthFlows()
                     {
                         ClientCredentials = new OpenApiOAuthFlow()
                         {
                             Scopes = new Dictionary<string, string> {
-                                { "api1.read", "Read Access to API #1" } ,
-                                { "api1.write", "Write Access to API #1" } },// the roles you want to get
-                            TokenUrl = new Uri("https://localhost:5001/connect/token"),
+                                { "weather.read", "Read Access to Weather API" } ,
+                                { "weather.write", "Write Access to Weather API" } },// the roles you want to get
+                            TokenUrl = new Uri("https://localhost:44310/connect/token"),
                         }
                     }
                 });
@@ -69,7 +69,7 @@ namespace api
                 {
                     {
                         new OpenApiSecurityScheme() { Reference = new OpenApiReference() { Type= ReferenceType.SecurityScheme, Id="oauth2" } },
-                        new [] { "api1" }//api resource name
+                        new [] { "weather" }//api resource name
                     }
                 });
             });
@@ -85,7 +85,7 @@ namespace api
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1");
-                    c.OAuthClientId("oauthClient");
+                    c.OAuthClientId("weather-swagger");
                     c.OAuthClientSecret("SuperSecretPassword");
                 });
 

@@ -37,4 +37,4 @@ See [Repositories folder](src/IDS4/Repositories)
     ![consent](/assets/consent.png)
     1. Click privacy link to see claims
 
-**Make sure you look at [this commit](https://github.com/vbjay/IDS4-Sample/commit/1bca168cb44c9d2680abbefe1bdac9fa123a956f).  I set that up so that changing the items in the repositories folder (Clients, Users, Resources) would update the database.**
+See [AdminUI readme](/src/AdminUI/readme.md) and [skoruba/IdentityServer4.Admin](https://github.com/skoruba/IdentityServer4.Admin) for more info and setup.
