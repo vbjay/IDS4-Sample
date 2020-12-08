@@ -37,7 +37,7 @@ namespace mvc
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://localhost:5001";//ids4 url
+                    options.Authority = "https://localhost:44310";//ids4 url
                     options.ClientId = "oidcClient";
                     options.ClientSecret = "SuperSecretPassword";
                     options.ResponseType = "code";
@@ -47,7 +47,7 @@ namespace mvc
 
                     // options.Scope.Add("oidc"); // default scope
                     // options.Scope.Add("profile"); // default scope
-                    options.Scope.Add("api1.read");
+                    options.Scope.Add("weather.read");
                     options.Scope.Add(JwtClaimTypes.Email);
 
                     options.GetClaimsFromUserInfoEndpoint = true;
