@@ -36,5 +36,21 @@ See [Repositories folder](src/IDS4/Repositories)
     1. Try unchecking some of the requested scopes and see what it does to the functionality.  You will hav eto logout and then log back in to get the consent again
     ![consent](/assets/consent.png)
     1. Click privacy link to see claims
+1. Useful powershell script to generate secrets
+
+  ```ps
+    $sec = ""
+    $cnt = 1
+    For ($i = 0; $i -le $cnt; $i++) {
+          $id = [guid]::NewGuid()
+              $sec += $id.ToString("D")
+              if ( $i + 1 -lt $cnt) {
+                $sec += "-"    
+              }
+          }
+      $sec
+
+
+  ```
 
 See [AdminUI readme](/src/AdminUI/readme.md) and [skoruba/IdentityServer4.Admin](https://github.com/skoruba/IdentityServer4.Admin) for more info and setup.
