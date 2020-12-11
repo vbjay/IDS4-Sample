@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AdminUI.STS.Identity.ViewModels.Manage
 {
@@ -48,6 +49,8 @@ namespace AdminUI.STS.Identity.ViewModels.Manage
         [MaxLength(255)]
         [Display(Name = "Country")]
         public string Country { get; set; }
+
+        public Guid RandomID { get; set; }
     }
 }
 

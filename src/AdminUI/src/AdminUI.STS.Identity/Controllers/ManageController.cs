@@ -16,7 +16,7 @@ using AdminUI.STS.Identity.Helpers.Localization;
 using AdminUI.STS.Identity.ViewModels.Manage;
 
 namespace AdminUI.STS.Identity.Controllers
-{    
+{
     [Authorize]
     public class ManageController<TUser, TKey> : Controller
         where TUser : IdentityUser<TKey>, new()
@@ -59,7 +59,7 @@ namespace AdminUI.STS.Identity.Controllers
 
             return View(model);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)
@@ -94,14 +94,32 @@ namespace AdminUI.STS.Identity.Controllers
                     throw new ApplicationException(_localizer["ErrorSettingPhone", user.Id]);
                 }
             }
-            
+
             await UpdateUserClaimsAsync(model, user);
 
             StatusMessage = _localizer["ProfileUpdated"];
 
             return RedirectToAction(nameof(Index));
         }
-        
+       [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GenerateID(IndexViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            model.RandomID = Guid.NewGuid();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_localizer["UserNotFound", _userManager.GetUserId(User)]);
+            }
+            await UpdateUserClaimsAsync(model, user);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendVerificationEmail(IndexViewModel model)
@@ -644,7 +662,8 @@ namespace AdminUI.STS.Identity.Controllers
                 Region = profile.Region,
                 PostalCode = profile.PostalCode,
                 Locality = profile.Locality,
-                StreetAddress = profile.StreetAddress
+                StreetAddress = profile.StreetAddress,
+                RandomID=profile.RandomID
             };
             return model;
         }
@@ -662,62 +681,64 @@ namespace AdminUI.STS.Identity.Controllers
                 Region = model.Region,
                 Country = model.Country,
                 FullName = model.Name,
-                Profile = model.Profile
-            };
+                Profile = model.Profile,
+                RandomID = model.RandomID
+        };
 
-            var claimsToRemove = OpenIdClaimHelpers.ExtractClaimsToRemove(oldProfile, newProfile);
-            var claimsToAdd = OpenIdClaimHelpers.ExtractClaimsToAdd(oldProfile, newProfile);
-            var claimsToReplace = OpenIdClaimHelpers.ExtractClaimsToReplace(claims, newProfile);
+        var claimsToRemove = OpenIdClaimHelpers.ExtractClaimsToRemove(oldProfile, newProfile);
+        var claimsToAdd = OpenIdClaimHelpers.ExtractClaimsToAdd(oldProfile, newProfile);
+        var claimsToReplace = OpenIdClaimHelpers.ExtractClaimsToReplace(claims, newProfile);
 
-            await _userManager.RemoveClaimsAsync(user, claimsToRemove);
-            await _userManager.AddClaimsAsync(user, claimsToAdd);
+          
+        await _userManager.RemoveClaimsAsync(user, claimsToRemove);
+        await _userManager.AddClaimsAsync(user, claimsToAdd);
 
             foreach (var pair in claimsToReplace)
             {
                 await _userManager.ReplaceClaimAsync(user, pair.Item1, pair.Item2);
-            }
-        }
+    }
+}
 
-        private string FormatKey(string unformattedKey)
-        {
-            var result = new StringBuilder();
-            var currentPosition = 0;
+private string FormatKey(string unformattedKey)
+{
+    var result = new StringBuilder();
+    var currentPosition = 0;
 
-            while (currentPosition + 4 < unformattedKey.Length)
-            {
-                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
-                currentPosition += 4;
-            }
+    while (currentPosition + 4 < unformattedKey.Length)
+    {
+        result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
+        currentPosition += 4;
+    }
 
-            if (currentPosition < unformattedKey.Length)
-            {
-                result.Append(unformattedKey.Substring(currentPosition));
-            }
+    if (currentPosition < unformattedKey.Length)
+    {
+        result.Append(unformattedKey.Substring(currentPosition));
+    }
 
-            return result.ToString().ToLowerInvariant();
-        }
+    return result.ToString().ToLowerInvariant();
+}
 
-        private string GenerateQrCodeUri(string email, string unformattedKey)
-        {
-            return string.Format(
-                AuthenticatorUriFormat,
-                _urlEncoder.Encode("AdminUI.STS.Identity"),
-                _urlEncoder.Encode(email),
-                unformattedKey);
-        }
+private string GenerateQrCodeUri(string email, string unformattedKey)
+{
+    return string.Format(
+        AuthenticatorUriFormat,
+        _urlEncoder.Encode("AdminUI.STS.Identity"),
+        _urlEncoder.Encode(email),
+        unformattedKey);
+}
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
+private void AddErrors(IdentityResult result)
+{
+    foreach (var error in result.Errors)
+    {
+        ModelState.AddModelError(string.Empty, error.Description);
+    }
+}
 
-        private void AddError(string description, string title = "")
-        {
-            ModelState.AddModelError(title, description);
-        }
+private void AddError(string description, string title = "")
+{
+    ModelState.AddModelError(title, description);
+}
     }
 }
 

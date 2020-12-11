@@ -16,27 +16,27 @@ namespace AdminUI.STS.Identity.Helpers
             var addressJson = new JObject();
             if (!string.IsNullOrWhiteSpace(profile.StreetAddress))
             {
-                 addressJson[AddressClaimConstants.StreetAddress] = profile.StreetAddress;
+                addressJson[AddressClaimConstants.StreetAddress] = profile.StreetAddress;
             }
 
             if (!string.IsNullOrWhiteSpace(profile.Locality))
             {
-                 addressJson[AddressClaimConstants.Locality] = profile.Locality;
+                addressJson[AddressClaimConstants.Locality] = profile.Locality;
             }
 
             if (!string.IsNullOrWhiteSpace(profile.Region))
             {
-                 addressJson[AddressClaimConstants.Region] = profile.Region;
+                addressJson[AddressClaimConstants.Region] = profile.Region;
             }
 
             if (!string.IsNullOrWhiteSpace(profile.PostalCode))
             {
-                 addressJson[AddressClaimConstants.PostalCode] = profile.PostalCode;
+                addressJson[AddressClaimConstants.PostalCode] = profile.PostalCode;
             }
 
             if (!string.IsNullOrWhiteSpace(profile.Country))
             {
-                 addressJson[AddressClaimConstants.Country] = profile.Country;
+                addressJson[AddressClaimConstants.Country] = profile.Country;
             }
 
 
@@ -56,6 +56,9 @@ namespace AdminUI.STS.Identity.Helpers
                 Website = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.WebSite)?.Value,
                 Profile = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Profile)?.Value
             };
+            var rndmID = claims.FirstOrDefault(x => x.Type == "RandomID")?.Value;
+            Guid rnd;
+            profile.RandomID = !string.IsNullOrEmpty(rndmID) && Guid.TryParse(rndmID, out rnd) ? rnd : Guid.Empty;
 
             var address = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Address)?.Value;
 
@@ -106,6 +109,11 @@ namespace AdminUI.STS.Identity.Helpers
         public static IList<Claim> ExtractClaimsToRemove(OpenIdProfile oldProfile, OpenIdProfile newProfile)
         {
             var claimsToRemove = new List<Claim>();
+            if (newProfile.RandomID == Guid.Empty && oldProfile.RandomID != Guid.Empty)
+            {
+                claimsToRemove.Add(new Claim("RandomID", oldProfile.RandomID.ToString("B")));
+            }
+
 
             if (string.IsNullOrWhiteSpace(newProfile.FullName) && !string.IsNullOrWhiteSpace(oldProfile.FullName))
             {
@@ -142,6 +150,10 @@ namespace AdminUI.STS.Identity.Helpers
         public static IList<Claim> ExtractClaimsToAdd(OpenIdProfile oldProfile, OpenIdProfile newProfile)
         {
             var claimsToAdd = new List<Claim>();
+            if (newProfile.RandomID != Guid.Empty && oldProfile.RandomID == Guid.Empty)
+            {
+                claimsToAdd.Add(new Claim("RandomID", newProfile.RandomID.ToString("B")));
+            }
 
             if (!string.IsNullOrWhiteSpace(newProfile.FullName) && string.IsNullOrWhiteSpace(oldProfile.FullName))
             {
@@ -175,11 +187,18 @@ namespace AdminUI.STS.Identity.Helpers
         /// <param name="oldClaims"></param>
         /// <param name="newProfile"></param>
         /// <returns></returns>
-        public static IList<Tuple<Claim,Claim>> ExtractClaimsToReplace(IList<Claim> oldClaims, OpenIdProfile newProfile)
+        public static IList<Tuple<Claim, Claim>> ExtractClaimsToReplace(IList<Claim> oldClaims, OpenIdProfile newProfile)
         {
             var oldProfile = ExtractProfileInfo(oldClaims);
             var claimsToReplace = new List<Tuple<Claim, Claim>>();
 
+
+            if (newProfile.RandomID != Guid.Empty && oldProfile.RandomID != Guid.Empty)
+            {
+                var oldClaim = oldClaims.First(x => x.Type == "RandomID");
+                var newClaim = new Claim("RandomID", newProfile.RandomID.ToString());
+                claimsToReplace.Add(new Tuple<Claim, Claim>(oldClaim, newClaim));
+            }
             if (!string.IsNullOrWhiteSpace(newProfile.FullName) && !string.IsNullOrWhiteSpace(oldProfile.FullName))
             {
                 if (newProfile.FullName != oldProfile.FullName)
