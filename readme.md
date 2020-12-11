@@ -36,7 +36,7 @@ See [Repositories folder](src/IDS4/Repositories)
   ![only read](/assets/only%20read.png)
 
 1. In the mvc site, try clicking privacy or weather links logging in as scott
-    1. Try unchecking some of the requested scopes and see what it does to the functionality.  You will hav eto logout and then log back in to get the consent again
+    1. Try unchecking some of the requested scopes and see what it does to the functionality.  You will have to logout and then log back in to get the consent again
     ![consent](/assets/consent.png)
     1. Click privacy link to see claims
 1. Useful powershell script to generate secrets
