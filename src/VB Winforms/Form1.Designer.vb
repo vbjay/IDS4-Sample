@@ -22,10 +22,42 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container()
+        Me.btnLogin = New System.Windows.Forms.Button()
+        Me.txtUser = New System.Windows.Forms.TextBox()
+        Me.SuspendLayout()
+        '
+        'btnLogin
+        '
+        Me.btnLogin.Location = New System.Drawing.Point(588, 148)
+        Me.btnLogin.Name = "btnLogin"
+        Me.btnLogin.Size = New System.Drawing.Size(75, 23)
+        Me.btnLogin.TabIndex = 0
+        Me.btnLogin.Text = "Login"
+        Me.btnLogin.UseVisualStyleBackColor = True
+        '
+        'txtUser
+        '
+        Me.txtUser.Location = New System.Drawing.Point(44, 44)
+        Me.txtUser.Multiline = True
+        Me.txtUser.Name = "txtUser"
+        Me.txtUser.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtUser.Size = New System.Drawing.Size(483, 303)
+        Me.txtUser.TabIndex = 1
+        '
+        'Form1
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.txtUser)
+        Me.Controls.Add(Me.btnLogin)
+        Me.Name = "Form1"
         Me.Text = "Form1"
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
     End Sub
 
+    Friend WithEvents btnLogin As Button
+    Friend WithEvents txtUser As TextBox
 End Class
