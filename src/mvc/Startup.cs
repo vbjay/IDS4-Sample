@@ -50,6 +50,7 @@ namespace mvc
                     options.Scope.Add("weather.read");
                     options.Scope.Add(JwtClaimTypes.Email);
 
+                    
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
                     options.SignInScheme = "cookie";
@@ -61,7 +62,18 @@ namespace mvc
                             context.Response.Redirect("/");
                             context.HandleResponse();
                             return Task.FromResult(0);
-                        }
+                        },
+                        OnUserInformationReceived = (ctx =>
+                        {
+                            return Task.Run(() =>
+                            {
+                                foreach (var c in ctx.Principal.Claims)
+                                {
+                                    Console.WriteLine($"{c.Type}:{c.Value}");
+
+                                }
+                            });
+                        })
                     };
 
 
