@@ -17,18 +17,16 @@
 
 ## Running
 
+You may need to run twice.  The database will be created for you but if it doesn't exist, it may have a hiccup.  Just run again.
+
 ### Credentials
 
-See [Repositories folder](src/IDS4/Repositories)
+See [Sample Config folder](src/AdminUI/src/AdminUI.Admin/Sample%20Config).  You will need to run the projects and set up the clients and resorces.  
 
 - API: Swagger is configured with correct client credentials already
 
 ![authorize btn](/assets/authorize%20btn.png)
 ![authorize dlg](/assets/authorize%20dlg.png)
-
-- MVC: User login is
-  - User Name: scott
-  - Password: Password123!
 
 ### Things to try
 
