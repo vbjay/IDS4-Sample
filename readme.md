@@ -10,6 +10,9 @@
   1. ```cd "c:\Program Files (x86)\IIS Express"```
   1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44385/ -UseSelfSigned```
   1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44386/ -UseSelfSigned```
+  1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44310/ -UseSelfSigned```
+  1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44302/ -UseSelfSigned```
+  1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44303/ -UseSelfSigned```
   1. Debug and trust all certificate trust prompts
 
 ## Running
