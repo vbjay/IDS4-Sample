@@ -340,7 +340,7 @@ namespace AdminUI.STS.Identity.Helpers
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
-                    
+
                     if (!string.IsNullOrEmpty(advancedConfiguration.IssuerUri))
                     {
                         options.IssuerUri = advancedConfiguration.IssuerUri;
@@ -348,7 +348,10 @@ namespace AdminUI.STS.Identity.Helpers
                 })
                 .AddConfigurationStore<TConfigurationDbContext>()
                 .AddOperationalStore<TPersistedGrantDbContext>()
-                .AddAspNetIdentity<TUserIdentity>();
+                .AddAspNetIdentity<TUserIdentity>()
+                .AddAppAuthRedirectUriValidator();
+            // .AddRedirectUriValidator<RedirectUrlValidator>();
+
 
             builder.AddCustomSigningCredential(configuration);
             builder.AddCustomValidationKey(configuration);
@@ -379,16 +382,16 @@ namespace AdminUI.STS.Identity.Helpers
 
             if (externalProviderConfiguration.UseAzureAdProvider)
             {
-                authenticationBuilder.AddAzureAD(AzureADDefaults.AuthenticationScheme, AzureADDefaults.OpenIdScheme, AzureADDefaults.CookieScheme, AzureADDefaults.DisplayName,options =>
-                    {
-                        options.ClientSecret = externalProviderConfiguration.AzureAdSecret;
-                        options.ClientId = externalProviderConfiguration.AzureAdClientId;
-                        options.TenantId = externalProviderConfiguration.AzureAdTenantId;
-                        options.Instance = externalProviderConfiguration.AzureInstance;
-                        options.Domain = externalProviderConfiguration.AzureDomain;
-                        options.CallbackPath = externalProviderConfiguration.AzureAdCallbackPath;
-                        options.CookieSchemeName = IdentityConstants.ExternalScheme;
-                    });
+                authenticationBuilder.AddAzureAD(AzureADDefaults.AuthenticationScheme, AzureADDefaults.OpenIdScheme, AzureADDefaults.CookieScheme, AzureADDefaults.DisplayName, options =>
+                     {
+                         options.ClientSecret = externalProviderConfiguration.AzureAdSecret;
+                         options.ClientId = externalProviderConfiguration.AzureAdClientId;
+                         options.TenantId = externalProviderConfiguration.AzureAdTenantId;
+                         options.Instance = externalProviderConfiguration.AzureInstance;
+                         options.Domain = externalProviderConfiguration.AzureDomain;
+                         options.CallbackPath = externalProviderConfiguration.AzureAdCallbackPath;
+                         options.CookieSchemeName = IdentityConstants.ExternalScheme;
+                     });
             }
         }
 
