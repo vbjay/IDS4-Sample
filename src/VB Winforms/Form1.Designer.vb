@@ -40,6 +40,7 @@ Partial Class Form1
         Me.txtUser.Location = New System.Drawing.Point(44, 44)
         Me.txtUser.Multiline = True
         Me.txtUser.Name = "txtUser"
+        Me.txtUser.ReadOnly = True
         Me.txtUser.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtUser.Size = New System.Drawing.Size(483, 303)
         Me.txtUser.TabIndex = 1

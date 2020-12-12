@@ -14,6 +14,7 @@ Public Class Form1
     Private Async Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         btnLogin.Enabled = False
         Dim sb As New StringBuilder
+        Dim msg As String = Nothing
         Try
             Dim lr = Await Auth.SignIn
             Activate()
@@ -40,12 +41,15 @@ Public Class Form1
                 End If
             End If
 
-            MessageBox.Show($"Hi {lr.User.Identity.Name}.  You have a randomID value of {If(lr.User.Claims.FirstOrDefault(Function(c) c.Type = "RandomID")?.Value, "{null}")}.")
+            msg = $"Hi {lr.User.Identity.Name}.  You have a randomID value of {If(lr.User.Claims.FirstOrDefault(Function(c) c.Type = "RandomID")?.Value, "{null}")}."
 
         Catch ex As Exception
             sb.AppendLine($"{vbCrLf}{ex.Message}")
         End Try
         txtUser.AppendText(sb.ToString)
+        txtUser.SelectionStart = txtUser.TextLength - 1
+        txtUser.SelectionLength = 0
+        If Not String.IsNullOrEmpty(msg) Then MessageBox.Show(msg)
         btnLogin.Enabled = True
     End Sub
 End Class
