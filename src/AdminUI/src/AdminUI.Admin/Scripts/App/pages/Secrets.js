@@ -3,7 +3,7 @@ $(function () {
     var adminSecrets = {
 
         guid: function () {
-            return "ss-s-s-s-sss".replace(/s/g, adminSecrets.s4);
+            return "ss-s-s-s-sss-ss-s-s-s-sss".replace(/s/g, adminSecrets.s4);
         },
 
         s4: function () {
