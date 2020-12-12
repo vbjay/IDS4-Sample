@@ -30,10 +30,11 @@ See [Sample Config folder](src/AdminUI/src/AdminUI.Admin/Sample%20Config).  You 
 
 ### Things to try
 
+1. First thing, register a user so you don't use the admin user to do things.
 1. Try out the swagger api page and try calling the api with different combinations of scopes and not authorized.  Try runnimng the post api endpoint with the following scopes checked
   ![only read](/assets/only%20read.png)
 
-1. In the mvc site, try clicking privacy or weather links logging in as scott
+1. In the mvc site, try clicking privacy or weather links logging in as a registered user.
     1. Try unchecking some of the requested scopes and see what it does to the functionality.  You will have to logout and then log back in to get the consent again
     ![consent](/assets/consent.png)
     1. Click privacy link to see claims
