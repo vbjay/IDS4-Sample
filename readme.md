@@ -21,7 +21,7 @@ You may need to run twice.  The database will be created for you but if it doesn
 
 ### Credentials
 
-See [Seed Data](src/AdminUI/src/AdminUI.Admin/identityserverdata.json).  All the clients, resources, scopes wil have been created for you.  You can delete them in the ui and next time your run, they will be created again.  
+See [Admin Seed Data](src/AdminUI/src/AdminUI.Admin/identityserverdata.json).  All the clients, resources, scopes wil have been created for you.  You can delete them in the ui and next time your run, they will be created again.  See [Identity Seed Data](src/AdminUI/src/AdminUI.Admin/identitydata.json) to see the admin user login.  It is recomended you register another user.  You can assign that user the Administrator role to keep admin clean.
 
 - API: Swagger is configured with correct client credentials already
 
