@@ -63,9 +63,3 @@ See [skoruba/IdentityServer4.Admin](https://github.com/skoruba/IdentityServer4.A
         ```cmd
             gulp
         ```
-
-1. See AdminUI.Admin\Sample Config\ folder for info on the clients and related items to set up.  Create the scopes and resources first in the admin ui.
-    ![create clients](/assets/create%20clients.png)
-    - Weather-swgager is a client credentials client, so use that template.
-    - oidcClient is an authorization code client.  Use the server application template.
-    ![create clients templates](/assets/create%20clients%20templates.png)

@@ -21,7 +21,7 @@ You may need to run twice.  The database will be created for you but if it doesn
 
 ### Credentials
 
-See [Sample Config folder](src/AdminUI/src/AdminUI.Admin/Sample%20Config).  You will need to run the projects and set up the clients and resorces.  
+See [Seed Data](src/AdminUI/src/AdminUI.Admin/identityserverdata.json).  All the clients, resources, scopes wil have been created for you.  You can delete them in the ui and next time your run, they will be created again.  
 
 - API: Swagger is configured with correct client credentials already
 

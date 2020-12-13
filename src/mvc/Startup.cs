@@ -48,9 +48,10 @@ namespace mvc
                     // options.Scope.Add("oidc"); // default scope
                     // options.Scope.Add("profile"); // default scope
                     options.Scope.Add("weather.read");
+                    options.Scope.Add(JwtClaimTypes.Address);
                     options.Scope.Add(JwtClaimTypes.Email);
+                    options.Scope.Add("offline_access");
 
-                    
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
                     options.SignInScheme = "cookie";
