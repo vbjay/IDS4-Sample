@@ -25,7 +25,8 @@ Public Class Auth
             .Authority = "https://localhost:44310",
             .ClientId = "vb-Winforms",
             .ClientSecret = "0559e8a8-dc72-4c6a-9b00-6d0917aa6588714e1e07-a4a2-47c0-9291-6eac956b2f29",
-            .Scope = "openid profile email weather.read weather.write", .RedirectUri = redirectUri,
+            .Scope = "openid profile email weather.read weather.write",
+            .RedirectUri = redirectUri,
             .Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode,
             .Browser = br
             }
