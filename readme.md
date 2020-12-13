@@ -55,4 +55,12 @@ See [Admin Seed Data](src/AdminUI/src/AdminUI.Admin/identityserverdata.json).  A
 
   ```
 
+## Room For Improvement
+
+- Try making the vb client call the weather api.
+- Add to the mvc weather page ui and functionality to call the POST endpoint to the weather api and see if you can display the results.
+- See what happens when you only allow read scope and try calling the POST endpoint.  Try adding error handling or even ui updating to prevent the user from even trying
+- In consent screen uncheck access to scopes and see what exceptions it causes.  Figure out how to handle those situations
+- Actually use refresh tokens when token has expired.
+
 See [AdminUI readme](/src/AdminUI/readme.md) and [skoruba/IdentityServer4.Admin](https://github.com/skoruba/IdentityServer4.Admin) for more info and setup.
