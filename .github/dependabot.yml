@@ -13,3 +13,8 @@ updates:
     directory: "/src/AdminUI/src/AdminUI.STS.Identity" # Location of package manifests
     schedule:
       interval: "daily"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  
