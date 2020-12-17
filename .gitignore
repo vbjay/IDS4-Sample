@@ -36,3 +36,5 @@ packages/
 /src/AdminUI/src/AdminUI.Admin/Log/
 /src/AdminUI/src/AdminUI.STS.Identity/Log/
 node_modules/
+/src/AdminUI/src/AdminUI.STS.Identity/wwwroot/dist/
+/src/AdminUI/src/AdminUI.Admin/wwwroot/dist/

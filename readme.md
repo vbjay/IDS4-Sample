@@ -15,6 +15,13 @@
   1. ```IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44303/ -UseSelfSigned```
   1. Debug and trust all certificate trust prompts
 
+- Client UI
+  - Run the following cmd to build the client ui.  See this [script](src/AdminUI/build-client.ps1) and the gulp scipts found at [AdminUI](src/AdminUI/src/AdminUI.Admin/gulpfile.js) and [Identity server](src/AdminUI/src/AdminUI.STS.Identity/gulpfile.js).
+
+  ```ps
+  PowerShell.exe -ExecutionPolicy Bypass -File src/AdminUI/build-client.ps1
+  ```
+
 ## Running
 
 You may need to run twice.  The database will be created for you but if it doesn't exist, it may have a hiccup.  Just run again.
