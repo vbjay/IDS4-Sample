@@ -1,0 +1,45 @@
+version: 1.0.{build}
+image: Visual Studio 2019
+configuration: Release
+platform: Any CPU
+environment:
+  matrix:
+  - nodejs_version: 14
+before_build:
+- ps: >-
+    pwd
+
+    nuget restore src\projects.sln
+
+
+    Install-Product node $env:nodejs_version
+
+    npm install --global npm@latest
+
+    npm install --global gulp@latest
+
+    #set PATH=%APPDATA%\npm;%PATH%
+
+    node --version
+
+    npm --version
+
+
+    cd src\AdminUI\src\AdminUI.Admin; npm i; gulp
+
+
+    cd ..\AdminUI.STS.Identity; npm i; gulp
+
+    cd ..\..\..\..\
+build:
+  project: src/projects.sln
+  publish_wap_xcopy: true
+  publish_aspnet_core: true
+  publish_core_console: true
+  parallel: true
+  verbosity: minimal
+after_build:
+- cmd: tree /A >tree.txt
+artifacts:
+- path: tree.txt
+  name: dir
