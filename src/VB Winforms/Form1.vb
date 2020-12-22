@@ -16,7 +16,10 @@ Public Class Form1
         Dim sb As New StringBuilder
         Dim msg As String = Nothing
         Try
+
             Dim lr = Await Auth.SignIn
+            sb.AppendLine($"{vbCrLf}Sign In occured: {DateTimeOffset.Now}")
+            sb.AppendLine($"{vbCrLf}Authentication Time: {lr.AuthenticationTime}")
             Activate()
 
             If lr.IsError Then
@@ -33,14 +36,14 @@ Public Class Form1
                 End If
 
                 If Not String.IsNullOrWhiteSpace(lr.IdentityToken) Then
-                    Debug.WriteLine($"Identity token:{vbLf}{lr.IdentityToken}")
+                    sb.AppendLine($"Identity token:{vbLf}{lr.IdentityToken}")
                 End If
 
                 If Not String.IsNullOrWhiteSpace(lr.RefreshToken) Then
                     sb.AppendLine($"Refresh token:{vbCrLf}{lr.RefreshToken}")
                 End If
             End If
-
+            sb.AppendLine($"{vbCrLf}Access Token Expires In:{lr.AccessTokenExpiration}")
             msg = $"Hi {lr.User.Identity.Name}.  You have a randomID value of {If(lr.User.Claims.FirstOrDefault(Function(c) c.Type = "RandomID")?.Value, "{null}")}."
 
         Catch ex As Exception
