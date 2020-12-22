@@ -1,5 +1,8 @@
 # IDS4 Use
 
+## Badges
+[![Build status](https://ci.appveyor.com/api/projects/status/sus87d52unb41vwl/branch/master?svg=true)](https://ci.appveyor.com/project/vbjay/ids4-sample/branch/master)
+
 ## Setup
 
 - Multi Project Debug
