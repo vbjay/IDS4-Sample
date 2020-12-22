@@ -38,3 +38,4 @@ packages/
 node_modules/
 /src/AdminUI/src/AdminUI.STS.Identity/wwwroot/dist/
 /src/AdminUI/src/AdminUI.Admin/wwwroot/dist/
+/publish/
