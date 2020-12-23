@@ -1,10 +1,25 @@
-version: 1.0.{build}
+version: 1.0.{build}-{branch}
 image: Visual Studio 2019
 configuration: Release
 platform: Any CPU
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  version_prefix: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
 environment:
+  OCTOPUS_PACKAGE_VERSION: '{version}'
+  APPVEYOR_RDP_PASSWORD:
+    secure: PDnMJMu+zMr55PcG/CJPZw==
+  OCTOPUS_PACKAGE_NUGET: true
   matrix:
   - nodejs_version: 14
+nuget:
+  disable_publish_octopus: true
 before_build:
 - ps: >-
     pwd
@@ -33,13 +48,28 @@ before_build:
     cd ..\..\..\..\
 build:
   project: src/projects.sln
-  publish_wap_xcopy: true
+  publish_wap: true
   publish_aspnet_core: true
   publish_core_console: true
   parallel: true
   verbosity: minimal
 after_build:
-- cmd: tree /A >tree.txt
+- cmd: tree /A /F >tree.txt
+- cmd: git status >git-status.txt
+# - cmd: octo pack --outfolder .\pub --basePath="src\API\bin\Any CPU\Release\net5.0" --id APIPub
+
 artifacts:
 - path: tree.txt
   name: dir
+- path: git-status.txt
+  name: git-Status
+
+deploy:
+- provider: Environment
+  aspnet_core_force_restart: true
+  name: DemoIDS-STS
+- provider: Environment
+  aspnet_core_force_restart: true
+  name: DemoIDS-Admin
+on_finish:
+#- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
