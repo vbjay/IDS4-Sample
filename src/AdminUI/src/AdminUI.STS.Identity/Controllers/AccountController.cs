@@ -718,6 +718,7 @@ namespace AdminUI.STS.Identity.Controllers
                 .Select(x => new ExternalProvider
                 {
                     DisplayName = x.DisplayName ?? x.Name,
+                    LogoCssClass = $"fa fa-{x.Name.ToLower()}",
                     AuthenticationScheme = x.Name
                 }).ToList();
 

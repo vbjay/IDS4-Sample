@@ -9,6 +9,7 @@ namespace AdminUI.STS.Identity.ViewModels.Account
     public class ExternalProvider
     {
         public string DisplayName { get; set; }
+        public string LogoCssClass { get; set; }
         public string AuthenticationScheme { get; set; }
     }
 }
