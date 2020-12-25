@@ -369,9 +369,18 @@ namespace AdminUI.STS.Identity.Helpers
             IConfiguration configuration)
         {
             var externalProviderConfiguration = configuration.GetSection(nameof(ExternalProvidersConfiguration)).Get<ExternalProvidersConfiguration>();
-
+            if (externalProviderConfiguration.UseGoogleProvider)
+            {
+                authenticationBuilder.AddGoogle(options =>
+                {
+                    options.ClientId = externalProviderConfiguration.GoogleClientID;
+                    options.ClientSecret = externalProviderConfiguration.GoogleSecret;
+                    
+                });
+            }
             if (externalProviderConfiguration.UseGitHubProvider)
             {
+
                 authenticationBuilder.AddGitHub(options =>
                 {
                     options.ClientId = externalProviderConfiguration.GitHubClientId;

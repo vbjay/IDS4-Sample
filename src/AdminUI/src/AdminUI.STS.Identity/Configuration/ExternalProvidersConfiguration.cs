@@ -13,6 +13,10 @@
         public string AzureInstance { get; set; }
         public string AzureAdCallbackPath { get; set; }
         public string AzureDomain { get; set; }
+        public bool UseGoogleProvider { get; set; }
+        public string GoogleClientID { get; set; }
+        public string GoogleSecret { get; set; }
+
     }
 }
 
