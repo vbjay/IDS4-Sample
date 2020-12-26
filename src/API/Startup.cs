@@ -85,7 +85,7 @@ namespace api
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1");
+                    c.SwaggerEndpoint("v1/swagger.json", "api v1");
                     c.OAuthClientId("weather-swagger");
                     c.OAuthClientSecret("SuperSecretPassword");
                 });
