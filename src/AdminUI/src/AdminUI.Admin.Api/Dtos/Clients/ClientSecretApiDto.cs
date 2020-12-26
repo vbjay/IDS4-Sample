@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
+
+using System;
 using System.ComponentModel.DataAnnotations;
-using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
 
 namespace AdminUI.Admin.Api.Dtos.Clients
 {

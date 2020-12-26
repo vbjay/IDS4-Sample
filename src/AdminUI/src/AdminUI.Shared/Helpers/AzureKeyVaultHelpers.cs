@@ -1,10 +1,11 @@
 ﻿// Original file comes from: https://github.com/damienbod/IdentityServer4AspNetCoreIdentityTemplate
 // Modified by Jan Škoruba
 
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using AdminUI.Shared.Configuration.Common;
 using AdminUI.Shared.Services;
+
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace AdminUI.Shared.Helpers
 {

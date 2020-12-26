@@ -1,5 +1,7 @@
 ﻿using IdentityServer4.Models;
+
 using System.Collections.Generic;
+
 using Client = AdminUI.Admin.Configuration.IdentityServer.Client;
 
 namespace AdminUI.Admin.Configuration

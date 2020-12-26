@@ -1,6 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+
+using System;
 
 namespace AdminUI.Admin.EntityFramework.PostgreSQL.Migrations.IdentityServerConfiguration
 {
@@ -27,7 +29,7 @@ namespace AdminUI.Admin.EntityFramework.PostgreSQL.Migrations.IdentityServerConf
             migrationBuilder.DropForeignKey(
                 name: "FK_IdentityProperties_IdentityResources_IdentityResourceId",
                 table: "IdentityProperties");
-            
+
             migrationBuilder.DropIndex(
                 name: "IX_ApiScopes_ApiResourceId",
                 table: "ApiScopes");

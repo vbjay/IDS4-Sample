@@ -1,14 +1,15 @@
-﻿using IdentityServer4.AccessTokenValidation;
+﻿using AdminUI.Admin.Api.Helpers;
+using AdminUI.Admin.Api.Middlewares;
+using AdminUI.Admin.EntityFramework.Shared.DbContexts;
+using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
+
+using IdentityServer4.AccessTokenValidation;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AdminUI.Admin.Api.Helpers;
-using AdminUI.Admin.Api.Middlewares;
-using AdminUI.Admin.EntityFramework.Shared.DbContexts;
-using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
-using AdminUI.Shared.Configuration.Identity;
 
 namespace AdminUI.Admin.Api.Configuration.Test
 {

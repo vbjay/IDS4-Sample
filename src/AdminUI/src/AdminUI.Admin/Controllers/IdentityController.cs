@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AdminUI.Admin.Configuration.Constants;
+using AdminUI.Admin.ExceptionHandling;
+using AdminUI.Admin.Helpers.Localization;
+
 using IdentityServer4.Extensions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Services.Interfaces;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Shared.Dtos.Common;
-using AdminUI.Admin.Configuration.Constants;
-using AdminUI.Admin.ExceptionHandling;
-using AdminUI.Admin.Helpers.Localization;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Controllers
 {

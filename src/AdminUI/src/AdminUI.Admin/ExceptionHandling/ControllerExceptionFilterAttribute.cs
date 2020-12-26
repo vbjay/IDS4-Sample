@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using AdminUI.Admin.Helpers;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
 using Newtonsoft.Json;
+
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Shared.ExceptionHandling;
-using AdminUI.Admin.Helpers;
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AdminUI.Admin.ExceptionHandling
 {
@@ -95,7 +99,7 @@ namespace AdminUI.Admin.ExceptionHandling
                 context.ModelState.AddModelError(userFriendlyViewException.ErrorKey, context.Exception.Message);
             }
         }
-        
+
         protected void CreateNotification(NotificationHelpers.AlertType type, ITempDataDictionary tempData, string message, string title = "")
         {
             var toast = new NotificationHelpers.Alert

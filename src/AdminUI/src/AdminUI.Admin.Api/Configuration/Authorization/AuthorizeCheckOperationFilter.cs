@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
+
 using Swashbuckle.AspNetCore.SwaggerGen;
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AdminUI.Admin.Api.Configuration.Authorization
 {

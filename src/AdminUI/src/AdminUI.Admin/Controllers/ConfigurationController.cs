@@ -1,14 +1,17 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using AdminUI.Admin.Configuration.Constants;
+using AdminUI.Admin.ExceptionHandling;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Configuration;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Helpers;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Services.Interfaces;
-using AdminUI.Admin.Configuration.Constants;
-using AdminUI.Admin.ExceptionHandling;
+
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Controllers
 {
@@ -48,7 +51,7 @@ namespace AdminUI.Admin.Controllers
                 return View(clientDto);
             }
 
-            var client = await _clientService.GetClientAsync((int)id);
+            var client = await _clientService.GetClientAsync(id);
             client = _clientService.BuildClientViewModel(client);
 
             return View(client);

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+﻿using AdminUI.STS.Identity.Helpers;
+using AdminUI.STS.Identity.Helpers.Localization;
+using AdminUI.STS.Identity.ViewModels.Manage;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,10 +9,14 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
-using AdminUI.STS.Identity.Helpers;
-using AdminUI.STS.Identity.Helpers.Localization;
-using AdminUI.STS.Identity.ViewModels.Manage;
+
+using System;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace AdminUI.STS.Identity.Controllers
 {
@@ -101,7 +104,7 @@ namespace AdminUI.STS.Identity.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-       [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GenerateID(IndexViewModel model)
         {
@@ -663,7 +666,7 @@ namespace AdminUI.STS.Identity.Controllers
                 PostalCode = profile.PostalCode,
                 Locality = profile.Locality,
                 StreetAddress = profile.StreetAddress,
-                RandomID=profile.RandomID
+                RandomID = profile.RandomID
             };
             return model;
         }
@@ -683,62 +686,62 @@ namespace AdminUI.STS.Identity.Controllers
                 FullName = model.Name,
                 Profile = model.Profile,
                 RandomID = model.RandomID
-        };
+            };
 
-        var claimsToRemove = OpenIdClaimHelpers.ExtractClaimsToRemove(oldProfile, newProfile);
-        var claimsToAdd = OpenIdClaimHelpers.ExtractClaimsToAdd(oldProfile, newProfile);
-        var claimsToReplace = OpenIdClaimHelpers.ExtractClaimsToReplace(claims, newProfile);
+            var claimsToRemove = OpenIdClaimHelpers.ExtractClaimsToRemove(oldProfile, newProfile);
+            var claimsToAdd = OpenIdClaimHelpers.ExtractClaimsToAdd(oldProfile, newProfile);
+            var claimsToReplace = OpenIdClaimHelpers.ExtractClaimsToReplace(claims, newProfile);
 
-          
-        await _userManager.RemoveClaimsAsync(user, claimsToRemove);
-        await _userManager.AddClaimsAsync(user, claimsToAdd);
+
+            await _userManager.RemoveClaimsAsync(user, claimsToRemove);
+            await _userManager.AddClaimsAsync(user, claimsToAdd);
 
             foreach (var pair in claimsToReplace)
             {
                 await _userManager.ReplaceClaimAsync(user, pair.Item1, pair.Item2);
-    }
-}
+            }
+        }
 
-private string FormatKey(string unformattedKey)
-{
-    var result = new StringBuilder();
-    var currentPosition = 0;
+        private string FormatKey(string unformattedKey)
+        {
+            var result = new StringBuilder();
+            var currentPosition = 0;
 
-    while (currentPosition + 4 < unformattedKey.Length)
-    {
-        result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
-        currentPosition += 4;
-    }
+            while (currentPosition + 4 < unformattedKey.Length)
+            {
+                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
+                currentPosition += 4;
+            }
 
-    if (currentPosition < unformattedKey.Length)
-    {
-        result.Append(unformattedKey.Substring(currentPosition));
-    }
+            if (currentPosition < unformattedKey.Length)
+            {
+                result.Append(unformattedKey.Substring(currentPosition));
+            }
 
-    return result.ToString().ToLowerInvariant();
-}
+            return result.ToString().ToLowerInvariant();
+        }
 
-private string GenerateQrCodeUri(string email, string unformattedKey)
-{
-    return string.Format(
-        AuthenticatorUriFormat,
-        _urlEncoder.Encode("AdminUI.STS.Identity"),
-        _urlEncoder.Encode(email),
-        unformattedKey);
-}
+        private string GenerateQrCodeUri(string email, string unformattedKey)
+        {
+            return string.Format(
+                AuthenticatorUriFormat,
+                _urlEncoder.Encode("AdminUI.STS.Identity"),
+                _urlEncoder.Encode(email),
+                unformattedKey);
+        }
 
-private void AddErrors(IdentityResult result)
-{
-    foreach (var error in result.Errors)
-    {
-        ModelState.AddModelError(string.Empty, error.Description);
-    }
-}
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
 
-private void AddError(string description, string title = "")
-{
-    ModelState.AddModelError(title, description);
-}
+        private void AddError(string description, string title = "")
+        {
+            ModelState.AddModelError(title, description);
+        }
     }
 }
 

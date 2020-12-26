@@ -1,5 +1,7 @@
-﻿using AutoMapper;
-using AdminUI.Admin.Api.Dtos.PersistedGrants;
+﻿using AdminUI.Admin.Api.Dtos.PersistedGrants;
+
+using AutoMapper;
+
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Grant;
 
 namespace AdminUI.Admin.Api.Mappers

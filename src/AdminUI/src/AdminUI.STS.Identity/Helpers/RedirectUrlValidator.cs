@@ -37,7 +37,7 @@ namespace AdminUI.STS.Identity.Helpers
                 else
                     return false;
             });
-            return parsed.Any(v=> true);
+            return parsed.Any(v => true);
         }
         /// <summary>
         /// Determines whether a redirect URI is valid for a client.

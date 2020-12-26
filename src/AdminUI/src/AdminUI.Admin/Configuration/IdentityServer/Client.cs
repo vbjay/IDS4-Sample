@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using AdminUI.Admin.Configuration.Identity;
+﻿using AdminUI.Admin.Configuration.Identity;
+
+using System.Collections.Generic;
 
 namespace AdminUI.Admin.Configuration.IdentityServer
 {

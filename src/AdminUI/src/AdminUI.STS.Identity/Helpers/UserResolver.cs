@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using AdminUI.STS.Identity.Configuration;
+﻿using AdminUI.Shared.Configuration.Identity;
+
+using Microsoft.AspNetCore.Identity;
+
 using System.Threading.Tasks;
-using AdminUI.Shared.Configuration.Identity;
 
 namespace AdminUI.STS.Identity.Helpers
 {

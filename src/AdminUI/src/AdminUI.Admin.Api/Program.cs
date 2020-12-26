@@ -1,10 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using AdminUI.Shared.Helpers;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+
 using Serilog;
-using AdminUI.Shared.Helpers;
+
+using System;
+using System.IO;
 
 namespace AdminUI.Admin.Api
 {

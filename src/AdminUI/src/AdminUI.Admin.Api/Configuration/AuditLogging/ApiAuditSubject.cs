@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using AdminUI.Admin.Api.Configuration;
+
 using Microsoft.AspNetCore.Http;
+
 using Skoruba.AuditLogging.Constants;
 using Skoruba.AuditLogging.Events;
-using AdminUI.Admin.Api.Configuration;
+
+using System.Linq;
 
 namespace AdminUI.Admin.Api.AuditLogging
 {

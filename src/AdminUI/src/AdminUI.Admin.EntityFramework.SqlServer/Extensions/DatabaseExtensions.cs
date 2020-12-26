@@ -1,11 +1,14 @@
-﻿using System.Reflection;
-using IdentityServer4.EntityFramework.Storage;
+﻿using IdentityServer4.EntityFramework.Storage;
+
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
 using Skoruba.AuditLogging.EntityFramework.Entities;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
+
+using System.Reflection;
 
 namespace AdminUI.Admin.EntityFramework.SqlServer.Extensions
 {
@@ -52,7 +55,7 @@ namespace AdminUI.Admin.EntityFramework.SqlServer.Extensions
             services.AddDbContext<TAuditLoggingDbContext>(options => options.UseSqlServer(auditLoggingConnectionString, optionsSql => optionsSql.MigrationsAssembly(migrationsAssembly)));
 
             // DataProtectionKey DB from existing connection
-            if(!string.IsNullOrEmpty(dataProtectionConnectionString))
+            if (!string.IsNullOrEmpty(dataProtectionConnectionString))
                 services.AddDbContext<TDataProtectionDbContext>(options => options.UseSqlServer(dataProtectionConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
         }
 

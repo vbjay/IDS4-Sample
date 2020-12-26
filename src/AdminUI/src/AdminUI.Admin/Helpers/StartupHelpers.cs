@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading.Tasks;
+﻿using AdminUI.Admin.Configuration;
+using AdminUI.Admin.Configuration.ApplicationParts;
+using AdminUI.Admin.Configuration.Constants;
+using AdminUI.Admin.Configuration.Interfaces;
+using AdminUI.Admin.EntityFramework.MySql.Extensions;
+using AdminUI.Admin.EntityFramework.PostgreSQL.Extensions;
+using AdminUI.Admin.EntityFramework.Shared.Configuration;
+using AdminUI.Admin.EntityFramework.SqlServer.Extensions;
+using AdminUI.Admin.ExceptionHandling;
+using AdminUI.Admin.Helpers.Localization;
+using AdminUI.Shared.Authentication;
+
 using IdentityServer4.EntityFramework.Options;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
 using Skoruba.AuditLogging.EntityFramework.Entities;
 using Skoruba.AuditLogging.EntityFramework.Extensions;
@@ -27,23 +38,16 @@ using Skoruba.AuditLogging.EntityFramework.Services;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Services;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Services.Interfaces;
-using AdminUI.Admin.ExceptionHandling;
-using AdminUI.Admin.Configuration;
-using AdminUI.Admin.Configuration.ApplicationParts;
-using AdminUI.Admin.Configuration.Constants;
-using AdminUI.Admin.Configuration.Interfaces;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Repositories;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Repositories.Interfaces;
-using AdminUI.Admin.Helpers.Localization;
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using AdminUI.Admin.EntityFramework.MySql.Extensions;
-using AdminUI.Admin.EntityFramework.Shared.Configuration;
-using AdminUI.Admin.EntityFramework.SqlServer.Extensions;
-using AdminUI.Admin.EntityFramework.PostgreSQL.Extensions;
-using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
-using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
-using AdminUI.Shared.Authentication;
+using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Helpers
 {
@@ -181,7 +185,7 @@ namespace AdminUI.Admin.Helpers
             app.UseXContentTypeOptions();
             app.UseXfo(options => options.SameOrigin());
             app.UseReferrerPolicy(options => options.NoReferrer());
-           
+
             // CSP Configuration to be able to use external resources
             var cspTrustedDomains = new List<string>();
             configuration.GetSection(ConfigurationConsts.CspTrustedDomainsKey).Bind(cspTrustedDomains);
@@ -285,7 +289,7 @@ namespace AdminUI.Admin.Helpers
             where TUserChangePasswordDto : UserChangePasswordDto<TKey>
             where TRoleClaimsDto : RoleClaimsDto<TRoleClaimDto, TKey>
             where TUserClaimDto : UserClaimDto<TKey>
-            where TRoleClaimDto: RoleClaimDto<TKey>
+            where TRoleClaimDto : RoleClaimDto<TKey>
         {
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 

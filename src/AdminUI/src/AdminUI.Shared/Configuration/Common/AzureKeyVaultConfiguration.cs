@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace AdminUI.Shared.Configuration.Common
+﻿namespace AdminUI.Shared.Configuration.Common
 {
     public class AzureKeyVaultConfiguration
     {

@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using AdminUI.Admin.EntityFramework.Shared.Constants;
+﻿using AdminUI.Admin.EntityFramework.Shared.Constants;
 using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
 {
@@ -9,7 +10,7 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
     {
         public AdminIdentityDbContext(DbContextOptions<AdminIdentityDbContext> options) : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

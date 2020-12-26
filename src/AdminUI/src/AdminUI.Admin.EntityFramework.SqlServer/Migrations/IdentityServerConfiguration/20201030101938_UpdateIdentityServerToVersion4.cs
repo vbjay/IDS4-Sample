@@ -1,5 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+using System;
 
 namespace AdminUI.Admin.EntityFramework.SqlServer.Migrations.IdentityServerConfiguration
 {
@@ -336,7 +337,7 @@ FROM ApiScopes");
             migrationBuilder.DropForeignKey(
                 name: "FK_IdentityResourceProperties_IdentityResources_IdentityResourceId",
                 table: "IdentityResourceProperties");
-            
+
             migrationBuilder.DropIndex(
                 name: "IX_ApiScopeClaims_ScopeId",
                 table: "ApiScopeClaims");

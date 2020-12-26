@@ -1,8 +1,9 @@
 ﻿
-using System.Linq;
-using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdminUI.STS.Identity.Helpers
 {

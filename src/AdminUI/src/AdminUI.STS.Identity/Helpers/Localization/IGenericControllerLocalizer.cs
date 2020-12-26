@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.Extensions.Localization;
+﻿using Microsoft.Extensions.Localization;
+
+using System.Collections.Generic;
 
 namespace AdminUI.STS.Identity.Helpers.Localization
 {

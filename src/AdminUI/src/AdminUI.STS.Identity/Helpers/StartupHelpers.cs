@@ -1,12 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using AdminUI.Admin.EntityFramework.MySql.Extensions;
+using AdminUI.Admin.EntityFramework.PostgreSQL.Extensions;
+using AdminUI.Admin.EntityFramework.Shared.Configuration;
+using AdminUI.Admin.EntityFramework.SqlServer.Extensions;
+using AdminUI.Shared.Authentication;
+using AdminUI.Shared.Configuration.Identity;
+using AdminUI.STS.Identity.Configuration;
+using AdminUI.STS.Identity.Configuration.ApplicationParts;
+using AdminUI.STS.Identity.Configuration.Constants;
+using AdminUI.STS.Identity.Configuration.Interfaces;
+using AdminUI.STS.Identity.Helpers.Localization;
+
 using IdentityServer4.EntityFramework.Storage;
+
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -14,29 +26,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using SendGrid;
-using AdminUI.Shared.Configuration.Email;
-using AdminUI.Shared.Email;
-using AdminUI.STS.Identity.Configuration;
-using AdminUI.STS.Identity.Configuration.ApplicationParts;
-using AdminUI.STS.Identity.Configuration.Constants;
-using AdminUI.STS.Identity.Configuration.Interfaces;
-using AdminUI.STS.Identity.Helpers.Localization;
-using System.Linq;
-using IdentityServer4;
-using Microsoft.AspNetCore.Authentication.AzureAD.UI;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
-using AdminUI.Admin.EntityFramework.MySql.Extensions;
-using AdminUI.Admin.EntityFramework.PostgreSQL.Extensions;
-using AdminUI.Admin.EntityFramework.Shared.Configuration;
-using AdminUI.Admin.EntityFramework.SqlServer.Extensions;
+
 using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
-using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using AdminUI.Shared.Authentication;
-using AdminUI.Shared.Configuration.Identity;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 
 namespace AdminUI.STS.Identity.Helpers
 {
@@ -375,7 +372,7 @@ namespace AdminUI.STS.Identity.Helpers
                 {
                     options.ClientId = externalProviderConfiguration.GoogleClientID;
                     options.ClientSecret = externalProviderConfiguration.GoogleSecret;
-                    
+
                 });
             }
             if (externalProviderConfiguration.UseGitHubProvider)
@@ -448,49 +445,47 @@ namespace AdminUI.STS.Identity.Helpers
 
             var serviceProvider = services.BuildServiceProvider();
             var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
+            using var scope = scopeFactory.CreateScope();
+            var configurationTableName = DbContextHelpers.GetEntityTable<TConfigurationDbContext>(scope.ServiceProvider);
+            var persistedGrantTableName = DbContextHelpers.GetEntityTable<TPersistedGrantDbContext>(scope.ServiceProvider);
+            var identityTableName = DbContextHelpers.GetEntityTable<TIdentityDbContext>(scope.ServiceProvider);
+            var dataProtectionTableName = DbContextHelpers.GetEntityTable<TDataProtectionDbContext>(scope.ServiceProvider);
+
+            var databaseProvider = configuration.GetSection(nameof(DatabaseProviderConfiguration)).Get<DatabaseProviderConfiguration>();
+            switch (databaseProvider.ProviderType)
             {
-                var configurationTableName = DbContextHelpers.GetEntityTable<TConfigurationDbContext>(scope.ServiceProvider);
-                var persistedGrantTableName = DbContextHelpers.GetEntityTable<TPersistedGrantDbContext>(scope.ServiceProvider);
-                var identityTableName = DbContextHelpers.GetEntityTable<TIdentityDbContext>(scope.ServiceProvider);
-                var dataProtectionTableName = DbContextHelpers.GetEntityTable<TDataProtectionDbContext>(scope.ServiceProvider);
+                case DatabaseProviderType.SqlServer:
+                    healthChecksBuilder
+                        .AddSqlServer(configurationDbConnectionString, name: "ConfigurationDb",
+                            healthQuery: $"SELECT TOP 1 * FROM dbo.[{configurationTableName}]")
+                        .AddSqlServer(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
+                            healthQuery: $"SELECT TOP 1 * FROM dbo.[{persistedGrantTableName}]")
+                        .AddSqlServer(identityDbConnectionString, name: "IdentityDb",
+                            healthQuery: $"SELECT TOP 1 * FROM dbo.[{identityTableName}]")
+                        .AddSqlServer(dataProtectionDbConnectionString, name: "DataProtectionDb",
+                            healthQuery: $"SELECT TOP 1 * FROM dbo.[{dataProtectionTableName}]");
 
-                var databaseProvider = configuration.GetSection(nameof(DatabaseProviderConfiguration)).Get<DatabaseProviderConfiguration>();
-                switch (databaseProvider.ProviderType)
-                {
-                    case DatabaseProviderType.SqlServer:
-                        healthChecksBuilder
-                            .AddSqlServer(configurationDbConnectionString, name: "ConfigurationDb",
-                                healthQuery: $"SELECT TOP 1 * FROM dbo.[{configurationTableName}]")
-                            .AddSqlServer(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
-                                healthQuery: $"SELECT TOP 1 * FROM dbo.[{persistedGrantTableName}]")
-                            .AddSqlServer(identityDbConnectionString, name: "IdentityDb",
-                                healthQuery: $"SELECT TOP 1 * FROM dbo.[{identityTableName}]")
-                            .AddSqlServer(dataProtectionDbConnectionString, name: "DataProtectionDb",
-                                healthQuery: $"SELECT TOP 1 * FROM dbo.[{dataProtectionTableName}]");
-
-                        break;
-                    case DatabaseProviderType.PostgreSQL:
-                        healthChecksBuilder
-                            .AddNpgSql(configurationDbConnectionString, name: "ConfigurationDb",
-                                healthQuery: $"SELECT * FROM \"{configurationTableName}\" LIMIT 1")
-                            .AddNpgSql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
-                                healthQuery: $"SELECT * FROM \"{persistedGrantTableName}\" LIMIT 1")
-                            .AddNpgSql(identityDbConnectionString, name: "IdentityDb",
-                                healthQuery: $"SELECT * FROM \"{identityTableName}\" LIMIT 1")
-                            .AddNpgSql(dataProtectionDbConnectionString, name: "DataProtectionDb",
-                                healthQuery: $"SELECT * FROM \"{dataProtectionTableName}\"  LIMIT 1");
-                        break;
-                    case DatabaseProviderType.MySql:
-                        healthChecksBuilder
-                            .AddMySql(configurationDbConnectionString, name: "ConfigurationDb")
-                            .AddMySql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb")
-                            .AddMySql(identityDbConnectionString, name: "IdentityDb")
-                            .AddMySql(dataProtectionDbConnectionString, name: "DataProtectionDb");
-                        break;
-                    default:
-                        throw new NotImplementedException($"Health checks not defined for database provider {databaseProvider.ProviderType}");
-                }
+                    break;
+                case DatabaseProviderType.PostgreSQL:
+                    healthChecksBuilder
+                        .AddNpgSql(configurationDbConnectionString, name: "ConfigurationDb",
+                            healthQuery: $"SELECT * FROM \"{configurationTableName}\" LIMIT 1")
+                        .AddNpgSql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
+                            healthQuery: $"SELECT * FROM \"{persistedGrantTableName}\" LIMIT 1")
+                        .AddNpgSql(identityDbConnectionString, name: "IdentityDb",
+                            healthQuery: $"SELECT * FROM \"{identityTableName}\" LIMIT 1")
+                        .AddNpgSql(dataProtectionDbConnectionString, name: "DataProtectionDb",
+                            healthQuery: $"SELECT * FROM \"{dataProtectionTableName}\"  LIMIT 1");
+                    break;
+                case DatabaseProviderType.MySql:
+                    healthChecksBuilder
+                        .AddMySql(configurationDbConnectionString, name: "ConfigurationDb")
+                        .AddMySql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb")
+                        .AddMySql(identityDbConnectionString, name: "IdentityDb")
+                        .AddMySql(dataProtectionDbConnectionString, name: "DataProtectionDb");
+                    break;
+                default:
+                    throw new NotImplementedException($"Health checks not defined for database provider {databaseProvider.ProviderType}");
             }
         }
     }

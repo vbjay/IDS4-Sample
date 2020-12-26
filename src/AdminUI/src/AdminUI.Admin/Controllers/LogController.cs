@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using AdminUI.Admin.Configuration.Constants;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Log;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Services.Interfaces;
-using AdminUI.Admin.Configuration.Constants;
+
+using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Controllers
 {
@@ -32,7 +35,7 @@ namespace AdminUI.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AuditLog([FromQuery]AuditLogFilterDto filters)
+        public async Task<IActionResult> AuditLog([FromQuery] AuditLogFilterDto filters)
         {
             ViewBag.SubjectIdentifier = filters.SubjectIdentifier;
             ViewBag.SubjectName = filters.SubjectName;
@@ -53,7 +56,7 @@ namespace AdminUI.Admin.Controllers
             {
                 return View(nameof(ErrorsLog), log);
             }
-            
+
             await _logService.DeleteLogsOlderThanAsync(log.DeleteOlderThan.Value);
 
             return RedirectToAction(nameof(ErrorsLog));

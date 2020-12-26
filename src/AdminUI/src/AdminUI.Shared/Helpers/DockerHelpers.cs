@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using AdminUI.Shared.Configuration.Common;
+﻿using AdminUI.Shared.Configuration.Common;
+
+using Microsoft.Extensions.Configuration;
 
 namespace AdminUI.Shared.Helpers
 {

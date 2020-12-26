@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using AdminUI.Admin.EntityFramework.Shared.DbContexts;
+﻿using AdminUI.Admin.EntityFramework.Shared.DbContexts;
 using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
 using AdminUI.Admin.Helpers;
 using AdminUI.Admin.Middlewares;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AdminUI.Admin.Configuration.Test
 {

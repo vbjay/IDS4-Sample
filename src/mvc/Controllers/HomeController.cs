@@ -20,7 +20,7 @@ namespace mvc.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
 
-        public HomeController(ILogger<HomeController> logger,IConfiguration config)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config)
         {
             _logger = logger;
             _config = config;
@@ -47,8 +47,10 @@ namespace mvc.Controllers
         {
 
             var token = await HttpContext.GetTokenAsync("access_token");
-            var client = new RestClient(_config["Apis:Weather:URL"]);
-            client.Authenticator = new JwtAuthenticator(token);
+            var client = new RestClient(_config["Apis:Weather:URL"])
+            {
+                Authenticator = new JwtAuthenticator(token)
+            };
             var req = new RestRequest("/WeatherForecast", Method.GET);
             var res = await client.ExecuteAsync<List<WeatherForecast>>(req);
 

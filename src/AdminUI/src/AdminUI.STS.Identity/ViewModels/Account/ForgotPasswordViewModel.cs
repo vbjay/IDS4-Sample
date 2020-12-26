@@ -1,6 +1,6 @@
-﻿using AdminUI.STS.Identity.Configuration;
+﻿using AdminUI.Shared.Configuration.Identity;
+
 using System.ComponentModel.DataAnnotations;
-using AdminUI.Shared.Configuration.Identity;
 
 namespace AdminUI.STS.Identity.ViewModels.Account
 {

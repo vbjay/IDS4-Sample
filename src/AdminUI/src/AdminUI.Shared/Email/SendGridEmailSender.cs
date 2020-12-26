@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using AdminUI.Shared.Configuration.Email;
+
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Logging;
+
 using SendGrid;
-using AdminUI.Shared.Configuration.Email;
+
 using System.Threading.Tasks;
 
 namespace AdminUI.Shared.Email
@@ -42,11 +45,11 @@ namespace AdminUI.Shared.Email
                     _logger.LogInformation($"Email: {email}, subject: {subject}, message: {htmlMessage} successfully sent");
                     break;
                 default:
-                {
-                    var errorMessage = await response.Body.ReadAsStringAsync();
-                    _logger.LogError($"Response with code {response.StatusCode} and body {errorMessage} after sending email: {email}, subject: {subject}");
-                    break;
-                }
+                    {
+                        var errorMessage = await response.Body.ReadAsStringAsync();
+                        _logger.LogError($"Response with code {response.StatusCode} and body {errorMessage} after sending email: {email}, subject: {subject}");
+                        break;
+                    }
             }
         }
     }

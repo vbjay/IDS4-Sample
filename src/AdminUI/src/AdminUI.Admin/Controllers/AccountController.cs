@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AdminUI.Admin.Configuration.Constants;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using AdminUI.Admin.Configuration.Constants;
+
 using System.Collections.Generic;
 
 namespace AdminUI.Admin.Controllers

@@ -4,19 +4,21 @@
 // Original file: https://github.com/IdentityServer/IdentityServer4.Samples
 // Modified by Jan Škoruba
 
-using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+using AdminUI.Shared.Configuration.Identity;
+using AdminUI.STS.Identity.Configuration;
+using AdminUI.STS.Identity.Helpers;
+using AdminUI.STS.Identity.Helpers.Localization;
+using AdminUI.STS.Identity.ViewModels.Account;
+
 using IdentityModel;
+
 using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -24,11 +26,13 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using AdminUI.Shared.Configuration.Identity;
-using AdminUI.STS.Identity.Configuration;
-using AdminUI.STS.Identity.Helpers;
-using AdminUI.STS.Identity.Helpers.Localization;
-using AdminUI.STS.Identity.ViewModels.Account;
+
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace AdminUI.STS.Identity.Controllers
 {

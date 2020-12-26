@@ -1,5 +1,4 @@
 ﻿using AdminUI.Shared.Configuration.Identity;
-using AdminUI.STS.Identity.Configuration;
 
 namespace AdminUI.STS.Identity.Helpers.Localization
 {

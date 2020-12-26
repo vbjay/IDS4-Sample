@@ -1,13 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AdminUI.Shared.Configuration.Common;
+using AdminUI.Shared.Helpers;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 using System;
 using System.IO;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using AdminUI.Shared.Configuration.Common;
-using AdminUI.Shared.Helpers;
-using AdminUI.STS.Identity.Configuration;
 
 namespace AdminUI.STS.Identity.Helpers
 {

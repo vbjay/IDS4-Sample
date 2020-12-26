@@ -1,7 +1,18 @@
-﻿using System;
+﻿using AdminUI.Admin.Api.AuditLogging;
+using AdminUI.Admin.Api.Configuration;
+using AdminUI.Admin.Api.Configuration.ApplicationParts;
+using AdminUI.Admin.Api.Configuration.Constants;
+using AdminUI.Admin.Api.Helpers.Localization;
+using AdminUI.Admin.EntityFramework.MySql.Extensions;
+using AdminUI.Admin.EntityFramework.PostgreSQL.Extensions;
+using AdminUI.Admin.EntityFramework.Shared.Configuration;
+using AdminUI.Admin.EntityFramework.SqlServer.Extensions;
+
 using IdentityModel;
+
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.EntityFramework.Options;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -10,24 +21,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
 using Skoruba.AuditLogging.EntityFramework.Entities;
 using Skoruba.AuditLogging.EntityFramework.Extensions;
 using Skoruba.AuditLogging.EntityFramework.Repositories;
 using Skoruba.AuditLogging.EntityFramework.Services;
-using AdminUI.Admin.Api.AuditLogging;
-using AdminUI.Admin.Api.Configuration;
-using AdminUI.Admin.Api.Configuration.ApplicationParts;
-using AdminUI.Admin.Api.Configuration.Constants;
-using AdminUI.Admin.Api.Helpers.Localization;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
-using AdminUI.Admin.EntityFramework.MySql.Extensions;
-using AdminUI.Admin.EntityFramework.PostgreSQL.Extensions;
-using AdminUI.Admin.EntityFramework.Shared.Configuration;
-using AdminUI.Admin.EntityFramework.SqlServer.Extensions;
-using AdminUI.Shared.Configuration.Identity;
+
+using System;
 
 namespace AdminUI.Admin.Api.Helpers
 {

@@ -37,7 +37,7 @@
         public Weather Weather { get; set; }
     }
 
-    
+
 
 
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Logging;
+
 using System.Threading.Tasks;
 
 namespace AdminUI.Shared.Email

@@ -4,11 +4,11 @@
 // Original file: https://github.com/IdentityServer/IdentityServer4.Quickstart.UI
 // Modified by Jan Škoruba
 
+using AdminUI.Shared.Configuration.Identity;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AdminUI.Shared.Configuration.Identity;
-using AdminUI.STS.Identity.Configuration;
 
 namespace AdminUI.STS.Identity.ViewModels.Account
 {

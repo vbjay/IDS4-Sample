@@ -4,13 +4,15 @@
 // Original file: https://github.com/IdentityServer/IdentityServer4.Quickstart.UI
 // Modified by Jan �koruba
 
-using System.Linq;
-using System.Threading.Tasks;
+using AdminUI.STS.Identity.Helpers;
+using AdminUI.STS.Identity.ViewModels.Diagnostics;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using AdminUI.STS.Identity.Helpers;
-using AdminUI.STS.Identity.ViewModels.Diagnostics;
+
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdminUI.STS.Identity.Controllers
 {

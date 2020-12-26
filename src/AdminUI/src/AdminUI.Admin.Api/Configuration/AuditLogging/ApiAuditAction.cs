@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+
 using Skoruba.AuditLogging.Events;
 
 namespace AdminUI.Admin.Api.AuditLogging

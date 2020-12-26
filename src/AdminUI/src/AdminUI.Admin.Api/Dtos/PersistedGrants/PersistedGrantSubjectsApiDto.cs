@@ -7,7 +7,7 @@ namespace AdminUI.Admin.Api.Dtos.PersistedGrants
         public PersistedGrantSubjectsApiDto()
         {
             PersistedGrants = new List<PersistedGrantSubjectApiDto>();
-        }        
+        }
 
         public int TotalCount { get; set; }
 

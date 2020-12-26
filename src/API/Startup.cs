@@ -82,24 +82,24 @@ namespace api
             {
                 app.UseDeveloperExceptionPage();
             }
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("v1/swagger.json", "api v1");
-                    c.OAuthClientId("weather-swagger");
-                    c.OAuthClientSecret("SuperSecretPassword");
-                });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "api v1");
+                c.OAuthClientId("weather-swagger");
+                c.OAuthClientSecret("SuperSecretPassword");
+            });
 
 
-                app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
-                app.UseRouting();
+            app.UseRouting();
 
-                app.UseAuthentication();
-                app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-                app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
-            
+            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+
         }
     }
 }

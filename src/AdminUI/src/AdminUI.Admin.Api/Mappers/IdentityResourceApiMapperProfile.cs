@@ -1,5 +1,7 @@
-﻿using AutoMapper;
-using AdminUI.Admin.Api.Dtos.IdentityResources;
+﻿using AdminUI.Admin.Api.Dtos.IdentityResources;
+
+using AutoMapper;
+
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Configuration;
 
 namespace AdminUI.Admin.Api.Mappers

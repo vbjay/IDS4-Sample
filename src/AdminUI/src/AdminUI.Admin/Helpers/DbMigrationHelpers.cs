@@ -1,19 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AdminUI.Admin.Configuration;
+using AdminUI.Admin.Configuration.Interfaces;
+
 using IdentityModel;
+
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
+
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
 using Skoruba.AuditLogging.EntityFramework.Entities;
-using AdminUI.Admin.Configuration;
-using AdminUI.Admin.Configuration.Interfaces;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Helpers
 {

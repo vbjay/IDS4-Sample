@@ -1,7 +1,10 @@
-﻿using IdentityModel;
+﻿using AdminUI.STS.Identity.Configuration.Constants;
+
+using IdentityModel;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using AdminUI.STS.Identity.Configuration.Constants;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

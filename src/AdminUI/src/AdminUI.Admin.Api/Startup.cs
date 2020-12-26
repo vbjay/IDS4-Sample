@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using Skoruba.AuditLogging.EntityFramework.Entities;
-using AdminUI.Admin.Api.Configuration;
+﻿using AdminUI.Admin.Api.Configuration;
 using AdminUI.Admin.Api.Configuration.Authorization;
 using AdminUI.Admin.Api.ExceptionHandling;
 using AdminUI.Admin.Api.Helpers;
@@ -22,6 +9,21 @@ using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
 using AdminUI.Shared.Dtos;
 using AdminUI.Shared.Dtos.Identity;
 using AdminUI.Shared.Helpers;
+
+using HealthChecks.UI.Client;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+
+using Skoruba.AuditLogging.EntityFramework.Entities;
+
+using System;
+using System.Collections.Generic;
 
 namespace AdminUI.Admin.Api
 {

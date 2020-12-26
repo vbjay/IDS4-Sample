@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AdminUI.Admin.Configuration.Constants
+﻿namespace AdminUI.Admin.Configuration.Constants
 {
     public class ConfigurationConsts
     {

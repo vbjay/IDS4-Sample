@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AdminUI.Admin.Configuration.Interfaces;
+﻿using AdminUI.Admin.Configuration.Interfaces;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace AdminUI.Admin.ViewComponents
 {
@@ -15,7 +16,7 @@ namespace AdminUI.Admin.ViewComponents
         public IViewComponentResult Invoke()
         {
             var identityServerUrl = _configuration.AdminConfiguration.IdentityServerBaseUrl;
-            
+
             return View(model: identityServerUrl);
         }
     }

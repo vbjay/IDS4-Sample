@@ -4,7 +4,7 @@ namespace AdminUI.Shared.Dtos.Identity
 {
     public class IdentityRoleClaimsDto : RoleClaimsDto<IdentityRoleClaimDto, string>
     {
-        
+
     }
 }
 

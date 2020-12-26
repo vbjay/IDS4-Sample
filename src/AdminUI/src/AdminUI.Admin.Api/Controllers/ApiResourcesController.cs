@@ -1,14 +1,16 @@
-﻿using System.Threading.Tasks;
-using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using AdminUI.Admin.Api.Configuration.Constants;
+﻿using AdminUI.Admin.Api.Configuration.Constants;
 using AdminUI.Admin.Api.Dtos.ApiResources;
 using AdminUI.Admin.Api.ExceptionHandling;
 using AdminUI.Admin.Api.Mappers;
 using AdminUI.Admin.Api.Resources;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Configuration;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Services.Interfaces;
+
+using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Api.Controllers
 {
@@ -49,7 +51,7 @@ namespace AdminUI.Admin.Api.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Post([FromBody]ApiResourceApiDto apiResourceApi)
+        public async Task<IActionResult> Post([FromBody] ApiResourceApiDto apiResourceApi)
         {
             var apiResourceDto = apiResourceApi.ToApiResourceApiModel<ApiResourceDto>();
 
@@ -65,7 +67,7 @@ namespace AdminUI.Admin.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ApiResourceApiDto apiResourceApi)
+        public async Task<IActionResult> Put([FromBody] ApiResourceApiDto apiResourceApi)
         {
             var apiResourceDto = apiResourceApi.ToApiResourceApiModel<ApiResourceDto>();
 
@@ -85,7 +87,7 @@ namespace AdminUI.Admin.Api.Controllers
 
             return Ok();
         }
-        
+
         [HttpGet("{id}/Secrets")]
         public async Task<ActionResult<ApiSecretsApiDto>> GetSecrets(int id, int page = 1, int pageSize = 10)
         {
@@ -107,7 +109,7 @@ namespace AdminUI.Admin.Api.Controllers
         [HttpPost("{id}/Secrets")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> PostSecret(int id, [FromBody]ApiSecretApiDto clientSecretApi)
+        public async Task<IActionResult> PostSecret(int id, [FromBody] ApiSecretApiDto clientSecretApi)
         {
             var secretsDto = clientSecretApi.ToApiResourceApiModel<ApiSecretsDto>();
             secretsDto.ApiResourceId = id;
@@ -155,7 +157,7 @@ namespace AdminUI.Admin.Api.Controllers
         [HttpPost("{id}/Properties")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> PostProperty(int id, [FromBody]ApiResourcePropertyApiDto apiPropertyApi)
+        public async Task<IActionResult> PostProperty(int id, [FromBody] ApiResourcePropertyApiDto apiPropertyApi)
         {
             var apiResourcePropertiesDto = apiPropertyApi.ToApiResourceApiModel<ApiResourcePropertiesDto>();
             apiResourcePropertiesDto.ApiResourceId = id;

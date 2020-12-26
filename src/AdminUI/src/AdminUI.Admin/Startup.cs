@@ -1,5 +1,15 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using AdminUI.Admin.Configuration;
+using AdminUI.Admin.Configuration.Constants;
+using AdminUI.Admin.Configuration.Interfaces;
+using AdminUI.Admin.EntityFramework.Shared.DbContexts;
+using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
+using AdminUI.Admin.Helpers;
+using AdminUI.Shared.Dtos;
+using AdminUI.Shared.Dtos.Identity;
+using AdminUI.Shared.Helpers;
+
 using HealthChecks.UI.Client;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -7,17 +17,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Skoruba.AuditLogging.EntityFramework.Entities;
-using AdminUI.Admin.Configuration.Interfaces;
-using AdminUI.Admin.EntityFramework.Shared.DbContexts;
-using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
-using AdminUI.Admin.Helpers;
-using AdminUI.Admin.Configuration;
-using AdminUI.Admin.Configuration.Constants;
+
 using System;
-using AdminUI.Shared.Dtos;
-using AdminUI.Shared.Dtos.Identity;
-using AdminUI.Shared.Helpers;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace AdminUI.Admin
 {
@@ -133,7 +137,6 @@ namespace AdminUI.Admin
 
         public virtual void RegisterAuthentication(IServiceCollection services)
         {
-            var rootConfiguration = CreateRootConfiguration();
             services.AddAuthenticationServices<AdminIdentityDbContext, UserIdentity, UserIdentityRole>(Configuration);
         }
 

@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using AdminUI.Admin.Api.Configuration.Constants;
+﻿using AdminUI.Admin.Api.Configuration.Constants;
 using AdminUI.Admin.Api.Dtos.PersistedGrants;
 using AdminUI.Admin.Api.ExceptionHandling;
 using AdminUI.Admin.Api.Helpers;
 using AdminUI.Admin.Api.Mappers;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Services.Interfaces;
+
+using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Api.Controllers
 {

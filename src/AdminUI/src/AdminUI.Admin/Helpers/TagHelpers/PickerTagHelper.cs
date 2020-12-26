@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Html;
+﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+
 using Newtonsoft.Json;
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AdminUI.Admin.Helpers.TagHelpers
 {
@@ -38,7 +40,7 @@ namespace AdminUI.Admin.Helpers.TagHelpers
         public bool AllowItemAlreadySelectedNotification { get; set; } = true;
 
         public string ItemAlreadySelectedTitle { get; set; }
-        
+
         public bool AllowSuggestedItems { get; set; } = true;
 
         public int TopSuggestedItems { get; set; } = 5;
