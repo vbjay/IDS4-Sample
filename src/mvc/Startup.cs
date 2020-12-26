@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using mvc.Models;
+
 using System;
 using System.Threading.Tasks;
 
@@ -25,6 +27,8 @@ namespace mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<ConfigOptions>(Configuration);
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "cookie";
