@@ -71,5 +71,8 @@ deploy:
 - provider: Environment
   aspnet_core_force_restart: true
   name: DemoIDS-Admin
+- provider: Environment
+  aspnet_core_force_restart: true
+  name: DemoIDS-MVC
 on_finish:
 #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
