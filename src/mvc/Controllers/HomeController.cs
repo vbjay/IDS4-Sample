@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using mvc.Models;
@@ -17,10 +18,12 @@ namespace mvc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _config;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,IConfiguration config)
         {
             _logger = logger;
+            _config = config;
         }
 
         public IActionResult Index()
@@ -44,7 +47,7 @@ namespace mvc.Controllers
         {
 
             var token = await HttpContext.GetTokenAsync("access_token");
-            var client = new RestClient("https://localhost:44385");
+            var client = new RestClient(_config["Apis:Weather:URL"]);
             client.Authenticator = new JwtAuthenticator(token);
             var req = new RestRequest("/WeatherForecast", Method.GET);
             var res = await client.ExecuteAsync<List<WeatherForecast>>(req);

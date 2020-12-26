@@ -28,7 +28,7 @@ namespace api
                 .AddIdentityServerAuthentication("Bearer", options =>
                 {
                     options.ApiName = "weather";
-                    options.Authority = "https://localhost:44310";// pay attention to the correct port the ids project runs under when you debug. will adjust to use config later on
+                    options.Authority = Configuration["Auth:Authority"];// pay attention to the correct port the ids project runs under when you debug.
                 });
 
             services.AddAuthorization(c =>
@@ -61,7 +61,7 @@ namespace api
                             Scopes = new Dictionary<string, string> {
                                 { "weather.read", "Read Access to Weather API" } ,
                                 { "weather.write", "Write Access to Weather API" } },// the roles you want to get
-                            TokenUrl = new Uri("https://localhost:44310/connect/token"),
+                            TokenUrl = new Uri($"{Configuration["Auth:Authority"]}/connect/token"),
                         }
                     }
                 });

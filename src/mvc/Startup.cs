@@ -37,9 +37,9 @@ namespace mvc
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://localhost:44310";//ids4 url
-                    options.ClientId = "oidcClient";
-                    options.ClientSecret = "SuperSecretPassword";
+                    options.Authority = Configuration["Auth:Authority"];
+                    options.ClientId = Configuration["Auth:ClientID"];
+                    options.ClientSecret = Configuration["Auth:Secret"];
                     options.ResponseType = "code";
                     options.UsePkce = true;
                     options.ResponseMode = "query";
