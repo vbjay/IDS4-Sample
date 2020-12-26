@@ -63,7 +63,13 @@ artifacts:
   name: dir
 - path: git-status.txt
   name: git-Status
-
+on_finish:
+#- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+branches:
+  only:
+  - develop
+  - master
+  - pr\/\S* #pull requests I push to my repo pr/1234
 deploy:
 - provider: Environment
   aspnet_core_force_restart: true
@@ -77,5 +83,3 @@ deploy:
 - provider: Environment
   aspnet_core_force_restart: true
   name: DemoIDS-Weather
-on_finish:
-#- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
