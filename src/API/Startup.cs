@@ -81,6 +81,7 @@ namespace api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
@@ -98,7 +99,7 @@ namespace api
                 app.UseAuthorization();
 
                 app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
-            }
+            
         }
     }
 }
