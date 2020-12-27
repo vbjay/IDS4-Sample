@@ -83,3 +83,6 @@ deploy:
 - provider: Environment
   aspnet_core_force_restart: true
   name: DemoIDS-Weather
+- provider: Environment
+  aspnet_core_force_restart: true
+  name: DemoIDS-API
