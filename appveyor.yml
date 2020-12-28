@@ -116,3 +116,15 @@ deploy:
   name: DemoIDS-API
   Site_Prefix: $(Site_Prefix)
   Sub_Site: $(Sub_Site)
+- provider: GitHub
+  tag: v$(appveyor_build_version)
+  release: IDS4-Sample-v$(appveyor_build_version)
+  description: 'Release description'
+  auth_token:
+    secure: yuRb32i1vpjHRxorNVKfP7PHoGp+XoqWfwlGiYRdMbBowLBejD5afpzkTxtZmbT0 # your encrypted token from GitHub
+  artifact: mvc;api;AdminUI.Admin;AdminUI.STS.Identity;AdminUI.Admin.Api            
+  draft: true
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    
