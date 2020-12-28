@@ -20,6 +20,22 @@ environment:
   - nodejs_version: 14
 nuget:
   disable_publish_octopus: true
+for:
+-
+  branches:
+    only:
+      - master
+  environment:
+    Site_Prefix: identity
+    Sub_Site: subsite9
+-
+  branches:
+    only:
+      - develop
+  environment:
+    Site_Prefix: demoids
+    Sub_Site: subsite8
+
 before_build:
 - ps: >-
     pwd
@@ -40,12 +56,16 @@ before_build:
     npm --version
 
 
-    cd src\AdminUI\src\AdminUI.Admin; npm i; gulp
+    cd src\AdminUI\src\AdminUI.Admin; npm i; gulp;
 
 
-    cd ..\AdminUI.STS.Identity; npm i; gulp
+    cd ..\AdminUI.STS.Identity; npm i; gulp;
 
     cd ..\..\..\..\
+
+    Write-Host "Sub_Site:$env:Sub_Site"
+
+    Write-Host "Site_Prefix:$env:Site_Prefix"
 build:
   project: src/projects.sln
   publish_wap: true
@@ -69,20 +89,30 @@ branches:
   only:
   - develop
   - master
-  - pr\/\S* #pull requests I push to my repo pr/1234
+  #- pr\/\S* #pull requests I push to my repo pr/1234
 deploy:
 - provider: Environment
   aspnet_core_force_restart: true
   name: DemoIDS-STS
+  Site_Prefix: $(Site_Prefix)
+  Sub_Site: $(Sub_Site)
 - provider: Environment
   aspnet_core_force_restart: true
   name: DemoIDS-Admin
+  Site_Prefix: $(Site_Prefix)
+  Sub_Site: $(Sub_Site)
 - provider: Environment
   aspnet_core_force_restart: true
   name: DemoIDS-MVC
+  Site_Prefix: $(Site_Prefix)
+  Sub_Site: $(Sub_Site)
 - provider: Environment
   aspnet_core_force_restart: true
   name: DemoIDS-Weather
+  Site_Prefix: $(Site_Prefix)
+  Sub_Site: $(Sub_Site)
 - provider: Environment
   aspnet_core_force_restart: true
   name: DemoIDS-API
+  Site_Prefix: $(Site_Prefix)
+  Sub_Site: $(Sub_Site)
