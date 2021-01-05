@@ -11,7 +11,7 @@
     "dependencies": {
         "bootstrap": "4.5.3",
         "font-awesome": "4.7.0",
-        "holderjs": "2.9.6",
+        "holderjs": "2.9.8",
         "jquery": "3.5.1",
         "jquery-validation": "1.19.2",
         "jquery-validation-unobtrusive": "3.2.11",
