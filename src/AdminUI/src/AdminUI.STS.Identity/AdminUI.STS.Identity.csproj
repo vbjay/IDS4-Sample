@@ -36,7 +36,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />
-        <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.6" />
+        <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="5.0.2" />
         <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.1" />
         <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
         <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
