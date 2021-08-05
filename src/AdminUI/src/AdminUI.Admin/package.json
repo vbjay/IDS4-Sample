@@ -25,7 +25,7 @@
         "tempusdominus-core": "5.0.3",
         "toastr": "2.1.4",
         "bootstrap-datepicker": "1.9.0",
-        "bootswatch": "4.6.0"
+        "bootswatch": "5.1.0"
     },
     "devDependencies": {
         "gulp": "4.0.2",
