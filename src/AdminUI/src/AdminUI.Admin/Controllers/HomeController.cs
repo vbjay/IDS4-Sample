@@ -12,7 +12,7 @@ using System;
 
 namespace AdminUI.Admin.Controllers
 {
-    [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
+    [Authorize(Policy = AuthorizationConsts.AdministrationReadonlyPolicy)]
     [TypeFilter(typeof(ControllerExceptionFilterAttribute))]
     public class HomeController : BaseController
     {

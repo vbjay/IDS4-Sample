@@ -2,7 +2,10 @@
   "IdentityData": {
     "Roles": [
       {
-        "Name": "Administrator"
+        "Name": "Administrator",
+      },
+      {
+        "Name": "ReadonlyAdmin"
       }
     ],
     "Users": [

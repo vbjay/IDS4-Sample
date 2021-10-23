@@ -5,7 +5,7 @@
 @using AdminUI.STS.Identity.Configuration.Constants
 @inject IAuthorizationService AuthorizationService
 
-@if ((await AuthorizationService.AuthorizeAsync(User, AuthorizationConsts.AdministrationPolicy)).Succeeded)
+@if ((await AuthorizationService.AuthorizeAsync(User, AuthorizationConsts.AdministrationReadonlyPolicy)).Succeeded)
 {
     <a class="menu-item my-2 btn btn-outline-primary mr-md-3" href="@Model">@Localizer["IdentityServerAdmin"]</a>
 }
