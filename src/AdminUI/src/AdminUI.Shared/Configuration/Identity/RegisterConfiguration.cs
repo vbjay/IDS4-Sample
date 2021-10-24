@@ -3,6 +3,7 @@
     public class RegisterConfiguration
     {
         public bool Enabled { get; set; } = true;
+        public string DefaultRoles { get; set; } = "";
     }
 }
 
