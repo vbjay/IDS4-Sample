@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
       <Version>2.0.0-beta1</Version>
       <Authors>Jan Škoruba</Authors>
       <PackageTags>IdentityServer4 Admin OpenIDConnect OAuth2 Identity</PackageTags>
@@ -12,13 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.AzureKeyVault" Version="3.1.9" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="3.1.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.9" />
-    <PackageReference Include="Sendgrid" Version="9.21.0" />
-    <PackageReference Include="Skoruba.IdentityServer4.Admin.BusinessLogic.Identity" Version="2.0.0-beta1" />
+    <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.AzureKeyVault" Version="3.1.20" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="5.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.20" />
+    <PackageReference Include="Sendgrid" Version="9.24.4" />
+    <PackageReference Include="Skoruba.IdentityServer4.Admin.BusinessLogic.Identity" Version="2.0.1" />
   </ItemGroup>
 
 </Project>

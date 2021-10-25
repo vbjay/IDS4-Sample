@@ -1,13 +1,13 @@
-﻿Imports IdentityModel.OidcClient.Browser
-Imports Microsoft.AspNetCore.Builder
-Imports Microsoft.AspNetCore.Hosting
-Imports Microsoft.AspNetCore.Http
-Imports System.IO
+﻿Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Threading
+Imports IdentityModel.OidcClient.Browser
+Imports Microsoft.AspNetCore.Builder
+Imports Microsoft.AspNetCore.Hosting
+Imports Microsoft.AspNetCore.Http
 
 
 Public Class SystemBrowser
@@ -96,6 +96,22 @@ Public Class LoopbackHttpListener
     Implements IDisposable
 
     Const DefaultTimeout As Integer = 60 * 5
+    Private Const INVALID_REQUEST As String = "<h1>Invalid request.</h1>"
+    Const VALID_RESPONSE As String = "
+<html>
+<head>
+    <script type=""text/javascript"">
+        function closeMe() {
+            window.close();
+        }
+        setTimeout(closeMe, 500);
+    </script>
+<body>
+    <h1>
+        You can now return to the application.
+    </h1>
+</body>
+</html>"
     Private _host As IWebHost
     Private _source As TaskCompletionSource(Of String) = New TaskCompletionSource(Of String)()
     Private _url As String
@@ -125,7 +141,7 @@ Public Class LoopbackHttpListener
         app.Run(Async Function(ctx)
 
                     If ctx.Request.Method = "GET" Then
-                        SetResult(ctx.Request.QueryString.Value, ctx)
+                        Await SetResult(ctx.Request.QueryString.Value, ctx)
                     ElseIf ctx.Request.Method = "POST" Then
 
                         If Not ctx.Request.ContentType.Equals("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase) Then
@@ -134,7 +150,7 @@ Public Class LoopbackHttpListener
 
                             Using sr = New StreamReader(ctx.Request.Body, Encoding.UTF8)
                                 Dim body = Await sr.ReadToEndAsync()
-                                SetResult(body, ctx)
+                                Await SetResult(body, ctx)
                             End Using
                         End If
                     Else
@@ -143,35 +159,23 @@ Public Class LoopbackHttpListener
                 End Function)
     End Sub
 
-    Private Sub SetResult(ByVal value As String, ByVal ctx As HttpContext)
-        Dim rsp As String = "
-<html>
-<head>
-    <script type=""text/javascript"">
-        function closeMe() {
-            window.close();
-        }
-        setTimeout(closeMe, 500);
-    </script>
-<body>
-    <h1>
-        You can now return to the application.
-    </h1>
-</body>
-</html>".Replace(vbCrLf, "")
+    Private Async Function SetResult(ByVal value As String, ByVal ctx As HttpContext) As Task
         Try
+
+            ctx.Response.Headers.TryAdd("date", DateTimeOffset.Now.ToString("O"))
             ctx.Response.StatusCode = 200
             ctx.Response.ContentType = "text/html"
-            ctx.Response.WriteAsync(rsp)
+            Await ctx.Response.WriteAsync(VALID_RESPONSE.Replace(vbCrLf, ""), Encoding.UTF8)
             ctx.Response.Body.Flush()
             _source.TrySetResult(value)
         Catch
             ctx.Response.StatusCode = 400
             ctx.Response.ContentType = "text/html"
-            ctx.Response.WriteAsync("<h1>Invalid request.</h1>")
+            ctx.Response.WriteAsync(INVALID_REQUEST, Encoding.UTF8).Wait()
             ctx.Response.Body.Flush()
+            _source.TrySetResult(value)
         End Try
-    End Sub
+    End Function
 
     Public Function WaitForCallbackAsync(ByVal Optional timeoutInSeconds As Integer = DefaultTimeout) As Task(Of String)
         Task.Run(Async Function()
