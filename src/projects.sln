@@ -25,7 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminUI.Shared", "AdminUI\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminUI.STS.Identity", "AdminUI\src\AdminUI.STS.Identity\AdminUI.STS.Identity.csproj", "{7C90E9CC-3AB9-4A34-9227-0F2EF92DFA85}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VB Winforms", "VB Winforms\VB Winforms.vbproj", "{712A5A40-11CA-4BA2-BDF2-8CBA832770D8}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "VB Winforms", "VB Winforms\VB Winforms.vbproj", "{712A5A40-11CA-4BA2-BDF2-8CBA832770D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDBDA550-830F-48E6-811C-1E1F89E8533C}"
+	ProjectSection(SolutionItems) = preProject
+		..\readme.md = ..\readme.md
+		AdminUI\readme.md = AdminUI\readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
