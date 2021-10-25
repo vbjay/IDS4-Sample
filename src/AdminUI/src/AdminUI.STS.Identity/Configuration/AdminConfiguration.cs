@@ -7,6 +7,7 @@
         public string FaviconUri { get; set; }
         public string IdentityAdminBaseUrl { get; set; }
         public string AdministrationRole { get; set; }
+        public string AdministrationReadonlyRole { get; set; }
 
         public string Theme { get; set; }
 

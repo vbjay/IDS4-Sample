@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Controllers
 {
-    [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
+    [Authorize(Policy = AuthorizationConsts.AdministrationReadonlyPolicy)]
     [TypeFilter(typeof(ControllerExceptionFilterAttribute))]
     public class GrantController : BaseController
     {
@@ -50,6 +50,7 @@ namespace AdminUI.Admin.Controllers
         }
 
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PersistedGrantDelete(PersistedGrantDto grant)
@@ -61,6 +62,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(PersistedGrants));
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PersistedGrantsDelete(PersistedGrantsDto grants)

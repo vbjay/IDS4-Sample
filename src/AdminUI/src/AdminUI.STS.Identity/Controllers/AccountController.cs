@@ -455,9 +455,12 @@ namespace AdminUI.STS.Identity.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-
-                        return RedirectToLocal(returnUrl);
+                        result = await AddDefaultUserRoles(user, result);
+                        if (result.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return RedirectToLocal(returnUrl);
+                        }
                     }
                 }
 
@@ -468,6 +471,16 @@ namespace AdminUI.STS.Identity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
 
             return View(model);
+        }
+
+        private async Task<IdentityResult> AddDefaultUserRoles(TUser user, IdentityResult result)
+        {
+            if (!string.IsNullOrEmpty(_registerConfiguration.DefaultRoles))
+            {
+                result = await _userManager.AddToRolesAsync(user, _registerConfiguration.DefaultRoles.Split(";", StringSplitOptions.RemoveEmptyEntries));
+            }
+
+            return result;
         }
 
         [HttpGet]
@@ -618,20 +631,25 @@ namespace AdminUI.STS.Identity.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, HttpContext.Request.Scheme);
 
-                await _emailSender.SendEmailAsync(model.Email, _localizer["ConfirmEmailTitle"], _localizer["ConfirmEmailBody", HtmlEncoder.Default.Encode(callbackUrl)]);
+                result = await AddDefaultUserRoles(user, result);
+                if (result.Succeeded)
+                {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, HttpContext.Request.Scheme);
 
-                if (_identityOptions.SignIn.RequireConfirmedAccount)
-                {
-                    return View("RegisterConfirmation");
-                }
-                else
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    await _emailSender.SendEmailAsync(model.Email, _localizer["ConfirmEmailTitle"], _localizer["ConfirmEmailBody", HtmlEncoder.Default.Encode(callbackUrl)]);
+
+                    if (_identityOptions.SignIn.RequireConfirmedAccount)
+                    {
+                        return View("RegisterConfirmation");
+                    }
+                    else
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
                 }
             }
 

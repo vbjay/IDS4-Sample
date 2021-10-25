@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Controllers
 {
-    [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
+    [Authorize(Policy = AuthorizationConsts.AdministrationReadonlyPolicy)]
     public class LogController : BaseController
     {
         private readonly ILogService _logService;
@@ -48,6 +48,7 @@ namespace AdminUI.Admin.Controllers
             return View(logs);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteLogs(LogsDto log)
@@ -62,6 +63,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(ErrorsLog));
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteAuditLogs(AuditLogsDto log)

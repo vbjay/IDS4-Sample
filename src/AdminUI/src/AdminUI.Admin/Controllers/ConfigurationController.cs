@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Controllers
 {
-    [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
+    [Authorize(Policy = AuthorizationConsts.AdministrationReadonlyPolicy)]
     [TypeFilter(typeof(ControllerExceptionFilterAttribute))]
     public class ConfigurationController : BaseController
     {
@@ -57,6 +57,7 @@ namespace AdminUI.Admin.Controllers
             return View(client);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Client(ClientDto client)
@@ -95,6 +96,7 @@ namespace AdminUI.Admin.Controllers
             return View(client);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClientClone(ClientCloneDto client)
@@ -120,6 +122,7 @@ namespace AdminUI.Admin.Controllers
             return View(client);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClientDelete(ClientDto client)
@@ -171,6 +174,7 @@ namespace AdminUI.Admin.Controllers
             return View(properties);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiScopeProperties(ApiScopePropertiesDto apiScopeProperty)
@@ -186,6 +190,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(ApiScopeProperties), new { Id = apiScopeProperty.ApiScopeId });
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiResourceProperties(ApiResourcePropertiesDto apiResourceProperty)
@@ -211,6 +216,7 @@ namespace AdminUI.Admin.Controllers
             return View(properties);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> IdentityResourceProperties(IdentityResourcePropertiesDto identityResourceProperty)
@@ -226,6 +232,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(IdentityResourceProperties), new { Id = identityResourceProperty.IdentityResourceId });
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClientProperties(ClientPropertiesDto clientProperty)
@@ -241,6 +248,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(ClientProperties), new { Id = clientProperty.ClientId });
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClientClaims(ClientClaimsDto clientClaim)
@@ -296,6 +304,7 @@ namespace AdminUI.Admin.Controllers
             return View(nameof(ApiScopePropertyDelete), apiScopeProperty);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiScopePropertyDelete(ApiScopePropertiesDto apiScopeProperty)
@@ -316,6 +325,7 @@ namespace AdminUI.Admin.Controllers
             return View(nameof(IdentityResourcePropertyDelete), identityResourceProperty);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         public async Task<IActionResult> ClientClaimDelete(ClientClaimsDto clientClaim)
         {
@@ -325,6 +335,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(ClientClaims), new { Id = clientClaim.ClientId });
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClientPropertyDelete(ClientPropertiesDto clientProperty)
@@ -335,6 +346,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(ClientProperties), new { Id = clientProperty.ClientId });
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiResourcePropertyDelete(ApiResourcePropertiesDto apiResourceProperty)
@@ -345,6 +357,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(ApiResourceProperties), new { Id = apiResourceProperty.ApiResourceId });
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> IdentityResourcePropertyDelete(IdentityResourcePropertiesDto identityResourceProperty)
@@ -366,6 +379,7 @@ namespace AdminUI.Admin.Controllers
             return View(clientSecrets);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClientSecrets(ClientSecretsDto clientSecret)
@@ -386,6 +400,7 @@ namespace AdminUI.Admin.Controllers
             return View(nameof(ClientSecretDelete), clientSecret);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClientSecretDelete(ClientSecretsDto clientSecret)
@@ -454,6 +469,7 @@ namespace AdminUI.Admin.Controllers
             return View(identityResource);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> IdentityResourceDelete(IdentityResourceDto identityResource)
@@ -464,6 +480,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(IdentityResources));
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> IdentityResource(IdentityResourceDto identityResource)
@@ -492,6 +509,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(IdentityResource), new { Id = identityResourceId });
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiResource(ApiResourceDto apiResource)
@@ -532,6 +550,7 @@ namespace AdminUI.Admin.Controllers
             return View(apiResource);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiResourceDelete(ApiResourceDto apiResource)
@@ -569,6 +588,7 @@ namespace AdminUI.Admin.Controllers
             return View(apiSecrets);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiSecrets(ApiSecretsDto apiSecret)
@@ -610,6 +630,7 @@ namespace AdminUI.Admin.Controllers
             }
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiScope(ApiScopeDto apiScope)
@@ -648,6 +669,7 @@ namespace AdminUI.Admin.Controllers
             return View(nameof(ApiScopeDelete), apiScope);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiScopeDelete(ApiScopeDto apiScope)
@@ -686,6 +708,7 @@ namespace AdminUI.Admin.Controllers
             return View(nameof(ApiSecretDelete), clientSecret);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApiSecretDelete(ApiSecretsDto apiSecret)

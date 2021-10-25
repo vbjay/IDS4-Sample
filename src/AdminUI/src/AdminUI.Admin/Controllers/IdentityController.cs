@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Controllers
 {
-    [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
+    [Authorize(Policy = AuthorizationConsts.AdministrationReadonlyPolicy)]
     [TypeFilter(typeof(ControllerExceptionFilterAttribute))]
     public class IdentityController<TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken,
             TUsersDto, TRolesDto, TUserRolesDto, TUserClaimsDto,
@@ -89,6 +89,7 @@ namespace AdminUI.Admin.Controllers
             return View(role);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Role(TRoleDto role)
@@ -137,6 +138,7 @@ namespace AdminUI.Admin.Controllers
             return View(roleUsers);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserProfile(TUserDto user)
@@ -192,6 +194,7 @@ namespace AdminUI.Admin.Controllers
             return View(userRoles);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserRoles(TUserRolesDto role)
@@ -222,6 +225,7 @@ namespace AdminUI.Admin.Controllers
             return View(rolesDto);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserRolesDelete(TUserRolesDto role)
@@ -232,6 +236,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(UserRoles), new { Id = role.UserId });
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserClaims(TUserClaimsDto claim)
@@ -273,6 +278,7 @@ namespace AdminUI.Admin.Controllers
             return View(claim);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserClaimsDelete(TUserClaimsDto claim)
@@ -304,6 +310,7 @@ namespace AdminUI.Admin.Controllers
             return View(provider);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserProvidersDelete(TUserProviderDto provider)
@@ -325,6 +332,7 @@ namespace AdminUI.Admin.Controllers
             return View(userDto);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserChangePassword(TUserChangePasswordDto userPassword)
@@ -351,6 +359,7 @@ namespace AdminUI.Admin.Controllers
             return View(userPassword);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RoleClaims(TRoleClaimsDto claim)
@@ -388,6 +397,7 @@ namespace AdminUI.Admin.Controllers
             return View(claim);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RoleClaimsDelete(TRoleClaimsDto claim)
@@ -409,6 +419,7 @@ namespace AdminUI.Admin.Controllers
             return View(roleDto);
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RoleDelete(TRoleDto role)
@@ -419,6 +430,7 @@ namespace AdminUI.Admin.Controllers
             return RedirectToAction(nameof(Roles));
         }
 
+        [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserDelete(TUserDto user)

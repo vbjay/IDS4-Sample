@@ -250,6 +250,10 @@ namespace AdminUI.Admin.Helpers
             {
                 options.AddPolicy(AuthorizationConsts.AdministrationPolicy,
                     policy => policy.RequireRole(rootConfiguration.AdminConfiguration.AdministrationRole));
+
+
+                options.AddPolicy(AuthorizationConsts.AdministrationReadonlyPolicy,
+                   policy => policy.RequireRole(rootConfiguration.AdminConfiguration.AdministrationRole, rootConfiguration.AdminConfiguration.AdministrationReadonlyRole));
             });
         }
 
