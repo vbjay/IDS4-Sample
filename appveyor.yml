@@ -17,7 +17,7 @@ environment:
     secure: PDnMJMu+zMr55PcG/CJPZw==
   OCTOPUS_PACKAGE_NUGET: true
   matrix:
-  - nodejs_version: 14
+  - nodejs_version: lts
 nuget:
   disable_publish_octopus: true
 for:
