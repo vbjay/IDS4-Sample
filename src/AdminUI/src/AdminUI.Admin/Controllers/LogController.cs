@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Controllers
 {
-    [Authorize(Policy = AuthorizationConsts.AdministrationReadonlyPolicy)]
+    [Authorize(Policy = AuthorizationConsts.AdministrationPolicy)]
     public class LogController : BaseController
     {
         private readonly ILogService _logService;
