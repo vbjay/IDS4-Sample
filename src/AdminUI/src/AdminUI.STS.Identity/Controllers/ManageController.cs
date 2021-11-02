@@ -1,4 +1,5 @@
-﻿using AdminUI.STS.Identity.Helpers;
+﻿using AdminUI.STS.Identity.Configuration;
+using AdminUI.STS.Identity.Helpers;
 using AdminUI.STS.Identity.Helpers.Localization;
 using AdminUI.STS.Identity.ViewModels.Manage;
 
@@ -31,6 +32,7 @@ namespace AdminUI.STS.Identity.Controllers
         private readonly ILogger<ManageController<TUser, TKey>> _logger;
         private readonly IGenericControllerLocalizer<ManageController<TUser, TKey>> _localizer;
         private readonly UrlEncoder _urlEncoder;
+        private readonly RootConfiguration _config;
 
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
@@ -38,7 +40,7 @@ namespace AdminUI.STS.Identity.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-        public ManageController(UserManager<TUser> userManager, SignInManager<TUser> signInManager, IEmailSender emailSender, ILogger<ManageController<TUser, TKey>> logger, IGenericControllerLocalizer<ManageController<TUser, TKey>> localizer, UrlEncoder urlEncoder)
+        public ManageController(UserManager<TUser> userManager, SignInManager<TUser> signInManager, IEmailSender emailSender, ILogger<ManageController<TUser, TKey>> logger, IGenericControllerLocalizer<ManageController<TUser, TKey>> localizer, UrlEncoder urlEncoder, RootConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +48,7 @@ namespace AdminUI.STS.Identity.Controllers
             _logger = logger;
             _localizer = localizer;
             _urlEncoder = urlEncoder;
+            _config = config;
         }
 
         [HttpGet]
@@ -725,7 +728,7 @@ namespace AdminUI.STS.Identity.Controllers
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("AdminUI.STS.Identity"),
+                _urlEncoder.Encode(_config.AdminConfiguration.PageTitle),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
