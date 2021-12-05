@@ -42,7 +42,7 @@ namespace AdminUI.Shared.Email
             _logger.LogInformation($"Sending email: {email}, subject: {subject}, message: {htmlMessage}");
             try
             {
-                var from = String.IsNullOrEmpty(_configuration.From) ? _configuration.Login : _configuration.From;
+                var from = string.IsNullOrEmpty(_configuration.From) ? _configuration.Login : _configuration.From;
                 var mail = new MailMessage(from, email);
                 mail.IsBodyHtml = true;
                 mail.Subject = subject;
