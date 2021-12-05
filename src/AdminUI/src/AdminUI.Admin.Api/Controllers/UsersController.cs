@@ -119,7 +119,9 @@ namespace AdminUI.Admin.Api.Controllers
         public async Task<IActionResult> Delete(TKey id)
         {
             if (IsDeleteForbidden(id))
+            {
                 return StatusCode((int)System.Net.HttpStatusCode.Forbidden);
+            }
 
             var user = new TUserDto { Id = id };
 

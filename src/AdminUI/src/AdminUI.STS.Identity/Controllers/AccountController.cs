@@ -596,7 +596,10 @@ namespace AdminUI.STS.Identity.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
-            if (!_registerConfiguration.Enabled) return View("RegisterFailure");
+            if (!_registerConfiguration.Enabled)
+            {
+                return View("RegisterFailure");
+            }
 
             ViewData["ReturnUrl"] = returnUrl;
 
@@ -620,7 +623,10 @@ namespace AdminUI.STS.Identity.Controllers
 
             ViewData["ReturnUrl"] = returnUrl;
 
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             var user = new TUser
             {

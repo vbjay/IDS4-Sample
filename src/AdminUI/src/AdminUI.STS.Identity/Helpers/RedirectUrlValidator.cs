@@ -19,7 +19,11 @@ namespace AdminUI.STS.Identity.Helpers
         /// <returns></returns>
         protected bool StringCollectionContainsString(IEnumerable<string> uris, string requestedUri)
         {
-            if (uris.IsNullOrEmpty()) return false;
+            if (uris.IsNullOrEmpty())
+            {
+                return false;
+            }
+
             var parsed = uris.Select(u =>
             {
                 Uri p;
@@ -32,10 +36,14 @@ namespace AdminUI.STS.Identity.Helpers
 
                     }
                     else
+                    {
                         return uris.Contains(requestedUri, StringComparer.OrdinalIgnoreCase);//strict check 
+                    }
                 }
                 else
+                {
                     return false;
+                }
             });
             return parsed.Any(v => true);
         }

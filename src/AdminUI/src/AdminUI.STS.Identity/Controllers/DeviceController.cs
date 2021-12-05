@@ -54,10 +54,16 @@ namespace AdminUI.STS.Identity.Controllers
         {
             string userCodeParamName = _options.Value.UserInteraction.DeviceVerificationUserCodeParameter;
             string userCode = Request.Query[userCodeParamName];
-            if (string.IsNullOrWhiteSpace(userCode)) return View("UserCodeCapture");
+            if (string.IsNullOrWhiteSpace(userCode))
+            {
+                return View("UserCodeCapture");
+            }
 
             var vm = await BuildViewModelAsync(userCode);
-            if (vm == null) return View("Error");
+            if (vm == null)
+            {
+                return View("Error");
+            }
 
             vm.ConfirmUserCode = true;
             return View("UserCodeConfirmation", vm);
@@ -68,7 +74,10 @@ namespace AdminUI.STS.Identity.Controllers
         public async Task<IActionResult> UserCodeCapture(string userCode)
         {
             var vm = await BuildViewModelAsync(userCode);
-            if (vm == null) return View("Error");
+            if (vm == null)
+            {
+                return View("Error");
+            }
 
             return View("UserCodeConfirmation", vm);
         }
@@ -77,10 +86,16 @@ namespace AdminUI.STS.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Callback(DeviceAuthorizationInputModel model)
         {
-            if (model == null) throw new ArgumentNullException(nameof(model));
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
 
             var result = await ProcessConsent(model);
-            if (result.HasValidationError) return View("Error");
+            if (result.HasValidationError)
+            {
+                return View("Error");
+            }
 
             return View("Success");
         }
@@ -90,7 +105,10 @@ namespace AdminUI.STS.Identity.Controllers
             var result = new ProcessConsentResult();
 
             var request = await _interaction.GetAuthorizationContextAsync(model.UserCode);
-            if (request == null) return result;
+            if (request == null)
+            {
+                return result;
+            }
 
             ConsentResponse grantedConsent = null;
 

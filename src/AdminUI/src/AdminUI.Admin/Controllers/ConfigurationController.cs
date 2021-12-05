@@ -88,7 +88,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientClone(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var clientDto = await _clientService.GetClientAsync(id);
             var client = _clientService.BuildClientCloneViewModel(id, clientDto);
@@ -115,7 +118,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var client = await _clientService.GetClientAsync(id);
 
@@ -137,7 +143,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientClaims(int id, int? page)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var claims = await _clientService.GetClientClaimsAsync(id, page ?? 1);
 
@@ -147,7 +156,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientProperties(int id, int? page)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var properties = await _clientService.GetClientPropertiesAsync(id, page ?? 1);
 
@@ -157,7 +169,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ApiResourceProperties(int id, int? page)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var properties = await _apiResourceService.GetApiResourcePropertiesAsync(id, page ?? 1);
 
@@ -167,7 +182,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ApiScopeProperties(int id, int? page)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var properties = await _apiScopeService.GetApiScopePropertiesAsync(id, page ?? 1);
 
@@ -209,7 +227,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> IdentityResourceProperties(int id, int? page)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var properties = await _identityResourceService.GetIdentityResourcePropertiesAsync(id, page ?? 1);
 
@@ -267,7 +288,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientClaimDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var clientClaim = await _clientService.GetClientClaimAsync(id);
 
@@ -277,7 +301,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientPropertyDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var clientProperty = await _clientService.GetClientPropertyAsync(id);
 
@@ -287,7 +314,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ApiResourcePropertyDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var apiResourceProperty = await _apiResourceService.GetApiResourcePropertyAsync(id);
 
@@ -297,7 +327,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ApiScopePropertyDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var apiScopeProperty = await _apiScopeService.GetApiScopePropertyAsync(id);
 
@@ -318,7 +351,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> IdentityResourcePropertyDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var identityResourceProperty = await _identityResourceService.GetIdentityResourcePropertyAsync(id);
 
@@ -371,7 +407,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientSecrets(int id, int? page)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var clientSecrets = await _clientService.GetClientSecretsAsync(id, page ?? 1);
             _clientService.BuildClientSecretsViewModel(clientSecrets);
@@ -393,7 +432,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientSecretDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var clientSecret = await _clientService.GetClientSecretAsync(id);
 
@@ -462,7 +504,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> IdentityResourceDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var identityResource = await _identityResourceService.GetIdentityResourceAsync(id);
 
@@ -543,7 +588,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ApiResourceDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var apiResource = await _apiResourceService.GetApiResourceAsync(id);
 
@@ -580,7 +628,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ApiSecrets(int id, int? page)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var apiSecrets = await _apiResourceService.GetApiSecretsAsync(id, page ?? 1);
             _apiResourceService.BuildApiSecretsViewModel(apiSecrets);
@@ -662,7 +713,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ApiScopeDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var apiScope = await _apiScopeService.GetApiScopeAsync(id);
 
@@ -701,7 +755,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ApiSecretDelete(int id)
         {
-            if (id == 0) return NotFound();
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
             var clientSecret = await _apiResourceService.GetApiSecretAsync(id);
 

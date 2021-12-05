@@ -74,7 +74,11 @@ namespace AdminUI.STS.Identity.Helpers
                         cultureConfiguration.Cultures.Intersect(CultureConfiguration.AvailableCultures) :
                         CultureConfiguration.AvailableCultures).ToArray();
 
-                    if (!supportedCultureCodes.Any()) supportedCultureCodes = CultureConfiguration.AvailableCultures;
+                    if (!supportedCultureCodes.Any())
+                    {
+                        supportedCultureCodes = CultureConfiguration.AvailableCultures;
+                    }
+
                     var supportedCultures = supportedCultureCodes.Select(c => new CultureInfo(c)).ToList();
 
                     // If the default culture is specified use it, otherwise use CultureConfiguration.DefaultRequestCulture ("en")
@@ -82,7 +86,10 @@ namespace AdminUI.STS.Identity.Helpers
                         CultureConfiguration.DefaultRequestCulture : cultureConfiguration?.DefaultCulture;
 
                     // If the default culture is not among the supported cultures, use the first supported culture as default
-                    if (!supportedCultureCodes.Contains(defaultCultureCode)) defaultCultureCode = supportedCultureCodes.FirstOrDefault();
+                    if (!supportedCultureCodes.Contains(defaultCultureCode))
+                    {
+                        defaultCultureCode = supportedCultureCodes.FirstOrDefault();
+                    }
 
                     opts.DefaultRequestCulture = new RequestCulture(defaultCultureCode);
                     opts.SupportedCultures = supportedCultures;

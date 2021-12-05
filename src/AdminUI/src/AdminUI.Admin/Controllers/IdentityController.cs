@@ -179,7 +179,10 @@ namespace AdminUI.Admin.Controllers
         public async Task<IActionResult> UserProfile(TKey id)
         {
             var user = await _identityService.GetUserAsync(id.ToString());
-            if (user == null) return NotFound();
+            if (user == null)
+            {
+                return NotFound();
+            }
 
             return View("UserProfile", user);
         }
@@ -187,7 +190,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UserRoles(TKey id, int? page)
         {
-            if (EqualityComparer<TKey>.Default.Equals(id, default)) return NotFound();
+            if (EqualityComparer<TKey>.Default.Equals(id, default))
+            {
+                return NotFound();
+            }
 
             var userRoles = await _identityService.BuildUserRolesViewModel(id, page);
 
@@ -255,7 +261,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UserClaims(TKey id, int? page)
         {
-            if (EqualityComparer<TKey>.Default.Equals(id, default)) return NotFound();
+            if (EqualityComparer<TKey>.Default.Equals(id, default))
+            {
+                return NotFound();
+            }
 
             var claims = await _identityService.GetUserClaimsAsync(id.ToString(), page ?? 1);
             claims.UserId = id;
@@ -267,10 +276,16 @@ namespace AdminUI.Admin.Controllers
         public async Task<IActionResult> UserClaimsDelete(TKey id, int claimId)
         {
             if (EqualityComparer<TKey>.Default.Equals(id, default)
-            || EqualityComparer<int>.Default.Equals(claimId, default)) return NotFound();
+            || EqualityComparer<int>.Default.Equals(claimId, default))
+            {
+                return NotFound();
+            }
 
             var claim = await _identityService.GetUserClaimAsync(id.ToString(), claimId);
-            if (claim == null) return NotFound();
+            if (claim == null)
+            {
+                return NotFound();
+            }
 
             var userDto = await _identityService.GetUserAsync(id.ToString());
             claim.UserName = userDto.UserName;
@@ -292,7 +307,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UserProviders(TKey id)
         {
-            if (EqualityComparer<TKey>.Default.Equals(id, default)) return NotFound();
+            if (EqualityComparer<TKey>.Default.Equals(id, default))
+            {
+                return NotFound();
+            }
 
             var providers = await _identityService.GetUserProvidersAsync(id.ToString());
 
@@ -302,10 +320,16 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UserProvidersDelete(TKey id, string providerKey)
         {
-            if (EqualityComparer<TKey>.Default.Equals(id, default) || string.IsNullOrEmpty(providerKey)) return NotFound();
+            if (EqualityComparer<TKey>.Default.Equals(id, default) || string.IsNullOrEmpty(providerKey))
+            {
+                return NotFound();
+            }
 
             var provider = await _identityService.GetUserProviderAsync(id.ToString(), providerKey);
-            if (provider == null) return NotFound();
+            if (provider == null)
+            {
+                return NotFound();
+            }
 
             return View(provider);
         }
@@ -324,7 +348,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UserChangePassword(TKey id)
         {
-            if (EqualityComparer<TKey>.Default.Equals(id, default)) return NotFound();
+            if (EqualityComparer<TKey>.Default.Equals(id, default))
+            {
+                return NotFound();
+            }
 
             var user = await _identityService.GetUserAsync(id.ToString());
             var userDto = new UserChangePasswordDto<TKey> { UserId = id, UserName = user.UserName };
@@ -378,7 +405,10 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> RoleClaims(TKey id, int? page)
         {
-            if (EqualityComparer<TKey>.Default.Equals(id, default)) return NotFound();
+            if (EqualityComparer<TKey>.Default.Equals(id, default))
+            {
+                return NotFound();
+            }
 
             var claims = await _identityService.GetRoleClaimsAsync(id.ToString(), page ?? 1);
             claims.RoleId = id;
@@ -390,7 +420,10 @@ namespace AdminUI.Admin.Controllers
         public async Task<IActionResult> RoleClaimsDelete(TKey id, int claimId)
         {
             if (EqualityComparer<TKey>.Default.Equals(id, default) ||
-                EqualityComparer<int>.Default.Equals(claimId, default)) return NotFound();
+                EqualityComparer<int>.Default.Equals(claimId, default))
+            {
+                return NotFound();
+            }
 
             var claim = await _identityService.GetRoleClaimAsync(id.ToString(), claimId);
 
@@ -411,10 +444,16 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> RoleDelete(TKey id)
         {
-            if (EqualityComparer<TKey>.Default.Equals(id, default)) return NotFound();
+            if (EqualityComparer<TKey>.Default.Equals(id, default))
+            {
+                return NotFound();
+            }
 
             var roleDto = await _identityService.GetRoleAsync(id.ToString());
-            if (roleDto == null) return NotFound();
+            if (roleDto == null)
+            {
+                return NotFound();
+            }
 
             return View(roleDto);
         }
@@ -453,10 +492,16 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UserDelete(TKey id)
         {
-            if (EqualityComparer<TKey>.Default.Equals(id, default)) return NotFound();
+            if (EqualityComparer<TKey>.Default.Equals(id, default))
+            {
+                return NotFound();
+            }
 
             var user = await _identityService.GetUserAsync(id.ToString());
-            if (user == null) return NotFound();
+            if (user == null)
+            {
+                return NotFound();
+            }
 
             return View(user);
         }

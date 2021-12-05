@@ -56,7 +56,9 @@ namespace AdminUI.Admin.EntityFramework.SqlServer.Extensions
 
             // DataProtectionKey DB from existing connection
             if (!string.IsNullOrEmpty(dataProtectionConnectionString))
+            {
                 services.AddDbContext<TDataProtectionDbContext>(options => options.UseSqlServer(dataProtectionConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+            }
         }
 
         /// <summary>

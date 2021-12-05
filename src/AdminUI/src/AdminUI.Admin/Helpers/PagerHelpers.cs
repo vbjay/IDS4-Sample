@@ -38,7 +38,10 @@ namespace AdminUI.Admin.Helpers
             const int defaultPageNumber = 1;
             var currentMaxPages = GetMaxPageToRender(maxPages, totalPages, currentPage);
 
-            if (currentMaxPages == defaultPageNumber) return currentMaxPages;
+            if (currentMaxPages == defaultPageNumber)
+            {
+                return currentMaxPages;
+            }
 
             if (currentMaxPages == totalPages)
             {

@@ -65,7 +65,10 @@ namespace AdminUI.STS.Identity.Helpers
 
             var address = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Address)?.Value;
 
-            if (address == null) return profile;
+            if (address == null)
+            {
+                return profile;
+            }
 
             try
             {

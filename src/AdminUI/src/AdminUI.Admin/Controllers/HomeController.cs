@@ -44,7 +44,10 @@ namespace AdminUI.Admin.Controllers
             // Get the details of the exception that occurred
             var exceptionFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
-            if (exceptionFeature == null) return View();
+            if (exceptionFeature == null)
+            {
+                return View();
+            }
 
             // Get which route the exception occurred at
             string routeWhereExceptionOccurred = exceptionFeature.Path;

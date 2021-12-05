@@ -30,10 +30,16 @@ namespace AdminUI.Admin.ExceptionHandling
         public override void OnException(ExceptionContext context)
         {
             if (!(context.Exception is UserFriendlyErrorPageException) &&
-                !(context.Exception is UserFriendlyViewException)) return;
+                !(context.Exception is UserFriendlyViewException))
+            {
+                return;
+            }
 
             //Create toastr notification
-            if (CreateNotification(context, out var tempData)) return;
+            if (CreateNotification(context, out var tempData))
+            {
+                return;
+            }
 
             HandleUserFriendlyViewException(context);
             ProcessException(context, tempData);
@@ -57,7 +63,10 @@ namespace AdminUI.Admin.ExceptionHandling
 
         private void ProcessException(ExceptionContext context, ITempDataDictionary tempData)
         {
-            if (!(context.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)) return;
+            if (!(context.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor))
+            {
+                return;
+            }
 
             const string errorViewName = "Error";
 
@@ -85,7 +94,10 @@ namespace AdminUI.Admin.ExceptionHandling
 
         private void HandleUserFriendlyViewException(ExceptionContext context)
         {
-            if (!(context.Exception is UserFriendlyViewException userFriendlyViewException)) return;
+            if (!(context.Exception is UserFriendlyViewException userFriendlyViewException))
+            {
+                return;
+            }
 
             if (userFriendlyViewException.ErrorMessages != null && userFriendlyViewException.ErrorMessages.Any())
             {

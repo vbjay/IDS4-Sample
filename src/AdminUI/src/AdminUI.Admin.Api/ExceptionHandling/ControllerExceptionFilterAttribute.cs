@@ -16,7 +16,10 @@ namespace AdminUI.Admin.Api.ExceptionHandling
         public override void OnException(ExceptionContext context)
         {
             if (!(context.Exception is UserFriendlyErrorPageException) &&
-                !(context.Exception is UserFriendlyViewException)) return;
+                !(context.Exception is UserFriendlyViewException))
+            {
+                return;
+            }
 
             HandleUserFriendlyViewException(context);
             ProcessException(context);

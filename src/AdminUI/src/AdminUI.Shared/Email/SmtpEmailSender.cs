@@ -28,9 +28,13 @@ namespace AdminUI.Shared.Email
             };
 
             if (!string.IsNullOrEmpty(_configuration.Password))
+            {
                 _client.Credentials = new System.Net.NetworkCredential(_configuration.Login, _configuration.Password);
+            }
             else
+            {
                 _client.UseDefaultCredentials = true;
+            }
         }
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)

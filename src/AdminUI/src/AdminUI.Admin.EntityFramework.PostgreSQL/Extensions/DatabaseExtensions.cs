@@ -66,7 +66,9 @@ namespace AdminUI.Admin.EntityFramework.PostgreSQL.Extensions
 
             // DataProtectionKey DB from existing connection
             if (!string.IsNullOrEmpty(dataProtectionConnectionString))
+            {
                 services.AddDbContext<TDataProtectionDbContext>(options => options.UseNpgsql(dataProtectionConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+            }
         }
 
         /// <summary>

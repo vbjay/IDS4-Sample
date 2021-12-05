@@ -41,10 +41,16 @@ namespace AdminUI.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> PersistedGrantDelete(string id)
         {
-            if (string.IsNullOrEmpty(id)) return NotFound();
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
 
             var grant = await _persistedGrantService.GetPersistedGrantAsync(UrlHelpers.QueryStringUnSafeHash(id));
-            if (grant == null) return NotFound();
+            if (grant == null)
+            {
+                return NotFound();
+            }
 
             return View(grant);
         }

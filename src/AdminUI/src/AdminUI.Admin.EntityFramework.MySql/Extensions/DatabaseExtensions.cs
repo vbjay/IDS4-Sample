@@ -77,10 +77,12 @@ namespace AdminUI.Admin.EntityFramework.MySql.Extensions
 
             // DataProtectionKey DB from existing connection
             if (!string.IsNullOrEmpty(dataProtectionConnectionString))
+            {
                 services.AddDbContext<TDataProtectionDbContext>(options =>
                 options.UseMySql(dataProtectionConnectionString,
                     ServerVersion.AutoDetect(dataProtectionConnectionString),
                     optionsSql => optionsSql.MigrationsAssembly(migrationsAssembly)));
+            }
         }
 
         /// <summary>

@@ -55,7 +55,11 @@ namespace AdminUI.Admin.Controllers
 
         protected void GenerateNotifications()
         {
-            if (!TempData.ContainsKey(NotificationHelpers.NotificationKey)) return;
+            if (!TempData.ContainsKey(NotificationHelpers.NotificationKey))
+            {
+                return;
+            }
+
             ViewBag.Notifications = TempData[NotificationHelpers.NotificationKey];
             TempData.Remove(NotificationHelpers.NotificationKey);
         }
