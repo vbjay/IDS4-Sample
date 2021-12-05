@@ -35,10 +35,8 @@ namespace AdminUI.Admin.Helpers.Localization
             _localizer = factory.Create(baseName, assemblyName);
         }
 
-        public virtual LocalizedString this[string name]
-        {
-            get
-            {
+        public virtual LocalizedString this[string name] {
+            get {
                 if (name == null)
                 {
                     throw new ArgumentNullException(nameof(name));
@@ -48,10 +46,8 @@ namespace AdminUI.Admin.Helpers.Localization
             }
         }
 
-        public virtual LocalizedString this[string name, params object[] arguments]
-        {
-            get
-            {
+        public virtual LocalizedString this[string name, params object[] arguments] {
+            get {
                 if (name == null)
                 {
                     throw new ArgumentNullException(nameof(name));

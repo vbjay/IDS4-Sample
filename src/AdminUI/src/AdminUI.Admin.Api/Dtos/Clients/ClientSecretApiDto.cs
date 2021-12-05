@@ -19,10 +19,8 @@ namespace AdminUI.Admin.Api.Dtos.Clients
 
         public string HashType { get; set; }
 
-        public HashType HashTypeEnum
-        {
-            get
-            {
+        public HashType HashTypeEnum {
+            get {
                 HashType result;
 
                 if (Enum.TryParse(HashType, true, out result))
