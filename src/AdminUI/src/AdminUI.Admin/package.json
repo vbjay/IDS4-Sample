@@ -20,7 +20,6 @@
         "knockout": "3.5.1",
         "moment": "2.27.0",
         "moment-timezone": "0.5.31",
-        "node-sass": "4.14.1",
         "open-iconic": "1.1.1",
         "popper.js": "1.16.1",
         "tempusdominus-bootstrap-4": "5.1.2",
@@ -28,11 +27,12 @@
         "toastr": "2.1.4"
     },
     "devDependencies": {
+        "del": "5.1.0",
         "gulp": "4.0.2",
-        "gulp-concat": "2.6.1",
-        "gulp-uglify": "3.0.2",
-        "gulp-sass": "4.1.0",
         "gulp-clean-css": "4.3.0",
-        "del": "5.1.0"
+        "gulp-concat": "2.6.1",
+        "gulp-sass": "^5.0.0",
+        "gulp-uglify": "3.0.2",
+        "sass": "^1.44.0"
     }
 }

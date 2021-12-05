@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
-var sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 var minifyCSS = require('gulp-clean-css');
 var del = require('del');
 
