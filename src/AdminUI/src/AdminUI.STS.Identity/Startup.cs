@@ -58,6 +58,9 @@ namespace AdminUI.STS.Identity
             RegisterAuthorization(services);
 
             services.AddIdSHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminIdentityDbContext, IdentityServerDataProtectionDbContext>(Configuration);
+
+            services.AddSession(rootConfiguration);
+            services.AddFido2(rootConfiguration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -84,6 +87,7 @@ namespace AdminUI.STS.Identity
 
             app.UseRouting();
             app.UseAuthorization();
+            app.UseSession();
             app.UseEndpoints(endpoint =>
             {
                 endpoint.MapDefaultControllerRoute();
@@ -130,7 +134,8 @@ namespace AdminUI.STS.Identity
         {
             var rootConfiguration = new RootConfiguration();
             Configuration.GetSection(ConfigurationConsts.AdminConfigurationKey).Bind(rootConfiguration.AdminConfiguration);
-            Configuration.GetSection(ConfigurationConsts.RegisterConfigurationKey).Bind(rootConfiguration.RegisterConfiguration);
+            Configuration.GetSection(ConfigurationConsts.FidoConfigurationKey).Bind(rootConfiguration.FidoConfiguration);
+
             return rootConfiguration;
         }
     }

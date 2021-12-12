@@ -9,6 +9,7 @@ using AdminUI.STS.Identity.Configuration.ApplicationParts;
 using AdminUI.STS.Identity.Configuration.Constants;
 using AdminUI.STS.Identity.Configuration.Interfaces;
 using AdminUI.STS.Identity.Helpers.Localization;
+using AdminUI.STS.Identity.Services;
 
 using IdentityServer4.EntityFramework.Storage;
 
@@ -99,6 +100,67 @@ namespace AdminUI.STS.Identity.Helpers
             return mvcBuilder;
         }
 
+
+        /// <summary>
+        /// Add authorization policies
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="rootConfiguration"></param>
+        public static void AddCache(this IServiceCollection services,
+                IRootConfiguration rootConfiguration)
+        {
+            services.AddDistributedMemoryCache();
+        }
+
+        /// <summary>
+        /// Add authorization policies
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="rootConfiguration"></param>
+        public static void AddSession(this IServiceCollection services,
+                IRootConfiguration rootConfiguration)
+        {
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(2);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+            });
+
+        }
+
+        /// <summary>
+        /// Add authorization policies
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="rootConfiguration"></param>
+        public static void AddFido2(this IServiceCollection services,
+                IRootConfiguration rootConfiguration)
+        {
+            services.AddScoped<Fido2Storage>();
+            //services.AddFido2(options =>
+            //{
+            //    options.ServerDomain = rootConfiguration.FidoConfiguration.ServerDomain;
+            //    options.ServerName = "FIDO2 Test";
+            //    options.Origins = rootConfiguration.FidoConfiguration.Origins;
+            //    options.TimestampDriftTolerance = rootConfiguration.FidoConfiguration.TimestampDriftTolerance;
+            //    options.MDSCacheDirPath = rootConfiguration.FidoConfiguration.MDSCacheDirPath;
+            //})
+            //.AddCachedMetadataService(config =>
+            //{
+
+
+            //});
+        }
+
+        /// <summary>
+        /// Using of Forwarded Headers and Referrer Policy
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="configuration"></param>
+        public static void UseFido2(this IApplicationBuilder app, IConfiguration configuration) { }
         /// <summary>
         /// Using of Forwarded Headers and Referrer Policy
         /// </summary>
@@ -187,7 +249,10 @@ namespace AdminUI.STS.Identity.Helpers
             switch (databaseProvider.ProviderType)
             {
                 case DatabaseProviderType.SqlServer:
-                    services.RegisterSqlServerDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TDataProtectionDbContext>(identityConnectionString, configurationConnectionString, persistedGrantsConnectionString, dataProtectionConnectionString);
+                    services.RegisterSqlServerDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TDataProtectionDbContext>(identityConnectionString,
+                        configurationConnectionString,
+                        persistedGrantsConnectionString,
+                        dataProtectionConnectionString);
                     break;
                 case DatabaseProviderType.PostgreSQL:
                     services.RegisterNpgSqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TDataProtectionDbContext>(identityConnectionString, configurationConnectionString, persistedGrantsConnectionString, dataProtectionConnectionString);
@@ -198,6 +263,7 @@ namespace AdminUI.STS.Identity.Helpers
                 default:
                     throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
             }
+
         }
 
         /// <summary>
@@ -262,7 +328,8 @@ namespace AdminUI.STS.Identity.Helpers
                 .AddScoped<UserResolver<TUserIdentity>>()
                 .AddIdentity<TUserIdentity, TUserIdentityRole>(options => configuration.GetSection(nameof(IdentityOptions)).Bind(options))
                 .AddEntityFrameworkStores<TIdentityDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<Fido2UserTwoFactorTokenProvider>("FIDO2");
 
             services.Configure<CookiePolicyOptions>(options =>
             {
