@@ -17,6 +17,7 @@ function processClean() {
 function processScripts() {
     return gulp
         .src([
+            './node_modules/sweetalert2/dist/sweetalert2.js',
             './node_modules/jquery/dist/jquery.js',
             './node_modules/jquery-validation/dist/jquery.validate.js',
             './node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js',
@@ -64,7 +65,8 @@ function processStyles() {
             './node_modules/bootstrap/dist/css/bootstrap.css',
             './node_modules/open-iconic/font/css/open-iconic-bootstrap.css',
             './node_modules/font-awesome/css/font-awesome.css',
-            './node_modules/cookieconsent/build/cookieconsent.min.css'
+            './node_modules/sweetalert2/dist/sweetalert2.css',
+            './node_modules/cookieconsent/build/cookieconsent.min.css',
         ])
         .pipe(minifyCSS())
         .pipe(concat('bundle.min.css'))

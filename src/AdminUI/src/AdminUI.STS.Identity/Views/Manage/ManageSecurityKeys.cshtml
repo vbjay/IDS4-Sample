@@ -1,0 +1,150 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Identity
+@using AdminUI.STS.Identity.ViewModels.Manage
+@using AdminUI.Admin.EntityFramework.Shared.Entities.Identity
+@inject IViewLocalizer Localizer
+@inject UserManager<UserIdentity> userManager
+
+@model MfaRegisterModel
+
+@{
+    //ViewData["Title"] = Localizer["Title"];
+    ViewData["Title"] = "Two-factor authentication (2FA)";
+
+
+}
+
+
+<h4>@ViewData["Title"]</h4>
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="title is-1">2FA/MFA</h1>
+        <div class="content">
+            <p>
+
+            </p>
+        </div>
+        <div class="notification is-danger" style="display:none">
+            Please note: Your browser does not seem to support WebAuthn yet. <a href="https://caniuse.com/#search=webauthn" target="_blank">Supported browsers</a>
+        </div>
+
+        <div class="columns">
+            <div class="column is-4">
+
+                <h3 class="title is-3">Add a FIDO2 key</h3>
+                <form action="/Fido2Mfa" method="post" id="register">
+
+                    <div class="field">
+                        <label class="label">Username</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="form-control" type="text" readonly value="@Model.UserName" name="username" required>
+                        </div>
+                    </div>
+
+                    <div class="field" style="margin-top:10px;">
+                        <div class="control">
+                            <button class="btn btn-primary" type="submit">Add FIDO2 key</button>
+                            <a id="genCodes" style="display:@(Model.Keys.Any() ? "inline-block" : "none")" class="btn btn-secondary" asp-action="GenerateRecoveryCodesWarning">Generate Recovery Codes</a>
+                        </div>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+
+
+        <div id="fido2mfadisplay"></div>
+
+        <div style="display:none" id="fido2TapYourSecurityKeyToFinishRegistration">Follow prompts to add key to your account.</div>
+        <div style="display:none" id="fido2RegistrationError">Error registering Fido2 key</div>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <table class="table">
+            <tr>
+                @*<th>ID</th>
+                    <th>Fido ID</th>*@
+                <th colspan="2">Description</th>
+                <th>Registered</th>
+
+                <th></th>
+            </tr>
+            @for (int i = 0; i < Model.Keys.Count; i++)
+            {
+
+                <tr>
+                    @*<td>@Model.Keys[i].ID</td>
+                        <td>@Model.Keys[i].FidoID</td>*@
+                    <td>
+                        @Model.Keys[i].Description
+                    </td>
+                    <td>
+                        <button data-credid="@Model.Keys[i].ID" class="btn btn-primary btn-sm">Update Description</button>
+                    </td>
+                    <td>@Model.Keys[i].Registered.ToString("g")</td>
+
+                    <td>
+                        <form asp-action="RemoveSecurityKey" method="post">
+
+                            @Html.Hidden(nameof(FidoKeyInfo.PublicKey), Model.Keys[i].PublicKey)
+                            @Html.Hidden(nameof(FidoKeyInfo.DescriptorJson), Model.Keys[i].DescriptorJson)
+
+
+                            <button data-confirm="true" class="btn btn-danger" type="submit">
+                                Remove
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/js/helpers.js" asp-append-version="true"></script>
+    <script src="~/js/instant.js" asp-append-version="true"></script>
+    <script src="~/js/mfa.register.js" asp-append-version="true"></script>
+    <script>
+        async function ConfirmDelete() {
+
+            return await swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                //confirmButtonColor: '#d33' ,
+                //cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                return result.isConfirmed
+            })
+        }
+
+
+        $(function () {
+            $("[data-confirm='true']").click(async function (e) {
+                e.preventDefault();
+
+                var cancel = !await ConfirmDelete();
+                if (cancel) {
+
+                    return false;
+                }
+                $(this).closest('form').submit();
+
+            });
+        })
+    </script>
+}
+
+

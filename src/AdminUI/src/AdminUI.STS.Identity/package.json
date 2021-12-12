@@ -18,7 +18,8 @@
         "jquery-validation": "^1.19.3",
         "jquery-validation-unobtrusive": "3.2.11",
         "open-iconic": "1.1.1",
-        "popper.js": "1.16.1"
+        "popper.js": "1.16.1",
+        "sweetalert2": "^10.16.9"
     },
     "devDependencies": {
         "del": "5.1.0",
