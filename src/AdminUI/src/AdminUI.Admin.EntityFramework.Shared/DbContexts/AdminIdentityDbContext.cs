@@ -20,6 +20,7 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
             ConfigureIdentityContext(builder);
         }
 
+        public DbSet<FidoStoredCredential> FidoCredentials { get; set; }
         private void ConfigureIdentityContext(ModelBuilder builder)
         {
             builder.Entity<UserIdentityRole>().ToTable(TableConsts.IdentityRoles);
@@ -30,6 +31,8 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
             builder.Entity<UserIdentityUserLogin>().ToTable(TableConsts.IdentityUserLogins);
             builder.Entity<UserIdentityUserClaim>().ToTable(TableConsts.IdentityUserClaims);
             builder.Entity<UserIdentityUserToken>().ToTable(TableConsts.IdentityUserTokens);
+            builder.Entity<FidoStoredCredential>().ToTable(TableConsts.FidoCredential);
+
         }
     }
 }
