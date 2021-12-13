@@ -1,0 +1,6 @@
+﻿@using System
+@model DateTimeOffset
+<script>
+    var dt = new Date("@Model.ToString("o")");
+    document.write(dt.toLocaleString());
+</script>

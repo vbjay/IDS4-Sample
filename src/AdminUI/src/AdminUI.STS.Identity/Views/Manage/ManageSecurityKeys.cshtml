@@ -70,7 +70,7 @@
 
 <div class="row">
 
-    <div class="col-md-4">
+    <div class="col-md-6">
 
         <table class="table">
             <tr>
@@ -93,7 +93,10 @@
                     <td>
                         <button data-credid="@Model.Keys[i].ID" class="btn btn-primary btn-sm">Update Description</button>
                     </td>
-                    <td>@Model.Keys[i].Registered.ToString("g")</td>
+                    <td>
+                        <partial name="Common/LocalDate" for="Keys[i].Registered" />
+
+                    </td>
 
                     <td>
                         <form asp-action="RemoveSecurityKey" method="post">
