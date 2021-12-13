@@ -44,7 +44,7 @@ async function handleSignInSubmit(event) {
     // send to server for registering
     let makeAssertionOptions;
     try {
-        var res = await fetch('/mfaassertionOptions', {
+        var res = await fetch('Fido2/mfaassertionOptions', {
             method: 'POST', // or 'PUT'
             body: formData, // data can be `string` or {object}!
             headers: {
@@ -133,7 +133,7 @@ async function verifyAssertionWithServer(assertedCredential) {
 
     let response;
     try {
-        let res = await fetch("/mfamakeAssertion", {
+        let res = await fetch("Fido2/mfamakeAssertion", {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(data), // data can be `string` or {object}!
             headers: {

@@ -19,7 +19,8 @@ using static Fido2NetLib.Fido2;
 
 namespace AdminUI.STS.Identity.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Account/[controller]")]
+    [Route("Manage/[controller]")]
     public class Fido2Controller<TUser, TKey> : Controller
         where TUser : IdentityUser<TKey>, new()
         where TKey : IEquatable<TKey>
@@ -55,7 +56,7 @@ namespace AdminUI.STS.Identity.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/mfamakeCredentialOptions")]
+        [Route("mfamakeCredentialOptions")]
         public async Task<JsonResult> MakeCredentialOptions([FromForm] string username, [FromForm] string displayName, [FromForm] string attType, [FromForm] string authType, [FromForm] bool requireResidentKey, [FromForm] string userVerification)
         {
             try
@@ -117,7 +118,7 @@ namespace AdminUI.STS.Identity.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/mfamakeCredential")]
+        [Route("mfamakeCredential")]
         public async Task<JsonResult> MakeCredential([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
         {
             try
@@ -177,7 +178,7 @@ namespace AdminUI.STS.Identity.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/mfaassertionOptions")]
+        [Route("mfaassertionOptions")]
         public async Task<ActionResult> AssertionOptionsPost([FromForm] string username, [FromForm] string userVerification)
         {
             try
@@ -240,7 +241,7 @@ namespace AdminUI.STS.Identity.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/mfamakeAssertion")]
+        [Route("mfamakeAssertion")]
         public async Task<JsonResult> MakeAssertion([FromBody] AuthenticatorAssertionRawResponse clientResponse)
         {
             try

@@ -121,7 +121,7 @@ async function handleRegisterSubmit(event) {
 }
 
 async function fetchMakeCredentialOptions(formData) {
-    let response = await fetch('/mfamakeCredentialOptions', {
+    let response = await fetch('Fido2/mfamakeCredentialOptions', {
         method: 'POST', // or 'PUT'
         body: formData, // data can be `string` or {object}!
         headers: {
@@ -137,7 +137,7 @@ async function fetchMakeCredentialOptions(formData) {
 
 
 async function fetchMakeCredentialOptions(formData) {
-    let response = await fetch('/mfamakeCredentialOptions', {
+    let response = await fetch('Fido2/mfamakeCredentialOptions', {
         method: 'POST', // or 'PUT'
         body: formData, // data can be `string` or {object}!
         headers: {
@@ -210,7 +210,7 @@ async function registerNewCredential(newCredential) {
 
 
 async function registerCredentialWithServer(formData) {
-    let response = await fetch('/mfamakeCredential', {
+    let response = await fetch('Fido2/mfamakeCredential', {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(formData), // data can be `string` or {object}!
         headers: {
