@@ -276,7 +276,7 @@ async function UpdateDescription(cred) {
             return $.ajax({
                 type: 'POST',
                 contentType: "application/json",
-                url: '/Manage/UpdateSecurityKeyDescription',
+                url: 'UpdateSecurityKeyDescription',
                 data: JSON.stringify(frm),
                 dataType: 'json',
                 headers: {
