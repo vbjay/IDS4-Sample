@@ -81,7 +81,7 @@ async function handleSignInSubmit(event) {
     //console.log("Assertion options", makeAssertionOptions);
 
     const fido2TapKeyToLogin = document.getElementById('fido2TapKeyToLogin').innerText;
-    document.getElementById('fido2logindisplay').innerHTML += '<div><img src = "/images/securitykey.png" alt = "fido login" /></div><div><b>' + fido2TapKeyToLogin + '</b></div>';
+    document.getElementById('fido2logindisplay').style.display = 'block';
 
     //Swal.fire({
     //    title: 'Logging In...',
@@ -98,7 +98,7 @@ async function handleSignInSubmit(event) {
     try {
         credential = await navigator.credentials.get({ publicKey: makeAssertionOptions });
     } catch (err) {
-        document.getElementById('fido2logindisplay').innerHTML = '';
+        document.getElementById('fido2logindisplay').style.display='none';
         showErrorAlert(err.message ? err.message : err);
     }
 
@@ -107,7 +107,7 @@ async function handleSignInSubmit(event) {
     try {
         await verifyAssertionWithServer(credential);
     } catch (e) {
-        document.getElementById('fido2logindisplay').innerHTML = '';
+        document.getElementById('fido2logindisplay').style.display='none';
         const fido2CouldNotVerifyAssertion = document.getElementById('fido2CouldNotVerifyAssertion').innerText;
         showErrorAlert(fido2CouldNotVerifyAssertion, e);
     }
@@ -155,7 +155,7 @@ async function verifyAssertionWithServer(assertedCredential) {
     if (response.status !== "ok") {
         console.log("Error doing assertion");
         console.log(response.errorMessage);
-        document.getElementById('fido2logindisplay').innerHTML = '';
+        document.getElementById('fido2logindisplay').style.display='none';
         showErrorAlert(response.errorMessage);
         return;
     }

@@ -55,7 +55,12 @@
         </div>
 
 
-        <div id="fido2mfadisplay"></div>
+        <div id="fido2mfadisplay" style="display:none;">
+            <div>
+                <img src="~/images/securitykey.png" alt="fido login" />
+            </div>
+            <b>Follow prompts to add key to your account.</b>
+        </div>
 
         <div style="display:none" id="fido2TapYourSecurityKeyToFinishRegistration">Follow prompts to add key to your account.</div>
         <div style="display:none" id="fido2RegistrationError">Error registering Fido2 key</div>
@@ -111,6 +116,12 @@
 </div>
 
 @section Scripts{
+    <script>
+
+        const SEC_KEY__IMG =@Url.Content("~/images/securitykey.png");
+
+    </script>
+
     <script src="~/js/helpers.js" asp-append-version="true"></script>
     <script src="~/js/instant.js" asp-append-version="true"></script>
     <script src="~/js/mfa.register.js" asp-append-version="true"></script>

@@ -82,7 +82,7 @@ async function handleRegisterSubmit(event) {
     //console.log("Credential Options Formatted", makeCredentialOptions);
 
     const fido2TapYourSecurityKeyToFinishRegistration = document.getElementById('fido2TapYourSecurityKeyToFinishRegistration').innerText;
-    document.getElementById('fido2mfadisplay').innerHTML += '<div><img src = "/images/securitykey.png" alt = "fido login" /></div><div><b>' + fido2TapYourSecurityKeyToFinishRegistration + '</b></div>';
+    document.getElementById('fido2mfadisplay').style.display='block;'
 
     //Swal.fire({
     //    title: 'Registering...',
@@ -106,7 +106,7 @@ async function handleRegisterSubmit(event) {
     } catch (e) {
         const fido2RegistrationError = document.getElementById('fido2RegistrationError').innerText;
         console.error(fido2RegistrationError, e);
-        document.getElementById('fido2mfadisplay').innerHTML = '';
+        document.getElementById('fido2mfadisplay').style.display='none';
         showErrorAlert(fido2RegistrationError, e);
     }
 

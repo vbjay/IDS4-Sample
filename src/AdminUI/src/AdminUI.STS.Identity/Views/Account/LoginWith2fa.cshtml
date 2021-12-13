@@ -63,7 +63,12 @@
         </form>
 
 
-        <div id="fido2logindisplay"></div>
+        <div id="fido2logindisplay" style="display:none;">
+            <div>
+                <img src="~/images/securitykey.png" alt="fido login" />
+            </div>
+            <b>Follow prompts to complete Fido2 key authentication.</b>
+        </div>
         <div style="display:none" id="fido2TapKeyToLogin">Follow prompts to complete Fido2 key authentication.</div>
         <div style="display:none" id="fido2CouldNotVerifyAssertion">Error validating key</div>
         <div style="display:none" id="fido2ReturnUrl">@Model.ReturnUrl</div>
