@@ -33,7 +33,7 @@ async function handleRegisterSubmit(event) {
     // possible values: none, direct, indirect
     let attestation_type = "direct";
     // possible values: <empty>, platform, cross-platform
-    let authenticator_attachment = "cross-platform";
+    let authenticator_attachment = "";
     // possible values: preferred, required, discouraged
     let user_verification = "preferred";
     // possible values: true,false
