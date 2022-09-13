@@ -2,9 +2,11 @@
 {
     public class RegisterConfirmationViewModel
     {
-
+        
     }
 }
+
+
 
 
 

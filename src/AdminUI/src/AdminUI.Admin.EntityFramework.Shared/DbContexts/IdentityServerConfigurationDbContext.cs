@@ -1,9 +1,7 @@
 ﻿using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Options;
-
 using Microsoft.EntityFrameworkCore;
-
 using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
 
 namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
@@ -48,6 +46,8 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
         public DbSet<ApiResourceScope> ApiResourceScopes { get; set; }
     }
 }
+
+
 
 
 

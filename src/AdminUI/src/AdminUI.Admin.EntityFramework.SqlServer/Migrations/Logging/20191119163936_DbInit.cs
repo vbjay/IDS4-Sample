@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AdminUI.Admin.EntityFramework.SqlServer.Migrations.Logging
 {
@@ -35,6 +34,8 @@ namespace AdminUI.Admin.EntityFramework.SqlServer.Migrations.Logging
         }
     }
 }
+
+
 
 
 

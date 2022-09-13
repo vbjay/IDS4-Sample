@@ -1,9 +1,8 @@
-﻿using AdminUI.STS.Identity.Configuration;
-using AdminUI.STS.Identity.Helpers;
-using AdminUI.STS.Identity.Helpers.Localization;
-using AdminUI.STS.Identity.Services;
-using AdminUI.STS.Identity.ViewModels.Manage;
-
+﻿using System;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,17 +10,13 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-
 using Newtonsoft.Json;
-
-using System;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+using AdminUI.STS.Identity.Helpers;
+using AdminUI.STS.Identity.Helpers.Localization;
+using AdminUI.STS.Identity.ViewModels.Manage;
 
 namespace AdminUI.STS.Identity.Controllers
-{
+{    
     [Authorize]
     public class ManageController<TUser, TKey> : Controller
         where TUser : IdentityUser<TKey>, new()
@@ -33,24 +28,14 @@ namespace AdminUI.STS.Identity.Controllers
         private readonly ILogger<ManageController<TUser, TKey>> _logger;
         private readonly IGenericControllerLocalizer<ManageController<TUser, TKey>> _localizer;
         private readonly UrlEncoder _urlEncoder;
-        private readonly RootConfiguration _config;
-        private readonly Fido2Storage _fido;
 
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
-
         [TempData]
         public string StatusMessage { get; set; }
 
-        public ManageController(UserManager<TUser> userManager,
-            SignInManager<TUser> signInManager,
-            IEmailSender emailSender,
-            ILogger<ManageController<TUser, TKey>> logger,
-            IGenericControllerLocalizer<ManageController<TUser, TKey>> localizer,
-            UrlEncoder urlEncoder,
-            RootConfiguration config,
-            Fido2Storage fido)
+        public ManageController(UserManager<TUser> userManager, SignInManager<TUser> signInManager, IEmailSender emailSender, ILogger<ManageController<TUser, TKey>> logger, IGenericControllerLocalizer<ManageController<TUser, TKey>> localizer, UrlEncoder urlEncoder)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -58,8 +43,6 @@ namespace AdminUI.STS.Identity.Controllers
             _logger = logger;
             _localizer = localizer;
             _urlEncoder = urlEncoder;
-            _config = config;
-            _fido = fido;
         }
 
         [HttpGet]
@@ -76,7 +59,7 @@ namespace AdminUI.STS.Identity.Controllers
 
             return View(model);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)
@@ -111,32 +94,14 @@ namespace AdminUI.STS.Identity.Controllers
                     throw new ApplicationException(_localizer["ErrorSettingPhone", user.Id]);
                 }
             }
-
+            
             await UpdateUserClaimsAsync(model, user);
 
             StatusMessage = _localizer["ProfileUpdated"];
 
             return RedirectToAction(nameof(Index));
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GenerateID(IndexViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            model.RandomID = Guid.NewGuid();
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound(_localizer["UserNotFound", _userManager.GetUserId(User)]);
-            }
-            await UpdateUserClaimsAsync(model, user);
-
-            return RedirectToAction(nameof(Index));
-        }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendVerificationEmail(IndexViewModel model)
@@ -344,7 +309,6 @@ namespace AdminUI.STS.Identity.Controllers
             return Redirect("~/");
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveLogin(RemoveLoginViewModel model)
@@ -542,9 +506,6 @@ namespace AdminUI.STS.Identity.Controllers
                 throw new ApplicationException(_localizer["ErrorDisable2FA", user.Id]);
             }
 
-
-            await _fido.RemoveCredentialsByUsername(user.UserName);
-
             _logger.LogInformation(_localizer["SuccessDisabled2FA", user.Id]);
 
             return RedirectToAction(nameof(TwoFactorAuthentication));
@@ -560,13 +521,8 @@ namespace AdminUI.STS.Identity.Controllers
                 return NotFound(_localizer["UserNotFound", _userManager.GetUserId(User)]);
             }
 
+            await _userManager.SetTwoFactorEnabledAsync(user, false);
             await _userManager.ResetAuthenticatorKeyAsync(user);
-
-            if (!await HasAuthenticators())
-            {
-                await _userManager.SetTwoFactorEnabledAsync(user, false);
-            }
-
             _logger.LogInformation(_localizer["SuccessResetAuthenticationKey", user.Id]);
 
             return RedirectToAction(nameof(EnableAuthenticator));
@@ -578,83 +534,6 @@ namespace AdminUI.STS.Identity.Controllers
             return View(nameof(ResetAuthenticator));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateSecurityKeyDescription([FromBody] FidoKeyInfo keyInfo)
-        {
-            if (keyInfo?.Descriptor == null)
-            {
-                return BadRequest();
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound(_localizer["UserNotFound", _userManager.GetUserId(User)]);
-            }
-
-            var cred = await _fido.UpdateDescription(keyInfo.Descriptor.Id, keyInfo.Description);
-
-            var result = new FidoKeyInfo()
-            {
-                Description = cred.Description,
-                Registered = cred.RegDate,
-                DescriptorJson = cred.DescriptorJson,
-                PublicKey = cred.PublicKey
-            };
-
-            return Json(result);
-
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveSecurityKey([FromForm] FidoKeyInfo keyInfo)
-        {
-            if (keyInfo == null || keyInfo.Descriptor == null)
-            {
-                return BadRequest();
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound(_localizer["UserNotFound", _userManager.GetUserId(User)]);
-            }
-
-
-            await _fido.RemoveCredential(keyInfo.Descriptor.Id, user.UserName);
-            if (!await HasAuthenticators())
-            {
-                await _userManager.SetTwoFactorEnabledAsync(user, false);
-            }
-
-            var model = new MfaRegisterModel() { UserName = user.UserName };
-            await LoadFidoKeys(model);
-
-            return RedirectToAction(nameof(ManageSecurityKeys));
-
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> ManageSecurityKeys()
-        {
-            var user = await _userManager.GetUserAsync(User);
-
-            if (user == null)
-            {
-                return NotFound(_localizer["UserNotFound", _userManager.GetUserId(User)]);
-            }
-
-            var model = new MfaRegisterModel() { UserName = user.UserName };
-            await LoadFidoKeys(model);
-
-
-
-            return View(model);
-
-        }
         [HttpGet]
         public async Task<IActionResult> EnableAuthenticator()
         {
@@ -732,27 +611,7 @@ namespace AdminUI.STS.Identity.Controllers
 
             return View(nameof(GenerateRecoveryCodes));
         }
-        private async Task<bool> HasAuthenticators()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return false;
-            }
 
-            bool result = string.IsNullOrWhiteSpace(await _userManager.GetAuthenticatorKeyAsync(user));
-            var creds = await _fido.GetCredentialsByUsername(user.UserName);
-            return result || creds.Any();
-
-
-        }
-        private async Task LoadFidoKeys(MfaRegisterModel model)
-        {
-
-            var creds = await _fido.GetCredentialsByUsername(model.UserName);
-            model.Keys = creds.Select(c => new FidoKeyInfo() { Description = c.Description, Registered = c.RegDate, DescriptorJson = c.DescriptorJson, PublicKey = c.PublicKey }).ToList();
-
-        }
         private async Task LoadSharedKeyAndQrCodeUriAsync(TUser user, EnableAuthenticatorViewModel model)
         {
             var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
@@ -785,8 +644,7 @@ namespace AdminUI.STS.Identity.Controllers
                 Region = profile.Region,
                 PostalCode = profile.PostalCode,
                 Locality = profile.Locality,
-                StreetAddress = profile.StreetAddress,
-                RandomID = profile.RandomID
+                StreetAddress = profile.StreetAddress
             };
             return model;
         }
@@ -804,14 +662,12 @@ namespace AdminUI.STS.Identity.Controllers
                 Region = model.Region,
                 Country = model.Country,
                 FullName = model.Name,
-                Profile = model.Profile,
-                RandomID = model.RandomID
+                Profile = model.Profile
             };
 
             var claimsToRemove = OpenIdClaimHelpers.ExtractClaimsToRemove(oldProfile, newProfile);
             var claimsToAdd = OpenIdClaimHelpers.ExtractClaimsToAdd(oldProfile, newProfile);
             var claimsToReplace = OpenIdClaimHelpers.ExtractClaimsToReplace(claims, newProfile);
-
 
             await _userManager.RemoveClaimsAsync(user, claimsToRemove);
             await _userManager.AddClaimsAsync(user, claimsToAdd);
@@ -829,7 +685,7 @@ namespace AdminUI.STS.Identity.Controllers
 
             while (currentPosition + 4 < unformattedKey.Length)
             {
-                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(' ');
+                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
                 currentPosition += 4;
             }
 
@@ -845,7 +701,7 @@ namespace AdminUI.STS.Identity.Controllers
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode(_config.AdminConfiguration.PageTitle),
+                _urlEncoder.Encode("AdminUI.STS.Identity"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
@@ -864,6 +720,8 @@ namespace AdminUI.STS.Identity.Controllers
         }
     }
 }
+
+
 
 
 

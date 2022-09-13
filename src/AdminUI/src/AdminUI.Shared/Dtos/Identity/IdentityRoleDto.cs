@@ -4,9 +4,11 @@ namespace AdminUI.Shared.Dtos.Identity
 {
     public class IdentityRoleDto : RoleDto<string>
     {
-
+        
     }
 }
+
+
 
 
 

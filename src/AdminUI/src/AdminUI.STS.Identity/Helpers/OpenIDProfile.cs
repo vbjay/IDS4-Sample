@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AdminUI.STS.Identity.Helpers
+﻿namespace AdminUI.STS.Identity.Helpers
 {
     public class OpenIdProfile
     {
@@ -12,9 +10,10 @@ namespace AdminUI.STS.Identity.Helpers
         public string Region { get; internal set; }
         public string PostalCode { get; internal set; }
         public string Country { get; internal set; }
-        public Guid RandomID { get; internal set; }
     }
 }
+
+
 
 
 

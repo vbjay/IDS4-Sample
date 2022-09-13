@@ -4,11 +4,10 @@
 // https://github.com/aspnet/Extensions/blob/master/src/Localization/Abstractions/src/StringLocalizerOfT.cs
 // Modified by Jan Škoruba
 
-using Microsoft.Extensions.Localization;
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Extensions.Localization;
 
 namespace AdminUI.STS.Identity.Helpers.Localization
 {
@@ -22,10 +21,7 @@ namespace AdminUI.STS.Identity.Helpers.Localization
         /// <param name="factory">The <see cref="T:Microsoft.Extensions.Localization.IStringLocalizerFactory" /> to use.</param>
         public GenericControllerLocalizer(IStringLocalizerFactory factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
 
             var type = typeof(TResourceSource);
             var assemblyName = type.GetTypeInfo().Assembly.GetName().Name;
@@ -35,24 +31,22 @@ namespace AdminUI.STS.Identity.Helpers.Localization
             _localizer = factory.Create(baseName, assemblyName);
         }
 
-        public virtual LocalizedString this[string name] {
-            get {
+        public virtual LocalizedString this[string name]
+        {
+            get
+            {
                 if (name == null)
-                {
                     throw new ArgumentNullException(nameof(name));
-                }
-
                 return _localizer[name];
             }
         }
 
-        public virtual LocalizedString this[string name, params object[] arguments] {
-            get {
+        public virtual LocalizedString this[string name, params object[] arguments]
+        {
+            get
+            {
                 if (name == null)
-                {
                     throw new ArgumentNullException(nameof(name));
-                }
-
                 return _localizer[name, arguments];
             }
         }
@@ -63,6 +57,8 @@ namespace AdminUI.STS.Identity.Helpers.Localization
         }
     }
 }
+
+
 
 
 

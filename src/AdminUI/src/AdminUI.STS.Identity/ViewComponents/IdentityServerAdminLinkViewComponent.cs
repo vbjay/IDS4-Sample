@@ -1,6 +1,5 @@
-﻿using AdminUI.STS.Identity.Configuration.Interfaces;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using AdminUI.STS.Identity.Configuration.Interfaces;
 
 namespace AdminUI.STS.Identity.ViewComponents
 {
@@ -21,6 +20,8 @@ namespace AdminUI.STS.Identity.ViewComponents
         }
     }
 }
+
+
 
 
 

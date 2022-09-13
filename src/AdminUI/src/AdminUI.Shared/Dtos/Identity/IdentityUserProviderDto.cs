@@ -4,9 +4,11 @@ namespace AdminUI.Shared.Dtos.Identity
 {
     public class IdentityUserProviderDto : UserProviderDto<string>
     {
-
+        
     }
 }
+
+
 
 
 

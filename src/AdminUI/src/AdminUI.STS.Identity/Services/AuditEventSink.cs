@@ -1,9 +1,7 @@
-﻿using IdentityServer4.Events;
+﻿using System.Threading.Tasks;
+using IdentityServer4.Events;
 using IdentityServer4.Services;
-
 using Microsoft.Extensions.Logging;
-
-using System.Threading.Tasks;
 
 namespace AdminUI.STS.Identity.Services
 {
@@ -19,6 +17,8 @@ namespace AdminUI.STS.Identity.Services
         }
     }
 }
+
+
 
 
 

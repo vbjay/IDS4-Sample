@@ -3,7 +3,7 @@
     public class ConfigurationConsts
     {
         public const string AdminConnectionStringKey = "AdminConnection";
-
+        
         public const string ConfigurationDbConnectionStringKey = "ConfigurationDbConnection";
 
         public const string PersistedGrantDbConnectionStringKey = "PersistedGrantDbConnection";
@@ -15,7 +15,6 @@
         public const string ResourcesPath = "Resources";
 
         public const string AdminConfigurationKey = "AdminConfiguration";
-        public const string FidoConfigurationKey = "Fido";
 
         public const string RegisterConfigurationKey = "RegisterConfiguration";
 
@@ -24,6 +23,8 @@
         public const string CspTrustedDomainsKey = "CspTrustedDomains";
     }
 }
+
+
 
 
 

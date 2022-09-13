@@ -1,21 +1,17 @@
-﻿using AdminUI.Admin.Api.Configuration.Constants;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using AdminUI.Admin.Api.Configuration.Constants;
 using AdminUI.Admin.Api.Dtos.Roles;
 using AdminUI.Admin.Api.ExceptionHandling;
 using AdminUI.Admin.Api.Helpers.Localization;
 using AdminUI.Admin.Api.Resources;
-
-using AutoMapper;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Services.Interfaces;
-
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace AdminUI.Admin.Api.Controllers
 {
@@ -90,13 +86,13 @@ namespace AdminUI.Admin.Api.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<TRoleDto>> Post([FromBody] TRoleDto role)
+        public async Task<ActionResult<TRoleDto>> Post([FromBody]TRoleDto role)
         {
             if (!EqualityComparer<TKey>.Default.Equals(role.Id, default))
             {
                 return BadRequest(_errorResources.CannotSetId());
             }
-
+ 
             var (identityResult, roleId) = await _identityService.CreateRoleAsync(role);
             var createdRole = await _identityService.GetRoleAsync(roleId.ToString());
 
@@ -104,7 +100,7 @@ namespace AdminUI.Admin.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] TRoleDto role)
+        public async Task<IActionResult> Put([FromBody]TRoleDto role)
         {
             await _identityService.GetRoleAsync(role.Id.ToString());
             await _identityService.UpdateRoleAsync(role);
@@ -141,7 +137,7 @@ namespace AdminUI.Admin.Api.Controllers
         }
 
         [HttpPost("Claims")]
-        public async Task<IActionResult> PostRoleClaims([FromBody] RoleClaimApiDto<TKey> roleClaims)
+        public async Task<IActionResult> PostRoleClaims([FromBody]RoleClaimApiDto<TKey> roleClaims)
         {
             var roleClaimsDto = _mapper.Map<TRoleClaimsDto>(roleClaims);
 
@@ -156,7 +152,7 @@ namespace AdminUI.Admin.Api.Controllers
         }
 
         [HttpPut("Claims")]
-        public async Task<IActionResult> PutRoleClaims([FromBody] RoleClaimApiDto<TKey> roleClaims)
+        public async Task<IActionResult> PutRoleClaims([FromBody]RoleClaimApiDto<TKey> roleClaims)
         {
             var roleClaimsDto = _mapper.Map<TRoleClaimsDto>(roleClaims);
 
@@ -182,6 +178,8 @@ namespace AdminUI.Admin.Api.Controllers
         }
     }
 }
+
+
 
 
 

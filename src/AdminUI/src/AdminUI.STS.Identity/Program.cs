@@ -1,13 +1,10 @@
-﻿using AdminUI.Shared.Helpers;
-
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-
 using Serilog;
-
-using System;
-using System.IO;
+using Skoruba.IdentityServer4.Shared.Configuration.Helpers;
 
 namespace AdminUI.STS.Identity
 {
@@ -50,7 +47,7 @@ namespace AdminUI.STS.Identity
 
             if (isDevelopment)
             {
-                configurationBuilder.AddUserSecrets<Startup>();
+                configurationBuilder.AddUserSecrets<Startup>(true);
             }
 
             var configuration = configurationBuilder.Build();
@@ -77,7 +74,7 @@ namespace AdminUI.STS.Identity
 
                      if (env.IsDevelopment())
                      {
-                         configApp.AddUserSecrets<Startup>();
+                         configApp.AddUserSecrets<Startup>(true);
                      }
 
                      configurationRoot.AddAzureKeyVaultConfiguration(configApp);
@@ -98,6 +95,8 @@ namespace AdminUI.STS.Identity
                 });
     }
 }
+
+
 
 
 

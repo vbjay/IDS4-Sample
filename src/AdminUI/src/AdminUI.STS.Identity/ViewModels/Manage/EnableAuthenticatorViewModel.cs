@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace AdminUI.STS.Identity.ViewModels.Manage
 {
@@ -19,6 +18,8 @@ namespace AdminUI.STS.Identity.ViewModels.Manage
         public string AuthenticatorUri { get; set; }
     }
 }
+
+
 
 
 

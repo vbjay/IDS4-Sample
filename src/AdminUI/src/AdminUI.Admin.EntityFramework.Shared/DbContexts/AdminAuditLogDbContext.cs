@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
 using Skoruba.AuditLogging.EntityFramework.Entities;
-
-using System.Threading.Tasks;
 
 namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
 {
@@ -23,6 +22,8 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
         public DbSet<AuditLog> AuditLog { get; set; }
     }
 }
+
+
 
 
 

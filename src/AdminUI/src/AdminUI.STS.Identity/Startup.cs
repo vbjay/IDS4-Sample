@@ -1,21 +1,18 @@
-﻿using AdminUI.Admin.EntityFramework.Shared.DbContexts;
-using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
-using AdminUI.Shared.Helpers;
-using AdminUI.STS.Identity.Configuration;
-using AdminUI.STS.Identity.Configuration.Constants;
-using AdminUI.STS.Identity.Configuration.Interfaces;
-using AdminUI.STS.Identity.Helpers;
-
-using HealthChecks.UI.Client;
-
+﻿using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using AdminUI.Admin.EntityFramework.Shared.DbContexts;
+using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
+using AdminUI.STS.Identity.Configuration;
+using AdminUI.STS.Identity.Configuration.Constants;
+using AdminUI.STS.Identity.Configuration.Interfaces;
+using AdminUI.STS.Identity.Helpers;
 using System;
+using Skoruba.IdentityServer4.Shared.Configuration.Helpers;
 
 namespace AdminUI.STS.Identity
 {
@@ -58,9 +55,6 @@ namespace AdminUI.STS.Identity
             RegisterAuthorization(services);
 
             services.AddIdSHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminIdentityDbContext, IdentityServerDataProtectionDbContext>(Configuration);
-
-            services.AddSession(rootConfiguration);
-            services.AddFido2(rootConfiguration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -78,16 +72,16 @@ namespace AdminUI.STS.Identity
 
             app.UsePathBase(Configuration.GetValue<string>("BasePath"));
 
+            app.UseStaticFiles();
+            UseAuthentication(app);
+
             // Add custom security headers
             app.UseSecurityHeaders(Configuration);
 
-            app.UseStaticFiles();
-            UseAuthentication(app);
             app.UseMvcLocalizationServices();
 
             app.UseRouting();
             app.UseAuthorization();
-            app.UseSession();
             app.UseEndpoints(endpoint =>
             {
                 endpoint.MapDefaultControllerRoute();
@@ -134,12 +128,13 @@ namespace AdminUI.STS.Identity
         {
             var rootConfiguration = new RootConfiguration();
             Configuration.GetSection(ConfigurationConsts.AdminConfigurationKey).Bind(rootConfiguration.AdminConfiguration);
-            Configuration.GetSection(ConfigurationConsts.FidoConfigurationKey).Bind(rootConfiguration.FidoConfiguration);
-
+            Configuration.GetSection(ConfigurationConsts.RegisterConfigurationKey).Bind(rootConfiguration.RegisterConfiguration);
             return rootConfiguration;
         }
     }
 }
+
+
 
 
 

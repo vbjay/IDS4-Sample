@@ -54,9 +54,7 @@
             <a asp-action="Disable2faWarning" class="btn btn-dark">@Localizer["Disable2FA"]</a>
             <a asp-action="GenerateRecoveryCodesWarning" class="btn btn-danger">@Localizer["ResetCodes"]</a>
         </div>
-
     }
-
 
 </div>
 
@@ -67,8 +65,6 @@
     </div>
 
     <div class="col-12">
-        <a asp-action="ManageSecurityKeys" class="btn btn-primary">@Localizer["ManageKeys"]</a>
-
         @if (!Model.HasAuthenticator)
         {
             <a id="enable-authenticator" asp-action="EnableAuthenticator" class="btn btn-primary">@Localizer["AddAuthenticator"]</a>
@@ -80,6 +76,8 @@
         }
     </div>
 </div>
+
+
 
 
 

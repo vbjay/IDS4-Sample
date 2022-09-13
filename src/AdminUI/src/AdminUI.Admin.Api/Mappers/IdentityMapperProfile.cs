@@ -1,8 +1,6 @@
-﻿using AdminUI.Admin.Api.Dtos.Roles;
+﻿using AutoMapper;
+using AdminUI.Admin.Api.Dtos.Roles;
 using AdminUI.Admin.Api.Dtos.Users;
-
-using AutoMapper;
-
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity;
 
 namespace AdminUI.Admin.Api.Mappers
@@ -13,7 +11,7 @@ namespace AdminUI.Admin.Api.Mappers
         where TRoleDto : RoleDto<TKey>
         where TUserRolesDto : UserRolesDto<TRoleDto, TKey>
         where TUserProviderDto : UserProviderDto<TKey>
-        where TUserProvidersDto : UserProvidersDto<TUserProviderDto, TKey>
+        where TUserProvidersDto : UserProvidersDto<TUserProviderDto,TKey>
         where TUserChangePasswordDto : UserChangePasswordDto<TKey>
         where TRoleClaimsDto : RoleClaimsDto<TRoleClaimDto, TKey>
         where TRoleClaimDto : RoleClaimDto<TKey>
@@ -46,6 +44,8 @@ namespace AdminUI.Admin.Api.Mappers
         }
     }
 }
+
+
 
 
 

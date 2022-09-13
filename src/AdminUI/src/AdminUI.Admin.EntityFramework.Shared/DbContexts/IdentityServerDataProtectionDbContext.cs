@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
 {
@@ -11,6 +14,8 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
             : base(options) { }
     }
 }
+
+
 
 
 

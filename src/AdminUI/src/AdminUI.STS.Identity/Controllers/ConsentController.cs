@@ -4,24 +4,21 @@
 // Original file: https://github.com/IdentityServer/IdentityServer4.Quickstart.UI
 // Modified by Jan �koruba
 
-using AdminUI.STS.Identity.Configuration;
-using AdminUI.STS.Identity.Helpers;
-using AdminUI.STS.Identity.ViewModels.Consent;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AdminUI.STS.Identity.Configuration;
+using AdminUI.STS.Identity.Helpers;
+using AdminUI.STS.Identity.ViewModels.Consent;
 
 namespace AdminUI.STS.Identity.Controllers
 {
@@ -107,10 +104,7 @@ namespace AdminUI.STS.Identity.Controllers
 
             // validate return url is still valid
             var request = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
-            if (request == null)
-            {
-                return result;
-            }
+            if (request == null) return result;
 
             ConsentResponse grantedConsent = null;
 
@@ -242,7 +236,7 @@ namespace AdminUI.STS.Identity.Controllers
         public ScopeViewModel CreateScopeViewModel(ParsedScopeValue parsedScopeValue, ApiScope apiScope, bool check)
         {
             var displayName = apiScope.DisplayName ?? apiScope.Name;
-            if (!string.IsNullOrWhiteSpace(parsedScopeValue.ParsedParameter))
+            if (!String.IsNullOrWhiteSpace(parsedScopeValue.ParsedParameter))
             {
                 displayName += ":" + parsedScopeValue.ParsedParameter;
             }
@@ -271,6 +265,8 @@ namespace AdminUI.STS.Identity.Controllers
         }
     }
 }
+
+
 
 
 

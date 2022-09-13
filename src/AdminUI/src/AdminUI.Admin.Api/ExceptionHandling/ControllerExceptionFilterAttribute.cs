@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Diagnostics;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Shared.ExceptionHandling;
-
-using System.Diagnostics;
-using System.Linq;
 
 namespace AdminUI.Admin.Api.ExceptionHandling
 {
@@ -16,10 +14,7 @@ namespace AdminUI.Admin.Api.ExceptionHandling
         public override void OnException(ExceptionContext context)
         {
             if (!(context.Exception is UserFriendlyErrorPageException) &&
-                !(context.Exception is UserFriendlyViewException))
-            {
-                return;
-            }
+                !(context.Exception is UserFriendlyViewException)) return;
 
             HandleUserFriendlyViewException(context);
             ProcessException(context);
@@ -39,10 +34,10 @@ namespace AdminUI.Admin.Api.ExceptionHandling
                 Status = StatusCodes.Status400BadRequest,
                 Instance = context.HttpContext.Request.Path
             };
-
+            
             SetTraceId(context.HttpContext.TraceIdentifier, problemDetails);
 
-            var exceptionResult = new BadRequestObjectResult(problemDetails)
+            var exceptionResult =  new BadRequestObjectResult(problemDetails)
             {
                 ContentTypes = {
                     "application/problem+json",
@@ -77,6 +72,8 @@ namespace AdminUI.Admin.Api.ExceptionHandling
         }
     }
 }
+
+
 
 
 

@@ -2,16 +2,13 @@
   "IdentityData": {
     "Roles": [
       {
-        "Name": "Administrator",
-      },
-      {
-        "Name": "ReadonlyAdmin"
+        "Name": "Administrator"
       }
     ],
     "Users": [
       {
         "Username": "admin",
-        "Password": "Pa--helpword123",
+        "Password": "Pafalseword123",
         "Email": "admin@example.com",
         "Roles": [
           "Administrator"

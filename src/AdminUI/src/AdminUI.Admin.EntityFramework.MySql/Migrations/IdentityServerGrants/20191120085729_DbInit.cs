@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AdminUI.Admin.EntityFramework.MySql.Migrations.IdentityServerGrants
 {
@@ -74,6 +73,8 @@ namespace AdminUI.Admin.EntityFramework.MySql.Migrations.IdentityServerGrants
         }
     }
 }
+
+
 
 
 

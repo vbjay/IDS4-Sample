@@ -1,4 +1,4 @@
-﻿using AdminUI.Shared.Configuration.Identity;
+﻿using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 
 namespace AdminUI.STS.Identity.Helpers.Localization
 {
@@ -18,6 +18,8 @@ namespace AdminUI.STS.Identity.Helpers.Localization
         }
     }
 }
+
+
 
 
 

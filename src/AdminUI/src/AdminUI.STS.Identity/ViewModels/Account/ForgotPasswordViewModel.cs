@@ -1,6 +1,5 @@
-﻿using AdminUI.Shared.Configuration.Identity;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 
 namespace AdminUI.STS.Identity.ViewModels.Account
 {
@@ -8,13 +7,15 @@ namespace AdminUI.STS.Identity.ViewModels.Account
     {
         [Required]
         public LoginResolutionPolicy? Policy { get; set; }
-        //[Required]
+        
         [EmailAddress]
         public string Email { get; set; }
 
         public string Username { get; set; }
     }
 }
+
+
 
 
 

@@ -135,9 +135,6 @@
   <data name="GenerateNewCodes" xml:space="preserve">
     <value>generate a new set of recovery codes</value>
   </data>
-  <data name="ManageKeys" xml:space="preserve">
-    <value>Manage Security Keys</value>
-  </data>
   <data name="NoCodes" xml:space="preserve">
     <value>You have no recovery codes left</value>
   </data>

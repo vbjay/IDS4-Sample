@@ -1,23 +1,9 @@
-﻿using AdminUI.Admin.EntityFramework.MySql.Extensions;
-using AdminUI.Admin.EntityFramework.PostgreSQL.Extensions;
-using AdminUI.Admin.EntityFramework.Shared.Configuration;
-using AdminUI.Admin.EntityFramework.SqlServer.Extensions;
-using AdminUI.Shared.Authentication;
-using AdminUI.Shared.Configuration.Identity;
-using AdminUI.STS.Identity.Configuration;
-using AdminUI.STS.Identity.Configuration.ApplicationParts;
-using AdminUI.STS.Identity.Configuration.Constants;
-using AdminUI.STS.Identity.Configuration.Interfaces;
-using AdminUI.STS.Identity.Helpers.Localization;
-using AdminUI.STS.Identity.Services;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using IdentityServer4.EntityFramework.Storage;
-
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -27,14 +13,24 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-
-using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
-using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+using AdminUI.STS.Identity.Configuration;
+using AdminUI.STS.Identity.Configuration.ApplicationParts;
+using AdminUI.STS.Identity.Configuration.Constants;
+using AdminUI.STS.Identity.Configuration.Interfaces;
+using AdminUI.STS.Identity.Helpers.Localization;
 using System.Linq;
+using IdentityServer4.Configuration;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Identity.Web;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.Configuration;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.MySql;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.PostgreSQL;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.SqlServer;
+using Skoruba.IdentityServer4.Shared.Configuration.Authentication;
+using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 
 namespace AdminUI.STS.Identity.Helpers
 {
@@ -75,11 +71,7 @@ namespace AdminUI.STS.Identity.Helpers
                         cultureConfiguration.Cultures.Intersect(CultureConfiguration.AvailableCultures) :
                         CultureConfiguration.AvailableCultures).ToArray();
 
-                    if (!supportedCultureCodes.Any())
-                    {
-                        supportedCultureCodes = CultureConfiguration.AvailableCultures;
-                    }
-
+                    if (!supportedCultureCodes.Any()) supportedCultureCodes = CultureConfiguration.AvailableCultures;
                     var supportedCultures = supportedCultureCodes.Select(c => new CultureInfo(c)).ToList();
 
                     // If the default culture is specified use it, otherwise use CultureConfiguration.DefaultRequestCulture ("en")
@@ -87,10 +79,7 @@ namespace AdminUI.STS.Identity.Helpers
                         CultureConfiguration.DefaultRequestCulture : cultureConfiguration?.DefaultCulture;
 
                     // If the default culture is not among the supported cultures, use the first supported culture as default
-                    if (!supportedCultureCodes.Contains(defaultCultureCode))
-                    {
-                        defaultCultureCode = supportedCultureCodes.FirstOrDefault();
-                    }
+                    if (!supportedCultureCodes.Contains(defaultCultureCode)) defaultCultureCode = supportedCultureCodes.FirstOrDefault();
 
                     opts.DefaultRequestCulture = new RequestCulture(defaultCultureCode);
                     opts.SupportedCultures = supportedCultures;
@@ -100,67 +89,6 @@ namespace AdminUI.STS.Identity.Helpers
             return mvcBuilder;
         }
 
-
-        /// <summary>
-        /// Add authorization policies
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="rootConfiguration"></param>
-        public static void AddCache(this IServiceCollection services,
-                IRootConfiguration rootConfiguration)
-        {
-            services.AddDistributedMemoryCache();
-        }
-
-        /// <summary>
-        /// Add authorization policies
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="rootConfiguration"></param>
-        public static void AddSession(this IServiceCollection services,
-                IRootConfiguration rootConfiguration)
-        {
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(2);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-
-            });
-
-        }
-
-        /// <summary>
-        /// Add authorization policies
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="rootConfiguration"></param>
-        public static void AddFido2(this IServiceCollection services,
-                IRootConfiguration rootConfiguration)
-        {
-            services.AddScoped<Fido2Storage>();
-            //services.AddFido2(options =>
-            //{
-            //    options.ServerDomain = rootConfiguration.FidoConfiguration.ServerDomain;
-            //    options.ServerName = "FIDO2 Test";
-            //    options.Origins = rootConfiguration.FidoConfiguration.Origins;
-            //    options.TimestampDriftTolerance = rootConfiguration.FidoConfiguration.TimestampDriftTolerance;
-            //    options.MDSCacheDirPath = rootConfiguration.FidoConfiguration.MDSCacheDirPath;
-            //})
-            //.AddCachedMetadataService(config =>
-            //{
-
-
-            //});
-        }
-
-        /// <summary>
-        /// Using of Forwarded Headers and Referrer Policy
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="configuration"></param>
-        public static void UseFido2(this IApplicationBuilder app, IConfiguration configuration) { }
         /// <summary>
         /// Using of Forwarded Headers and Referrer Policy
         /// </summary>
@@ -187,10 +115,13 @@ namespace AdminUI.STS.Identity.Helpers
             {
                 app.UseCsp(csp =>
                 {
+                    var imagesSources = new List<string> { "data:" };
+                    imagesSources.AddRange(cspTrustedDomains);
+
                     csp.ImageSources(options =>
                     {
                         options.SelfSrc = true;
-                        options.CustomSources = cspTrustedDomains;
+                        options.CustomSources = imagesSources;
                         options.Enabled = true;
                     });
                     csp.FontSources(options =>
@@ -213,11 +144,35 @@ namespace AdminUI.STS.Identity.Helpers
                         options.Enabled = true;
                         options.UnsafeInlineSrc = true;
                     });
-                    csp.DefaultSources(options =>
+                    csp.Sandbox(options =>
+                    {
+                        options.AllowForms()
+                            .AllowSameOrigin()
+                            .AllowScripts();
+                    });
+                    csp.FrameAncestors(option =>
+                    {
+                        option.NoneSrc = true;
+                        option.Enabled = true;
+                    });
+
+                    csp.BaseUris(options =>
                     {
                         options.SelfSrc = true;
-                        options.CustomSources = cspTrustedDomains;
                         options.Enabled = true;
+                    });
+
+                    csp.ObjectSources(options =>
+                    {
+                        options.NoneSrc = true;
+                        options.Enabled = true;
+                    });
+
+                    csp.DefaultSources(options =>
+                    {
+                        options.Enabled = true;
+                        options.SelfSrc = true;
+                        options.CustomSources = cspTrustedDomains;
                     });
                 });
             }
@@ -249,10 +204,7 @@ namespace AdminUI.STS.Identity.Helpers
             switch (databaseProvider.ProviderType)
             {
                 case DatabaseProviderType.SqlServer:
-                    services.RegisterSqlServerDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TDataProtectionDbContext>(identityConnectionString,
-                        configurationConnectionString,
-                        persistedGrantsConnectionString,
-                        dataProtectionConnectionString);
+                    services.RegisterSqlServerDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TDataProtectionDbContext>(identityConnectionString, configurationConnectionString, persistedGrantsConnectionString, dataProtectionConnectionString);
                     break;
                 case DatabaseProviderType.PostgreSQL:
                     services.RegisterNpgSqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TDataProtectionDbContext>(identityConnectionString, configurationConnectionString, persistedGrantsConnectionString, dataProtectionConnectionString);
@@ -263,7 +215,6 @@ namespace AdminUI.STS.Identity.Helpers
                 default:
                     throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
             }
-
         }
 
         /// <summary>
@@ -328,8 +279,7 @@ namespace AdminUI.STS.Identity.Helpers
                 .AddScoped<UserResolver<TUserIdentity>>()
                 .AddIdentity<TUserIdentity, TUserIdentityRole>(options => configuration.GetSection(nameof(IdentityOptions)).Bind(options))
                 .AddEntityFrameworkStores<TIdentityDbContext>()
-                .AddDefaultTokenProviders()
-                .AddTokenProvider<Fido2UserTwoFactorTokenProvider>("FIDO2");
+                .AddDefaultTokenProviders();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -403,26 +353,12 @@ namespace AdminUI.STS.Identity.Helpers
             where TConfigurationDbContext : DbContext, IAdminConfigurationDbContext
             where TUserIdentity : class
         {
-            var advancedConfiguration = configuration.GetSection(nameof(AdvancedConfiguration)).Get<AdvancedConfiguration>();
+            var configurationSection = configuration.GetSection(nameof(IdentityServerOptions));
 
-            var builder = services.AddIdentityServer(options =>
-                {
-                    options.Events.RaiseErrorEvents = true;
-                    options.Events.RaiseInformationEvents = true;
-                    options.Events.RaiseFailureEvents = true;
-                    options.Events.RaiseSuccessEvents = true;
-
-                    if (!string.IsNullOrEmpty(advancedConfiguration.IssuerUri))
-                    {
-                        options.IssuerUri = advancedConfiguration.IssuerUri;
-                    }
-                })
+            var builder = services.AddIdentityServer(options => configurationSection.Bind(options))
                 .AddConfigurationStore<TConfigurationDbContext>()
                 .AddOperationalStore<TPersistedGrantDbContext>()
-                .AddAspNetIdentity<TUserIdentity>()
-                .AddAppAuthRedirectUriValidator();
-            // .AddRedirectUriValidator<RedirectUrlValidator>();
-
+                .AddAspNetIdentity<TUserIdentity>();
 
             builder.AddCustomSigningCredential(configuration);
             builder.AddCustomValidationKey(configuration);
@@ -440,38 +376,29 @@ namespace AdminUI.STS.Identity.Helpers
             IConfiguration configuration)
         {
             var externalProviderConfiguration = configuration.GetSection(nameof(ExternalProvidersConfiguration)).Get<ExternalProvidersConfiguration>();
-            if (externalProviderConfiguration.UseGoogleProvider)
-            {
-                authenticationBuilder.AddGoogle(options =>
-                {
-                    options.ClientId = externalProviderConfiguration.GoogleClientID;
-                    options.ClientSecret = externalProviderConfiguration.GoogleSecret;
 
-                });
-            }
             if (externalProviderConfiguration.UseGitHubProvider)
             {
-
                 authenticationBuilder.AddGitHub(options =>
                 {
                     options.ClientId = externalProviderConfiguration.GitHubClientId;
                     options.ClientSecret = externalProviderConfiguration.GitHubClientSecret;
+                    options.CallbackPath = externalProviderConfiguration.GitHubCallbackPath;
                     options.Scope.Add("user:email");
                 });
             }
 
             if (externalProviderConfiguration.UseAzureAdProvider)
             {
-                authenticationBuilder.AddAzureAD(AzureADDefaults.AuthenticationScheme, AzureADDefaults.OpenIdScheme, AzureADDefaults.CookieScheme, AzureADDefaults.DisplayName, options =>
-                     {
-                         options.ClientSecret = externalProviderConfiguration.AzureAdSecret;
-                         options.ClientId = externalProviderConfiguration.AzureAdClientId;
-                         options.TenantId = externalProviderConfiguration.AzureAdTenantId;
-                         options.Instance = externalProviderConfiguration.AzureInstance;
-                         options.Domain = externalProviderConfiguration.AzureDomain;
-                         options.CallbackPath = externalProviderConfiguration.AzureAdCallbackPath;
-                         options.CookieSchemeName = IdentityConstants.ExternalScheme;
-                     });
+                authenticationBuilder.AddMicrosoftIdentityWebApp(options =>
+                {
+                    options.ClientSecret = externalProviderConfiguration.AzureAdSecret;
+                    options.ClientId = externalProviderConfiguration.AzureAdClientId;
+                    options.TenantId = externalProviderConfiguration.AzureAdTenantId;
+                    options.Instance = externalProviderConfiguration.AzureInstance;
+                    options.Domain = externalProviderConfiguration.AzureDomain;
+                    options.CallbackPath = externalProviderConfiguration.AzureAdCallbackPath;
+                },  cookieScheme: null);
             }
         }
 
@@ -497,9 +424,6 @@ namespace AdminUI.STS.Identity.Helpers
             {
                 options.AddPolicy(AuthorizationConsts.AdministrationPolicy,
                     policy => policy.RequireRole(rootConfiguration.AdminConfiguration.AdministrationRole));
-
-                options.AddPolicy(AuthorizationConsts.AdministrationReadonlyPolicy,
-                  policy => policy.RequireRole(rootConfiguration.AdminConfiguration.AdministrationRole, rootConfiguration.AdminConfiguration.AdministrationReadonlyRole));
             });
         }
 
@@ -522,51 +446,55 @@ namespace AdminUI.STS.Identity.Helpers
 
             var serviceProvider = services.BuildServiceProvider();
             var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-            using var scope = scopeFactory.CreateScope();
-            var configurationTableName = DbContextHelpers.GetEntityTable<TConfigurationDbContext>(scope.ServiceProvider);
-            var persistedGrantTableName = DbContextHelpers.GetEntityTable<TPersistedGrantDbContext>(scope.ServiceProvider);
-            var identityTableName = DbContextHelpers.GetEntityTable<TIdentityDbContext>(scope.ServiceProvider);
-            var dataProtectionTableName = DbContextHelpers.GetEntityTable<TDataProtectionDbContext>(scope.ServiceProvider);
-
-            var databaseProvider = configuration.GetSection(nameof(DatabaseProviderConfiguration)).Get<DatabaseProviderConfiguration>();
-            switch (databaseProvider.ProviderType)
+            using (var scope = scopeFactory.CreateScope())
             {
-                case DatabaseProviderType.SqlServer:
-                    healthChecksBuilder
-                        .AddSqlServer(configurationDbConnectionString, name: "ConfigurationDb",
-                            healthQuery: $"SELECT TOP 1 * FROM dbo.[{configurationTableName}]")
-                        .AddSqlServer(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
-                            healthQuery: $"SELECT TOP 1 * FROM dbo.[{persistedGrantTableName}]")
-                        .AddSqlServer(identityDbConnectionString, name: "IdentityDb",
-                            healthQuery: $"SELECT TOP 1 * FROM dbo.[{identityTableName}]")
-                        .AddSqlServer(dataProtectionDbConnectionString, name: "DataProtectionDb",
-                            healthQuery: $"SELECT TOP 1 * FROM dbo.[{dataProtectionTableName}]");
+                var configurationTableName = DbContextHelpers.GetEntityTable<TConfigurationDbContext>(scope.ServiceProvider);
+                var persistedGrantTableName = DbContextHelpers.GetEntityTable<TPersistedGrantDbContext>(scope.ServiceProvider);
+                var identityTableName = DbContextHelpers.GetEntityTable<TIdentityDbContext>(scope.ServiceProvider);
+                var dataProtectionTableName = DbContextHelpers.GetEntityTable<TDataProtectionDbContext>(scope.ServiceProvider);
 
-                    break;
-                case DatabaseProviderType.PostgreSQL:
-                    healthChecksBuilder
-                        .AddNpgSql(configurationDbConnectionString, name: "ConfigurationDb",
-                            healthQuery: $"SELECT * FROM \"{configurationTableName}\" LIMIT 1")
-                        .AddNpgSql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
-                            healthQuery: $"SELECT * FROM \"{persistedGrantTableName}\" LIMIT 1")
-                        .AddNpgSql(identityDbConnectionString, name: "IdentityDb",
-                            healthQuery: $"SELECT * FROM \"{identityTableName}\" LIMIT 1")
-                        .AddNpgSql(dataProtectionDbConnectionString, name: "DataProtectionDb",
-                            healthQuery: $"SELECT * FROM \"{dataProtectionTableName}\"  LIMIT 1");
-                    break;
-                case DatabaseProviderType.MySql:
-                    healthChecksBuilder
-                        .AddMySql(configurationDbConnectionString, name: "ConfigurationDb")
-                        .AddMySql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb")
-                        .AddMySql(identityDbConnectionString, name: "IdentityDb")
-                        .AddMySql(dataProtectionDbConnectionString, name: "DataProtectionDb");
-                    break;
-                default:
-                    throw new NotImplementedException($"Health checks not defined for database provider {databaseProvider.ProviderType}");
+                var databaseProvider = configuration.GetSection(nameof(DatabaseProviderConfiguration)).Get<DatabaseProviderConfiguration>();
+                switch (databaseProvider.ProviderType)
+                {
+                    case DatabaseProviderType.SqlServer:
+                        healthChecksBuilder
+                            .AddSqlServer(configurationDbConnectionString, name: "ConfigurationDb",
+                                healthQuery: $"SELECT TOP 1 * FROM dbo.[{configurationTableName}]")
+                            .AddSqlServer(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
+                                healthQuery: $"SELECT TOP 1 * FROM dbo.[{persistedGrantTableName}]")
+                            .AddSqlServer(identityDbConnectionString, name: "IdentityDb",
+                                healthQuery: $"SELECT TOP 1 * FROM dbo.[{identityTableName}]")
+                            .AddSqlServer(dataProtectionDbConnectionString, name: "DataProtectionDb",
+                                healthQuery: $"SELECT TOP 1 * FROM dbo.[{dataProtectionTableName}]");
+
+                        break;
+                    case DatabaseProviderType.PostgreSQL:
+                        healthChecksBuilder
+                            .AddNpgSql(configurationDbConnectionString, name: "ConfigurationDb",
+                                healthQuery: $"SELECT * FROM \"{configurationTableName}\" LIMIT 1")
+                            .AddNpgSql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
+                                healthQuery: $"SELECT * FROM \"{persistedGrantTableName}\" LIMIT 1")
+                            .AddNpgSql(identityDbConnectionString, name: "IdentityDb",
+                                healthQuery: $"SELECT * FROM \"{identityTableName}\" LIMIT 1")
+                            .AddNpgSql(dataProtectionDbConnectionString, name: "DataProtectionDb",
+                                healthQuery: $"SELECT * FROM \"{dataProtectionTableName}\"  LIMIT 1");
+                        break;
+                    case DatabaseProviderType.MySql:
+                        healthChecksBuilder
+                            .AddMySql(configurationDbConnectionString, name: "ConfigurationDb")
+                            .AddMySql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb")
+                            .AddMySql(identityDbConnectionString, name: "IdentityDb")
+                            .AddMySql(dataProtectionDbConnectionString, name: "DataProtectionDb");
+                        break;
+                    default:
+                        throw new NotImplementedException($"Health checks not defined for database provider {databaseProvider.ProviderType}");
+                }
             }
         }
     }
 }
+
+
 
 
 

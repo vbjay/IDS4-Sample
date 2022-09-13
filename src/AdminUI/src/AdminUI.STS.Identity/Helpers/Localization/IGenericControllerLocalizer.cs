@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Localization;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.Localization;
 
 namespace AdminUI.STS.Identity.Helpers.Localization
 {
@@ -13,6 +12,8 @@ namespace AdminUI.STS.Identity.Helpers.Localization
         IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures);
     }
 }
+
+
 
 
 

@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-
-using System;
 
 namespace AdminUI.Admin.EntityFramework.MySql.Migrations.Identity
 {
@@ -217,6 +216,8 @@ namespace AdminUI.Admin.EntityFramework.MySql.Migrations.Identity
         }
     }
 }
+
+
 
 
 

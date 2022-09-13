@@ -4,14 +4,11 @@
 // Original file: https://github.com/IdentityServer/IdentityServer4.Quickstart.UI
 // Modified by Jan �koruba
 
-using IdentityModel;
-
-using Microsoft.AspNetCore.Authentication;
-
-using Newtonsoft.Json;
-
 using System.Collections.Generic;
 using System.Text;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using Newtonsoft.Json;
 
 namespace AdminUI.STS.Identity.ViewModels.Diagnostics
 {
@@ -35,6 +32,8 @@ namespace AdminUI.STS.Identity.ViewModels.Diagnostics
         public IEnumerable<string> Clients { get; } = new List<string>();
     }
 }
+
+
 
 
 

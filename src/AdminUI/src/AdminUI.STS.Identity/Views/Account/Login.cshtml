@@ -93,7 +93,7 @@
                             @foreach (var provider in Model.VisibleExternalProviders)
                             {
                                 <li class="list-inline-item">
-                                    <a class="btn btn-primary @provider.LogoCssClass"
+                                    <a class="btn btn-primary"
                                        asp-action="ExternalLogin"
                                        asp-route-provider="@provider.AuthenticationScheme"
                                        asp-route-returnUrl="@Model.ReturnUrl">
@@ -116,6 +116,8 @@
         }
     </div>
 </div>
+
+
 
 
 

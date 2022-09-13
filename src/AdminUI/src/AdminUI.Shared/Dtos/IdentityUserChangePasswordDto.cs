@@ -4,9 +4,11 @@ namespace AdminUI.Shared.Dtos
 {
     public class IdentityUserChangePasswordDto : UserChangePasswordDto<string>
     {
-
+        
     }
 }
+
+
 
 
 

@@ -4,10 +4,10 @@
 // Original file: https://github.com/IdentityServer/IdentityServer4.Quickstart.UI
 // Modified by Jan Škoruba
 
-using AdminUI.Shared.Configuration.Identity;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 
 namespace AdminUI.STS.Identity.ViewModels.Account
 {
@@ -18,12 +18,14 @@ namespace AdminUI.STS.Identity.ViewModels.Account
         public LoginResolutionPolicy LoginResolutionPolicy { get; set; } = LoginResolutionPolicy.Username;
 
         public IEnumerable<ExternalProvider> ExternalProviders { get; set; } = Enumerable.Empty<ExternalProvider>();
-        public IEnumerable<ExternalProvider> VisibleExternalProviders => ExternalProviders.Where(x => !string.IsNullOrWhiteSpace(x.DisplayName));
+        public IEnumerable<ExternalProvider> VisibleExternalProviders => ExternalProviders.Where(x => !String.IsNullOrWhiteSpace(x.DisplayName));
 
         public bool IsExternalLoginOnly => EnableLocalLogin == false && ExternalProviders?.Count() == 1;
         public string ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
     }
 }
+
+
 
 
 

@@ -1,257 +1,134 @@
 ﻿{
-  "IdentityServerData": {
-    "IdentityResources": [
-      {
-        "Name": "roles",
-        "Enabled": true,
-        "DisplayName": "Roles",
-        "UserClaims": [
-          "role"
+    "IdentityServerData": {
+        "IdentityResources": [
+            {
+                "Name": "roles",
+                "Enabled": true,
+                "DisplayName": "Roles",
+                "UserClaims": [
+                    "role"
+                ]
+            },
+            {
+                "Name": "openid",
+                "Enabled": true,
+                "Required": true,
+                "DisplayName": "Your user identifier",
+                "UserClaims": [
+                    "sub"
+                ]
+            },
+            {
+                "Name": "profile",
+                "Enabled": true,
+                "DisplayName": "User profile",
+                "Description": "Your user profile information (first name, last name, etc.)",
+                "Emphasize": true,
+                "UserClaims": [
+                    "name",
+                    "family_name",
+                    "given_name",
+                    "middle_name",
+                    "nickname",
+                    "preferred_username",
+                    "profile",
+                    "picture",
+                    "website",
+                    "gender",
+                    "birthdate",
+                    "zoneinfo",
+                    "locale",
+                    "updated_at"
+                ]
+            },
+            {
+                "Name": "email",
+                "Enabled": true,
+                "DisplayName": "Your email address",
+                "Emphasize": true,
+                "UserClaims": [
+                    "email",
+                    "email_verified"
+                ]
+            },
+            {
+                "Name": "address",
+                "Enabled": true,
+                "DisplayName": "Your address",
+                "Emphasize": true,
+                "UserClaims": [
+                    "address"
+                ]
+            }
+        ],
+        "ApiScopes": [
+            {
+                "Name": "AdminClient_api",
+                "DisplayName": "AdminClient_api",
+                "Required": true,
+                "UserClaims": [
+                    "role",
+                    "name"
+                ]
+            }
+        ],
+        "ApiResources": [
+            {
+                "Name": "AdminClient_api",
+                "Scopes": [
+                    "AdminClient_api"
+                ]
+            }
+        ],
+        "Clients": [
+            {
+                "ClientId": "AdminClient",
+                "ClientName": "AdminClient",
+                "ClientUri": "https://localhost:44303",
+                "AllowedGrantTypes": [
+                    "authorization_code"
+                ],
+                "RequirePkce": true,
+                "ClientSecrets": [
+                    {
+                        "Value": "AdminClientSecret"
+                    }
+                ],
+                "RedirectUris": [
+                    "https://localhost:44303/signin-oidc"
+                ],
+                "FrontChannelLogoutUri": "https://localhost:44303/signout-oidc",
+                "PostLogoutRedirectUris": [
+                    "https://localhost:44303/signout-callback-oidc"
+                ],
+                "AllowedCorsOrigins": [
+                    "https://localhost:44303"
+                ],
+                "AllowedScopes": [
+                    "openid",
+                    "email",
+                    "profile",
+                    "roles"
+                ]
+            },
+            {
+                "ClientId": "AdminClient_api_swaggerui",
+                "ClientName": "AdminClient_api_swaggerui",
+                "AllowedGrantTypes": [
+                    "authorization_code"
+                ],
+                "RequireClientSecret": false,
+                "RequirePkce": true,
+                "RedirectUris": [
+                    "https://localhost:44302/swagger/oauth2-redirect.html"
+                ],
+                "AllowedScopes": [
+                    "AdminClient_api"
+                ],
+                "AllowedCorsOrigins": [
+                    "https://localhost:44302"
+                ]
+            }
         ]
-      },
-      {
-        "Name": "openid",
-        "Enabled": true,
-        "Required": true,
-        "DisplayName": "Your user identifier",
-        "UserClaims": [
-          "sub"
-        ]
-      },
-      {
-        "Name": "profile",
-        "Enabled": true,
-        "DisplayName": "User profile",
-        "Description": "Your user profile information (first name, last name, etc.)",
-        "Emphasize": true,
-        "UserClaims": [
-          "name",
-          "family_name",
-          "given_name",
-          "middle_name",
-          "nickname",
-          "preferred_username",
-          "profile",
-          "picture",
-          "website",
-          "gender",
-          "birthdate",
-          "zoneinfo",
-          "locale",
-          "updated_at",
-          "RandomID"
-        ]
-      },
-      {
-        "Name": "email",
-        "Enabled": true,
-        "DisplayName": "Your email address",
-        "Emphasize": true,
-        "UserClaims": [
-          "email",
-          "email_verified"
-        ]
-      },
-      {
-        "Name": "address",
-        "Enabled": true,
-        "DisplayName": "Your address",
-        "Emphasize": true,
-        "UserClaims": [
-          "address"
-        ]
-      }
-    ],
-    "ApiScopes": [
-      {
-        "Name": "AdminClient_api",
-        "DisplayName": "AdminClient_api",
-        "Required": true,
-        "UserClaims": [
-          "role",
-          "name"
-        ]
-      },
-      {
-        "Name": "weather.read",
-        "DisplayName": "Read Weather Forecast",
-        "Description": "Read forecast",
-        "Required": false,
-        "UserClaims": [],
-        "Emphasize": true
-      },
-      {
-        "Name": "weather.write",
-        "DisplayName": "Write Weather Forecast",
-        "Description": "Write to weather forecast",
-        "Required": false,
-        "UserClaims": []
-      }
-    ],
-    "ApiResources": [
-      {
-        "Name": "AdminClient_api",
-        "Scopes": [
-          "AdminClient_api"
-        ]
-      },
-      {
-        "Name": "weather",
-        "DisplayName": "Weather API",
-        "Description": "Allow the application to access sample weather API on your behalf",
-        "Scopes": [
-          "weather.read",
-          "weather.write"
-        ],
-        "UserClaims": [
-          "profile"
-        ]
-      }
-    ],
-    "Clients": [
-      {
-        "ClientId": "AdminClient",
-        "ClientName": "AdminClient",
-        "ClientUri": "https://localhost:44303",
-        "AllowedGrantTypes": [
-          "authorization_code"
-        ],
-        "RequirePkce": true,
-        "ClientSecrets": [
-          {
-            "Value": "AdminClientSecret"
-          }
-        ],
-        "RedirectUris": [
-          "https://localhost:44303/signin-oidc"
-        ],
-        "FrontChannelLogoutUri": "https://localhost:44303/signout-oidc",
-        "PostLogoutRedirectUris": [
-          "https://localhost:44303/signout-callback-oidc"
-        ],
-        "AllowedCorsOrigins": [
-          "https://localhost:44303"
-        ],
-        "AllowedScopes": [
-          "openid",
-          "email",
-          "profile",
-          "roles"
-        ]
-      },
-      {
-        "ClientId": "AdminClient_api_swaggerui",
-        "ClientName": "AdminClient_api_swaggerui",
-        "AllowedGrantTypes": [
-          "authorization_code"
-        ],
-        "RequireClientSecret": false,
-        "RequirePkce": true,
-        "RedirectUris": [
-          "https://localhost:44302/swagger/oauth2-redirect.html"
-        ],
-        "AllowedScopes": [
-          "AdminClient_api"
-        ],
-        "AllowedCorsOrigins": [
-          "https://localhost:44302"
-        ]
-      },
-      {
-        "ClientId": "weather-swagger",
-        "ClientName": "Weather Swagger Client",
-        "Description": "Access weather API through swagger page",
-        "ClientUri": "",
-        "AllowedGrantTypes": [
-          "client_credentials"
-        ],
-        "RequirePkce": false,
-        "RequireClientSecret": true,
-        "ClientSecrets": [
-          {
-            "Value": "SuperSecretPassword"
-          }
-        ],
-        "RedirectUris": [],
-        "FrontChannelLogoutUri": "",
-        "PostLogoutRedirectUris": [],
-        "AllowedCorsOrigins": [
-          "https://localhost:44385"
-        ],
-        "AllowedScopes": [
-          "weather.read",
-          "weather.write"
-        ]
-      },
-      {
-        "ClientId": "oidcClient",
-        "Description": "Allow MVC app to login",
-        "ClientName": "oidcClient",
-        "ClientUri": "",
-        "AllowedGrantTypes": [
-          "authorization_code"
-        ],
-        "RequirePkce": true,
-        "RequireClientSecret": true,
-        "RequireConsent": true,
-        "AllowOfflineAccess": true,
-        "AlwaysIncludeUserClaimsInIdToken": true,
-        "ClientSecrets": [
-          {
-            "Value": "SuperSecretPassword"
-          }
-        ],
-        "RedirectUris": [
-          "https://localhost:44386/signin-oidc"
-        ],
-        "FrontChannelLogoutUri": "",
-        "PostLogoutRedirectUris": [
-          "https://localhost:44386/signout-callback-oidc"
-        ],
-        "AllowedCorsOrigins": [],
-        "AllowedScopes": [
-          "address",
-          "profile",
-          "openid",
-          "email",
-          "weather.write",
-          "weather.read",
-          "roles"
-        ]
-      },
-      {
-        "ClientId": "vb-Winforms",
-        "Description": "Winforms app that authorizes using the ids4 instance.",
-        "ClientName": "VB Winforms sample",
-        "ClientUri": "",
-        "AllowedGrantTypes": [
-          "authorization_code"
-        ],
-        "RequirePkce": true,
-        "RequireClientSecret": true,
-        "RequireConsent": true,
-        "AllowOfflineAccess": true,
-        "AlwaysIncludeUserClaimsInIdToken": true,
-        "ClientSecrets": [
-          {
-            "Value": "0559e8a8-dc72-4c6a-9b00-6d0917aa6588714e1e07-a4a2-47c0-9291-6eac956b2f29"
-          }
-        ],
-        "RedirectUris": [
-          "http://127.0.0.1"
-        ],
-        "FrontChannelLogoutUri": "",
-        "PostLogoutRedirectUris": [],
-        "AllowedCorsOrigins": [],
-        "AllowedScopes": [
-          "email",
-          "openid",
-          "weather.write",
-          "roles",
-          "weather.read",
-          "profile"
-        ]
-      }
-    ]
-  }
+    }
 }

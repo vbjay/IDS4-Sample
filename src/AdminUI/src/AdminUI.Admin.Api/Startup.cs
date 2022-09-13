@@ -1,17 +1,7 @@
-﻿using AdminUI.Admin.Api.Configuration;
-using AdminUI.Admin.Api.Configuration.Authorization;
-using AdminUI.Admin.Api.ExceptionHandling;
-using AdminUI.Admin.Api.Helpers;
-using AdminUI.Admin.Api.Mappers;
-using AdminUI.Admin.Api.Resources;
-using AdminUI.Admin.EntityFramework.Shared.DbContexts;
-using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
-using AdminUI.Shared.Dtos;
-using AdminUI.Shared.Dtos.Identity;
-using AdminUI.Shared.Helpers;
-
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using HealthChecks.UI.Client;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -19,11 +9,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-
 using Skoruba.AuditLogging.EntityFramework.Entities;
-
-using System;
-using System.Collections.Generic;
+using AdminUI.Admin.Api.Configuration;
+using AdminUI.Admin.Api.Configuration.Authorization;
+using AdminUI.Admin.Api.ExceptionHandling;
+using AdminUI.Admin.Api.Helpers;
+using AdminUI.Admin.Api.Mappers;
+using AdminUI.Admin.Api.Resources;
+using AdminUI.Admin.EntityFramework.Shared.DbContexts;
+using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
+using Skoruba.IdentityServer4.Shared.Configuration.Helpers;
+using AdminUI.Shared.Dtos;
+using AdminUI.Shared.Dtos.Identity;
 
 namespace AdminUI.Admin.Api
 {
@@ -31,6 +28,7 @@ namespace AdminUI.Admin.Api
     {
         public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             HostingEnvironment = env;
             Configuration = configuration;
         }
@@ -136,7 +134,8 @@ namespace AdminUI.Admin.Api
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
+
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions
                 {
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
@@ -146,7 +145,7 @@ namespace AdminUI.Admin.Api
 
         public virtual void RegisterDbContexts(IServiceCollection services)
         {
-            services.AddDbContexts<AdminIdentityDbContext, IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminLogDbContext, AdminAuditLogDbContext, IdentityServerDataProtectionDbContext>(Configuration);
+            services.AddDbContexts<AdminIdentityDbContext, IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminLogDbContext, AdminAuditLogDbContext, IdentityServerDataProtectionDbContext, AuditLog>(Configuration);
         }
 
         public virtual void RegisterAuthentication(IServiceCollection services)
@@ -165,6 +164,8 @@ namespace AdminUI.Admin.Api
         }
     }
 }
+
+
 
 
 

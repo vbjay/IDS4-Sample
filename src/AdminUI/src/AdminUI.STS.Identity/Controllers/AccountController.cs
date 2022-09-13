@@ -4,21 +4,19 @@
 // Original file: https://github.com/IdentityServer/IdentityServer4.Samples
 // Modified by Jan Škoruba
 
-using AdminUI.Shared.Configuration.Identity;
-using AdminUI.STS.Identity.Configuration;
-using AdminUI.STS.Identity.Helpers;
-using AdminUI.STS.Identity.Helpers.Localization;
-using AdminUI.STS.Identity.ViewModels.Account;
-
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using IdentityModel;
-
 using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,13 +24,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-
-using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
+using AdminUI.STS.Identity.Configuration;
+using AdminUI.STS.Identity.Helpers;
+using AdminUI.STS.Identity.Helpers.Localization;
+using AdminUI.STS.Identity.ViewModels.Account;
 
 namespace AdminUI.STS.Identity.Controllers
 {
@@ -303,7 +299,15 @@ namespace AdminUI.STS.Identity.Controllers
                         }
                         break;
                     case LoginResolutionPolicy.Username:
-                        user = await _userManager.FindByNameAsync(model.Username);
+                        try
+                        {
+                            user = await _userManager.FindByNameAsync(model.Username);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError("Error retrieving user by userName ({0}) for forgot password functionality: {1}", model.Username, ex.Message);
+                            user = null;
+                        }
                         break;
                 }
 
@@ -455,12 +459,9 @@ namespace AdminUI.STS.Identity.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        result = await AddDefaultUserRoles(user, result);
-                        if (result.Succeeded)
-                        {
-                            await _signInManager.SignInAsync(user, isPersistent: false);
-                            return RedirectToLocal(returnUrl);
-                        }
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+
+                        return RedirectToLocal(returnUrl);
                     }
                 }
 
@@ -471,16 +472,6 @@ namespace AdminUI.STS.Identity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
 
             return View(model);
-        }
-
-        private async Task<IdentityResult> AddDefaultUserRoles(TUser user, IdentityResult result)
-        {
-            if (!string.IsNullOrEmpty(_registerConfiguration.DefaultRoles))
-            {
-                result = await _userManager.AddToRolesAsync(user, _registerConfiguration.DefaultRoles.Split(";", StringSplitOptions.RemoveEmptyEntries));
-            }
-
-            return result;
         }
 
         [HttpGet]
@@ -596,22 +587,16 @@ namespace AdminUI.STS.Identity.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
-            if (!_registerConfiguration.Enabled)
-            {
-                return View("RegisterFailure");
-            }
+            if (!_registerConfiguration.Enabled) return View("RegisterFailure");
 
             ViewData["ReturnUrl"] = returnUrl;
 
-            switch (_loginConfiguration.ResolutionPolicy)
+            return _loginConfiguration.ResolutionPolicy switch
             {
-                case LoginResolutionPolicy.Username:
-                    return View();
-                case LoginResolutionPolicy.Email:
-                    return View("RegisterWithoutUsername");
-                default:
-                    return View("RegisterFailure");
-            }
+                LoginResolutionPolicy.Username => View(),
+                LoginResolutionPolicy.Email => View("RegisterWithoutUsername"),
+                _ => View("RegisterFailure")
+            };
         }
 
         [HttpPost]
@@ -619,14 +604,13 @@ namespace AdminUI.STS.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null, bool IsCalledFromRegisterWithoutUsername = false)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            if (!_registerConfiguration.Enabled) return View("RegisterFailure");
+
+            returnUrl ??= Url.Content("~/");
 
             ViewData["ReturnUrl"] = returnUrl;
 
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             var user = new TUser
             {
@@ -637,25 +621,20 @@ namespace AdminUI.STS.Identity.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, HttpContext.Request.Scheme);
 
-                result = await AddDefaultUserRoles(user, result);
-                if (result.Succeeded)
+                await _emailSender.SendEmailAsync(model.Email, _localizer["ConfirmEmailTitle"], _localizer["ConfirmEmailBody", HtmlEncoder.Default.Encode(callbackUrl)]);
+
+                if (_identityOptions.SignIn.RequireConfirmedAccount)
                 {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, HttpContext.Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(model.Email, _localizer["ConfirmEmailTitle"], _localizer["ConfirmEmailBody", HtmlEncoder.Default.Encode(callbackUrl)]);
-
-                    if (_identityOptions.SignIn.RequireConfirmedAccount)
-                    {
-                        return View("RegisterConfirmation");
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    return View("RegisterConfirmation");
+                }
+                else
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
                 }
             }
 
@@ -746,7 +725,6 @@ namespace AdminUI.STS.Identity.Controllers
                 .Select(x => new ExternalProvider
                 {
                     DisplayName = x.DisplayName ?? x.Name,
-                    LogoCssClass = $"fa fa-{x.Name.ToLower()}",
                     AuthenticationScheme = x.Name
                 }).ToList();
 
@@ -846,6 +824,8 @@ namespace AdminUI.STS.Identity.Controllers
         }
     }
 }
+
+
 
 
 

@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
-
-using Swashbuckle.AspNetCore.SwaggerGen;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AdminUI.Admin.Api.Configuration.Authorization
 {
@@ -19,11 +17,7 @@ namespace AdminUI.Admin.Api.Configuration.Authorization
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             var hasAuthorize = context.MethodInfo.DeclaringType != null && (context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any()
-                                                                            || context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any())
-                                                                        && !context.MethodInfo.GetCustomAttributes(true).OfType<AllowAnonymousAttribute>().Any();
-
-
-
+                                                                            || context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any());
 
             if (hasAuthorize)
             {
@@ -48,6 +42,8 @@ namespace AdminUI.Admin.Api.Configuration.Authorization
         }
     }
 }
+
+
 
 
 

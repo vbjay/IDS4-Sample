@@ -1,8 +1,7 @@
-﻿using AdminUI.Admin.EntityFramework.Shared.Constants;
-using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
-
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using AdminUI.Admin.EntityFramework.Shared.Constants;
+using AdminUI.Admin.EntityFramework.Shared.Entities.Identity;
 
 namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
 {
@@ -10,7 +9,7 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
     {
         public AdminIdentityDbContext(DbContextOptions<AdminIdentityDbContext> options) : base(options)
         {
-
+            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -20,7 +19,6 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
             ConfigureIdentityContext(builder);
         }
 
-        public DbSet<FidoStoredCredential> FidoCredentials { get; set; }
         private void ConfigureIdentityContext(ModelBuilder builder)
         {
             builder.Entity<UserIdentityRole>().ToTable(TableConsts.IdentityRoles);
@@ -31,11 +29,11 @@ namespace AdminUI.Admin.EntityFramework.Shared.DbContexts
             builder.Entity<UserIdentityUserLogin>().ToTable(TableConsts.IdentityUserLogins);
             builder.Entity<UserIdentityUserClaim>().ToTable(TableConsts.IdentityUserClaims);
             builder.Entity<UserIdentityUserToken>().ToTable(TableConsts.IdentityUserTokens);
-            builder.Entity<FidoStoredCredential>().ToTable(TableConsts.FidoCredential);
-
         }
     }
 }
+
+
 
 
 

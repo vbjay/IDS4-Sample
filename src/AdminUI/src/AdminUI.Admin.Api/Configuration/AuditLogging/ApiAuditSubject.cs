@@ -1,11 +1,8 @@
-﻿using AdminUI.Admin.Api.Configuration;
-
+﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
-
 using Skoruba.AuditLogging.Constants;
 using Skoruba.AuditLogging.Events;
-
-using System.Linq;
+using AdminUI.Admin.Api.Configuration;
 
 namespace AdminUI.Admin.Api.AuditLogging
 {
@@ -38,6 +35,8 @@ namespace AdminUI.Admin.Api.AuditLogging
         public string SubjectIdentifier { get; set; }
     }
 }
+
+
 
 
 

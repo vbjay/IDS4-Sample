@@ -36,3 +36,5 @@ namespace AdminUI.Admin.EntityFramework.MySql.Migrations.AuditLogging
 
 
 
+
+

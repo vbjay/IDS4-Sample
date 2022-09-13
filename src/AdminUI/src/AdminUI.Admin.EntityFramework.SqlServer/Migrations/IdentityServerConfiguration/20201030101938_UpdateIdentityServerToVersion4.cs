@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// Original SQL scripts for database migration come from: https://github.com/RockSolidKnowledge/IdentityServer4.Migration.Scripts/blob/master/MSSQL/ConfigurationDbContext.sql
+// Modified by Jan Škoruba
 
 using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AdminUI.Admin.EntityFramework.SqlServer.Migrations.IdentityServerConfiguration
 {
@@ -337,7 +339,7 @@ FROM ApiScopes");
             migrationBuilder.DropForeignKey(
                 name: "FK_IdentityResourceProperties_IdentityResources_IdentityResourceId",
                 table: "IdentityResourceProperties");
-
+            
             migrationBuilder.DropIndex(
                 name: "IX_ApiScopeClaims_ScopeId",
                 table: "ApiScopeClaims");
@@ -587,6 +589,8 @@ FROM ApiScopes asp
         }
     }
 }
+
+
 
 
 

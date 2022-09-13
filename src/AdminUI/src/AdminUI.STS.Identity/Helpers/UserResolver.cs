@@ -1,8 +1,6 @@
-﻿using AdminUI.Shared.Configuration.Identity;
-
-using Microsoft.AspNetCore.Identity;
-
+﻿using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 
 namespace AdminUI.STS.Identity.Helpers
 {
@@ -31,6 +29,8 @@ namespace AdminUI.STS.Identity.Helpers
         }
     }
 }
+
+
 
 
 

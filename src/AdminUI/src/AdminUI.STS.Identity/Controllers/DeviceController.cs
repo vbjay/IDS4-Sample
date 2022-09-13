@@ -4,27 +4,24 @@
 // Original file: https://github.com/IdentityServer/IdentityServer4.Quickstart.UI
 // Modified by Jan �koruba
 
-using AdminUI.STS.Identity.Configuration;
-using AdminUI.STS.Identity.Helpers;
-using AdminUI.STS.Identity.ViewModels.Consent;
-using AdminUI.STS.Identity.ViewModels.Device;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using IdentityServer4.Configuration;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AdminUI.STS.Identity.Configuration;
+using AdminUI.STS.Identity.Helpers;
+using AdminUI.STS.Identity.ViewModels.Consent;
+using AdminUI.STS.Identity.ViewModels.Device;
 
 namespace AdminUI.STS.Identity.Controllers
 {
@@ -54,16 +51,10 @@ namespace AdminUI.STS.Identity.Controllers
         {
             string userCodeParamName = _options.Value.UserInteraction.DeviceVerificationUserCodeParameter;
             string userCode = Request.Query[userCodeParamName];
-            if (string.IsNullOrWhiteSpace(userCode))
-            {
-                return View("UserCodeCapture");
-            }
+            if (string.IsNullOrWhiteSpace(userCode)) return View("UserCodeCapture");
 
             var vm = await BuildViewModelAsync(userCode);
-            if (vm == null)
-            {
-                return View("Error");
-            }
+            if (vm == null) return View("Error");
 
             vm.ConfirmUserCode = true;
             return View("UserCodeConfirmation", vm);
@@ -74,10 +65,7 @@ namespace AdminUI.STS.Identity.Controllers
         public async Task<IActionResult> UserCodeCapture(string userCode)
         {
             var vm = await BuildViewModelAsync(userCode);
-            if (vm == null)
-            {
-                return View("Error");
-            }
+            if (vm == null) return View("Error");
 
             return View("UserCodeConfirmation", vm);
         }
@@ -86,16 +74,10 @@ namespace AdminUI.STS.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Callback(DeviceAuthorizationInputModel model)
         {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
+            if (model == null) throw new ArgumentNullException(nameof(model));
 
             var result = await ProcessConsent(model);
-            if (result.HasValidationError)
-            {
-                return View("Error");
-            }
+            if (result.HasValidationError) return View("Error");
 
             return View("Success");
         }
@@ -105,10 +87,7 @@ namespace AdminUI.STS.Identity.Controllers
             var result = new ProcessConsentResult();
 
             var request = await _interaction.GetAuthorizationContextAsync(model.UserCode);
-            if (request == null)
-            {
-                return result;
-            }
+            if (request == null) return result;
 
             ConsentResponse grantedConsent = null;
 
@@ -257,6 +236,8 @@ namespace AdminUI.STS.Identity.Controllers
         }
     }
 }
+
+
 
 
 
